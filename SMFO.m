@@ -1,0 +1,1 @@
+% All functions will be defined inside simulink
