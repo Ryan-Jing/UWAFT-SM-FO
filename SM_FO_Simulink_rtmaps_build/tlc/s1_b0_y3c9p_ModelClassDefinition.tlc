@@ -1,0 +1,42 @@
+%implements s1_b0_y3c9p_ModelClassDefinition "C"
+%function ModelClassDefinition(block) Output
+%openfile tmp
+class SM_FO_Simulink final 
+{
+  public:
+    %<SLibFillInPublicClassMembers()>
+        /* Root inports set method */
+void setExternalInputs(const ExtU_SM_FO_Simulink_T *pExtU_SM_FO_Simulink_T)
+    {
+        SM_FO_Simulink_U = *pExtU_SM_FO_Simulink_T;
+    }
+        /* Root outports get method */
+const ExtY_SM_FO_Simulink_T &getExternalOutputs() const
+    {
+        return SM_FO_Simulink_Y;
+    }
+        /* Initial conditions function */
+void initialize();
+        /* model step function */
+%<FcnStaticOnEmptyOutputUpdateMethod()>void step()%<AddConstToStepIfNeccessary("Outputs")>;
+        /* model terminate function */
+%<FcnStaticOnEmptyTermMethod()>void terminate()%<AddConstToTermIfNecessary("terminate")>;
+        /* Constructor */
+SM_FO_Simulink();
+        /* Destructor */
+~SM_FO_Simulink();
+  protected:
+    %<SLibFillInProtectedClassMembers()>
+  private:
+    /* External inputs */
+    ExtU_SM_FO_Simulink_T SM_FO_Simulink_U;
+    /* External outputs */
+    ExtY_SM_FO_Simulink_T SM_FO_Simulink_Y;
+    /* Block states */
+    DW_SM_FO_Simulink_T SM_FO_Simulink_DW;
+    %<SLibFillInPrivateClassMembers()>
+    %<SLibFillInLastPrivateClassMembers()>
+};
+%closefile tmp
+%return tmp
+%endfunction

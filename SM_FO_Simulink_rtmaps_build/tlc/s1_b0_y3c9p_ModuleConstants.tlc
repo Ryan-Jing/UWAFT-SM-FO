@@ -1,0 +1,12 @@
+%implements s1_b0_y3c9p_ModuleConstants "C"
+
+%function ModuleConstants(block) Output
+
+
+/* Named constants for Chart: '<Root>/Chart' */
+const uint8_T SM_FO_Simulink_IN_ACC_State{1U};
+const uint8_T SM_FO_Simulink_IN_ACC_State1{2U};
+const uint8_T SM_FO_Simulink_IN_ACC_State2{3U};
+const uint8_T SM_FO_Simulink_IN_Entry_State{4U};
+const uint8_T SM_FO_Simulink_IN_Started_State{5U};
+%endfunction
