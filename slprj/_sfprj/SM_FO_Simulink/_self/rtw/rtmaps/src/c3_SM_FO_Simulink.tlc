@@ -1,0 +1,60 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   6 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "entry_status"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "entry_status"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "accAllowed"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "accAllowed"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "state_request"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "state_request"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "parsed_message"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "parsed_message"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_active_c3_SM_FO_Simulink"\
+      Description  "StateIsActive"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_c3_SM_FO_Simulink"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction
