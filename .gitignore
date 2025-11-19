@@ -1,2 +1,4 @@
-simulink/
-slprj/slprj/
+slprj/
+.lsp/
+.clj-kondo/
+
