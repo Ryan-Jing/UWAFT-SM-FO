@@ -1,10 +1,7 @@
 classdef CACC_Tests < matlab.unittest.TestCase
-    % CACC_Tests
-    % A Unit Test Class that uses the "HappyPath" data loading method.
-    
     properties
         modelName = 'cacc'
-        % Define the EXACT order of inputs matching your Inport numbers (1-7)
+        % Order matters here
         inputOrder = {'ACC_Enable_Pressed', ...
                       'V2X_Switch_ON', ...
                       'Longitudinal_Switch_ON', ...
@@ -21,7 +18,7 @@ classdef CACC_Tests < matlab.unittest.TestCase
                 load_system(testCase.modelName);
             end
             
-            % Ensure Model is configured to log data correctly
+            % Config logging data to read from script
             set_param(testCase.modelName, 'SignalLogging', 'on');
             set_param(testCase.modelName, 'SignalLoggingName', 'logsout');
             set_param(testCase.modelName, 'SaveOutput', 'on');
@@ -96,11 +93,8 @@ classdef CACC_Tests < matlab.unittest.TestCase
             in.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
-            % FIX: Pulse SET at T=2, then RELEASE it at T=3
-            % If we hold it (1 1), the state machine oscillates (Active<->Standby)
             in.SET_Pressed.Data            = logical([0; 0; 1; 0; 0]);
             
-            % Hit Cancel at T=3
             in.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(in, 4);
@@ -120,10 +114,8 @@ classdef CACC_Tests < matlab.unittest.TestCase
             in.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
-            % FIX: Pulse SET at T=2, then RELEASE it at T=3
             in.SET_Pressed.Data            = logical([0; 0; 1; 0; 0]);
             
-            % Hit Brakes at T=3
             in.Driver_Brakes.Data          = logical([0; 0; 0; 1; 1]); 
             
             simOut = testCase.runSim(in, 4);
@@ -143,7 +135,6 @@ classdef CACC_Tests < matlab.unittest.TestCase
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             in.SET_Pressed.Data            = logical([0; 0; 1; 1; 1]);
             
-            % Timeout occurs at T=3
             in.Timeout_Event.Data          = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(in, 4);
@@ -157,7 +148,6 @@ classdef CACC_Tests < matlab.unittest.TestCase
         function simOut = runSim(testCase, inputStruct, stopTime)
             mdl = testCase.modelName;
             
-            % 1. Push variables to BASE workspace
             for i = 1:numel(testCase.inputOrder)
                 varName = testCase.inputOrder{i};
                 if isfield(inputStruct, varName)
@@ -167,13 +157,11 @@ classdef CACC_Tests < matlab.unittest.TestCase
                 end
             end
             
-            % 2. Configure Model Parameters
             set_param(mdl, 'LoadExternalInput', 'on');
             inputMapStr = strjoin(testCase.inputOrder, ',');
             set_param(mdl, 'ExternalInput', inputMapStr);
             set_param(mdl, 'StopTime', num2str(stopTime));
             
-            % 3. Run Simulation
             simOut = sim(mdl);
         end
         
@@ -211,7 +199,7 @@ classdef CACC_Tests < matlab.unittest.TestCase
                 error('Found "CurrentState", but object type is unexpected: %s', class(rawObj));
             end
             
-            % Cast to double for easy comparison
+            % Easier to compare as double
             stateData = double(stateData);
         end
         
