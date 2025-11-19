@@ -1,0 +1,229 @@
+classdef CACC_UnitTest < matlab.unittest.TestCase
+    % CACC_UnitTest Unit tests for the cacc.slx Stateflow chart.
+    %
+    % To run these tests:
+    % 3. In the MATLAB Command Window, type:
+    %    results = runtests('CACC_UnitTest')
+    
+    properties
+        modelName = 'cacc' % .slx file
+    end
+    
+    methods(TestClassSetup)
+        % This runs once before all tests
+        function loadModel(testCase)
+            % Load the Simulink model
+            disp(['Loading model: ' testCase.modelName]);
+            load_system(testCase.modelName);
+        end
+    end
+    
+    methods(TestClassTeardown)
+        % This runs once after all tests
+        function closeModel(testCase)
+            % Close the Simulink model without saving
+            disp(['Closing model: ' testCase.modelName]);
+            close_system(testCase.modelName, 0);
+        end
+    end
+    
+    methods(Test)
+        % Test 1: Verify the default state is CACC_Deactivated
+        function test_DefaultState(testCase)
+            % At t=0, with all inputs false, outputs should be (F, F)
+            
+            time = [0]; % Test at t=0
+            in = testCase.createDefaultInputs(time);
+            simOut = testCase.runSim(in, 0);
+            
+            % Get outputs
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify
+            testCase.verifyEqual(white_light.Data(end), false, 'Default state: White light should be FALSE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'Default state: Green light should be FALSE.');
+        end
+        
+        % Test 2: Deactivated -> Standby
+        function test_DeactivatedToStandby(testCase)
+            % Trigger [ACC_Enable_Pressed && V2X_Switch_ON && Longitudinal_Switch_ON]
+            
+            time = [0; 1; 2]; % t=0: Init, t=1: Trigger, t=2: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true];
+            
+            simOut = testCase.runSim(in, 2);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify
+            testCase.verifyEqual(white_light.Data(end), true, 'State should be Standby: White light should be TRUE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'State should be Standby: Green light should be FALSE.');
+        end
+        
+        % Test 3: Standby -> Active
+        function test_StandbyToActive(testCase)
+            % First, get to Standby. Then, press SET.
+            
+            time = [0; 1; 2; 3]; % t=0: Init, t=1: Go to Standby, t=2: Press SET, t=3: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true; true];
+            in.SET_Pressed.Data          = [false; false; true; true];
+            
+            simOut = testCase.runSim(in, 3);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify transition to Active
+            testCase.verifyEqual(white_light.Data(end), false, 'State should be Active: White light should be FALSE.');
+            testCase.verifyEqual(green_light.Data(end), true, 'State should be Active: Green light should be TRUE.');
+        end
+        
+        % Test 4: Active -> Standby (via Cancel_Pressed)
+        function test_ActiveToStandby_Cancel(testCase)
+            % Get to Active, then press Cancel.
+            
+            time = [0; 1; 2; 3; 4]; % t=1: Standby, t=2: Active, t=3: Press Cancel, t=4: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true; true; true];
+            in.SET_Pressed.Data          = [false; false; true; true; true];
+            in.Cancel_Pressed.Data       = [false; false; false; true; true];
+            
+            simOut = testCase.runSim(in, 4);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify transition back to Standby
+            testCase.verifyEqual(white_light.Data(end), true, 'State should be Standby: White light should be TRUE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'State should be Standby: Green light should be FALSE.');
+        end
+        
+        % Test 5: Active -> Standby (via Driver_Brakes)
+        function test_ActiveToStandby_Brake(testCase)
+            % Get to Active, then press Brakes.
+            
+            time = [0; 1; 2; 3; 4]; % t=1: Standby, t=2: Active, t=3: Press Brakes, t=4: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true; true; true];
+            in.SET_Pressed.Data          = [false; false; true; true; true];
+            in.Driver_Brakes.Data        = [false; false; false; true; true];
+            
+            simOut = testCase.runSim(in, 4);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify transition back to Standby
+            testCase.verifyEqual(white_light.Data(end), true, 'State should be Standby: White light should be TRUE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'State should be Standby: Green light should be FALSE.');
+        end
+        
+        % Test 6: Active -> Deactivated (via Timeout)
+        function test_ActiveToDeactivated_Timeout(testCase)
+            % Get to Active, then trigger Timeout.
+            
+            time = [0; 1; 2; 3; 4]; % t=1: Standby, t=2: Active, t=3: Timeout, t=4: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true; true; true];
+            in.SET_Pressed.Data          = [false; false; true; true; true];
+            in.Timeout_Event.Data        = [false; false; false; true; true];
+            
+            simOut = testCase.runSim(in, 4);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify transition to Deactivated
+            testCase.verifyEqual(white_light.Data(end), false, 'State should be Deactivated: White light should be FALSE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'State should be Deactivated: Green light should be FALSE.');
+        end
+
+        % Test 7: Standby -> Deactivated (via Timeout)
+        function test_StandbyToDeactivated_Timeout(testCase)
+            % Get to Standby, then trigger Timeout.
+            
+            time = [0; 1; 2; 3]; % t=1: Standby, t=2: Timeout, t=3: Hold
+            in = testCase.createDefaultInputs(time);
+            
+            % --- FIX: Use true/false instead of 0/1 ---
+            in.ACC_Enable_Pressed.Data   = [false; true; true; true];
+            in.V2X_Switch_ON.Data      = [false; true; true; true];
+            in.Longitudinal_Switch_ON.Data = [false; true; true; true];
+            in.Timeout_Event.Data        = [false; false; true; true];
+            
+            simOut = testCase.runSim(in, 3);
+            [white_light, green_light] = getOutputs(simOut);
+            
+            % Verify transition to Deactivated
+            testCase.verifyEqual(white_light.Data(end), false, 'State should be Deactivated: White light should be FALSE.');
+            testCase.verifyEqual(green_light.Data(end), false, 'State should be Deactivated: Green light should be FALSE.');
+        end
+    end
+
+
+    methods(Access = private)
+        % Helper function to create a default set of inputs (all false)
+        function in = createDefaultInputs(testCase, timeVector)
+            % --- FIX ---
+            % Changed 'zeros' (which creates 'double' data) to 'false'
+            % to create 'boolean' data, which matches the model's
+            % Inport block data type.
+            
+            in.ACC_Enable_Pressed    = timeseries(false(size(timeVector)), timeVector, 'Name', inports{1}.Name);
+            in.V2X_Switch_ON         = timeseries(false(size(timeVector)), timeVector);
+            in.Longitudinal_Switch_ON = timeseries(false(size(timeVector)), timeVector);
+            in.SET_Pressed           = timeseries(false(size(timeVector)), timeVector);
+            in.Cancel_Pressed        = timeseries(false(size(timeVector)), timeVector);
+            in.Driver_Brakes         = timeseries(false(size(timeVector)), timeVector);
+            in.Timeout_Event         = timeseries(false(size(timeVector)), timeVector);
+        end
+        % Helper function to run the simulation
+        
+        function simOut = runSim(testCase, in, stopTime)
+            
+            simIn = Simulink.SimulationInput(testCase.modelName);
+            
+            % --- NOTE: REMOVED THE 'LoadExternalInput' LINE ---
+            % Since you have manually unchecked the "Input" box in
+            % Model Settings (as per your screenshot), that line
+            % is no longer needed and was causing the conflict.
+            
+            % This command is the correct way to load your 'in' struct
+            % with all your timeseries data.
+            simIn = simIn.setExternalInput(in);
+            
+            % Set the stop time
+            simIn = simIn.setModelParameter('StopTime', num2str(stopTime));
+            
+            % Run the simulation
+            simOut = sim(simIn);
+        end
+
+
+        % Helper function to get outputs from the sim result
+        function [white_light, green_light] = getOutputs(simOut)
+            % Assumes your Outports are named 'Out_Light_White' and 'Out_Light_Green'
+            % and are set to "Log signal data" in the model.
+            try
+                % --- FIX: Access signals directly from the simOut object ---
+                white_light = simOut.get('Out_Light_White');
+                green_light = simOut.get('Out_Light_Green');
+            catch ME
+                error('Could not find Outports named "Out_Light_White" or "Out_Light_Green". Make sure they are set to "Log signal data" in the model. Error: %s', ME.message);
+            end
+        end
+    end
+end
