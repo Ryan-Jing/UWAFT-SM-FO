@@ -26,7 +26,7 @@ elems(7) = Simulink.BusElement;
 elems(7).Name = 'Timeout_Event';
 elems(7).DataType = 'boolean';
 
-CACCStatusBus = Simulink.Bus;
-CACCStatusBus.Elements = elems;
+CANStatusBus = Simulink.Bus;
+CANStatusBus.Elements = elems;
 
-assignin('base', 'CANStatusBus', CACCStatusBus);
+assignin('base', 'CANStatusBus', CANStatusBus);
