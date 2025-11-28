@@ -11,7 +11,7 @@ cacc_elems(3).Name = 'Longitudinal_Switch_ON';
 cacc_elems(3).DataType = 'boolean';
 
 cacc_elems(4) = Simulink.BusElement;
-cacc_elems(4).Name = 'SET_Pressed';
+cacc_elems(4).Name = 'Set_Resume';
 cacc_elems(4).DataType = 'boolean';
 
 cacc_elems(5) = Simulink.BusElement;
@@ -25,6 +25,11 @@ cacc_elems(6).DataType = 'boolean';
 cacc_elems(7) = Simulink.BusElement;
 cacc_elems(7).Name = 'Timeout_Event';
 cacc_elems(7).DataType = 'boolean';
+
+cacc_elems(8) = Simulink.BusElement;
+cacc_elems(8).Name = 'In_CACC_Speed_Range';
+cacc_elems(8).DataType = 'boolean';
+
 
 CACCStatusBus = Simulink.Bus;
 CACCStatusBus.Elements = cacc_elems;
