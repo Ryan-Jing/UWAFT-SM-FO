@@ -134,7 +134,7 @@ classdef LCC_Tests < matlab.unittest.TestCase
             % For now, assuming it stays Active if no direct line exists, 
             % OR if you implemented a super-state/logic that handles this.
             % If this fails, change 2 to 0.
-            % testCase.verifyEqual(currentState(end), 0, 'Should drop to Deactivated on safety loss.');
+            testCase.verifyEqual(currentState(end), 0, 'Should drop to Deactivated on safety loss.');
         end
 
     end
