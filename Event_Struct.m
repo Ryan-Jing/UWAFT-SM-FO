@@ -14,9 +14,9 @@ events_elems(4) = Simulink.BusElement;
 events_elems(4).Name = 'AINStatusBus'; 
 events_elems(4).DataType = 'Bus: AINStatusBus'; 
 
-events_elems(4) = Simulink.BusElement;
-events_elems(4).Name = 'APStatusBus'; 
-events_elems(4).DataType = 'Bus: APStatusBus'; 
+events_elems(5) = Simulink.BusElement;
+events_elems(5).Name = 'APStatusBus'; 
+events_elems(5).DataType = 'Bus: APStatusBus'; 
 
 EventsBus = Simulink.Bus;
 EventsBus.Elements = events_elems;
