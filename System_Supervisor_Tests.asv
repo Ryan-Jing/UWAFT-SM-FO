@@ -48,6 +48,9 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
         end
         
         % =================================================================
+        % TEST 2: ACC Lifecycle (Standby vs Active)
+        % =================================================================
+        % =================================================================
         % TEST 2: Subsystem Wake-Up Check (Integration Logic)
         % *Requires you to log the output signal of ACC subsystem*
         % =================================================================

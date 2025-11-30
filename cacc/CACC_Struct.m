@@ -1,3 +1,5 @@
+clear cacc_elems
+
 cacc_elems(1) = Simulink.BusElement;
 cacc_elems(1).Name = 'CACC_Enable_Pressed';
 cacc_elems(1).DataType = 'boolean';
@@ -30,6 +32,9 @@ cacc_elems(8) = Simulink.BusElement;
 cacc_elems(8).Name = 'In_CACC_Speed_Range';
 cacc_elems(8).DataType = 'boolean';
 
+cacc_elems(9) = Simulink.BusElement;
+cacc_elems(9).Name = 'Speed_GT_55_MPH';
+cacc_elems(9).DataType = 'boolean';
 
 CACCStatusBus = Simulink.Bus;
 CACCStatusBus.Elements = cacc_elems;
