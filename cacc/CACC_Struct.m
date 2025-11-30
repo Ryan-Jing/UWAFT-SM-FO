@@ -1,5 +1,5 @@
 cacc_elems(1) = Simulink.BusElement;
-cacc_elems(1).Name = 'ACC_Enable_Pressed';
+cacc_elems(1).Name = 'CACC_Enable_Pressed';
 cacc_elems(1).DataType = 'boolean';
 
 cacc_elems(2) = Simulink.BusElement;
