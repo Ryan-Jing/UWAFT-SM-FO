@@ -5,10 +5,12 @@ classdef ACC_Tests < matlab.unittest.TestCase
         inputOrder = {'ACC_Enable_Pressed', ...
                       'V2X_Switch_ON', ...
                       'Longitudinal_Switch_ON', ...
-                      'SET_Pressed', ...
+                      'Set_Resume', ...
                       'Cancel_Pressed', ...
                       'Driver_Brakes', ...
-                      'Timeout_Event'};
+                      'Timeout_Event', ...
+                      'In_CACC_Speed_Range'
+                      };
     end
     
     methods(TestClassSetup)
@@ -74,7 +76,8 @@ classdef ACC_Tests < matlab.unittest.TestCase
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1]);
             
             % Press SET
-            in.SET_Pressed.Data            = logical([0; 0; 1; 1]);
+            in.Set_Resume.Data            = logical([0; 0; 1; 1]);
+            in.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1]);
             
             simOut = testCase.runSim(in, 3);
             currentState = testCase.getOutputState(simOut);
@@ -93,7 +96,8 @@ classdef ACC_Tests < matlab.unittest.TestCase
             in.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
-            in.SET_Pressed.Data            = logical([0; 0; 1; 0; 0]);
+            in.Set_Resume.Data            = logical([0; 0; 1; 0; 0]);
+            in.In_CACC_Speed_Range.Data   = logical([0; 0; 1; 0; 0]);
             
             in.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
             
@@ -114,7 +118,7 @@ classdef ACC_Tests < matlab.unittest.TestCase
             in.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
-            in.SET_Pressed.Data            = logical([0; 0; 1; 0; 0]);
+            in.Set_Resume.Data            = logical([0; 0; 1; 0; 0]);
             
             in.Driver_Brakes.Data          = logical([0; 0; 0; 1; 1]); 
             
@@ -133,7 +137,8 @@ classdef ACC_Tests < matlab.unittest.TestCase
             in.ACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
             in.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
             in.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
-            in.SET_Pressed.Data            = logical([0; 0; 1; 1; 1]);
+            in.Set_Resume.Data             = logical([0; 0; 1; 1; 1]);
+            in.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1; 1]);
             
             in.Timeout_Event.Data          = logical([0; 0; 0; 1; 1]);
             
