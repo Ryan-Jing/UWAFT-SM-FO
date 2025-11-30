@@ -66,23 +66,26 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             in.ACCStatusBus.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(in, 4);
-            mode = testCase.getSignal(simOut, 'System_Mode');
-            active = testCase.getSignal(simOut, 'Is_Active');
             
-            % Check t=1.5 (Standby)
-            % Mode should be 1, but Active should be FALSE
-            testCase.verifyEqual(testCase.sampleAt(mode, time, 1.5), 1, 'Mode should be 1 (ACC).');
-            testCase.verifyEqual(testCase.sampleAt(active, time, 1.5), 0, 'Active should be 0 (Standby).');
+            % GET THE NEW ENUM SIGNAL
+            % Ensure you named the output wire "Current_System_State" and logged it!
+            state_raw = testCase.getSignal(simOut, 'Current_System_State');
             
-            % Check t=2.5 (Active)
-            % Mode should be 1, Active should be TRUE
-            testCase.verifyEqual(testCase.sampleAt(mode, time, 2.5), 1, 'Mode should be 1 (ACC).');
-            testCase.verifyEqual(testCase.sampleAt(active, time, 2.5), 1, 'Active should be 1 (Driving).');
+            % Cast double back to Enum for comparison
+            state_enum = SystemState(state_raw);
             
-            % Check t=3.5 (Deactivated)
-            testCase.verifyEqual(mode(end), 0, 'Mode should return to 0.');
+            % Check t=1.5 (Should be ACC_Standby)
+            val = testCase.sampleAt(state_enum, time, 1.5);
+            testCase.verifyEqual(val, SystemState.ACC_Standby, 'Should be in ACC_Standby.');
+            
+            % Check t=2.5 (Should be ACC_Active)
+            val = testCase.sampleAt(state_enum, time, 2.5);
+            testCase.verifyEqual(val, SystemState.ACC_Active, 'Should be in ACC_Active.');
+            
+            % Check t=3.5 (Should be Deactivated)
+            val = testCase.sampleAt(state_enum, time, 3.5);
+            testCase.verifyEqual(val, SystemState.Deactivated, 'Should be Deactivated.');
         end
-
         % =================================================================
         % TEST 3: Subsystem Wake-Up Check (Integration Logic)
         % *Requires you to log the output signal of ACC subsystem*
