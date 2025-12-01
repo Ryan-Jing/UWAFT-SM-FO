@@ -172,7 +172,7 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
     methods(Access = private)
         
         function defineBuses(~)
-            clear acc_elems; clear cacc_elems; clear ap_elems; clear ain_elems; clear lcc_elems;
+            clear acc_elems; clear cacc_elems; clear ap_elems; clear ain_elems; clear lcc_elems; clear gen_elems; clear flag_elems;
             
             % --- ACC Bus ---
             acc_elems(1) = Simulink.BusElement; acc_elems(1).Name = 'ACC_Enable_Pressed'; acc_elems(1).DataType = 'boolean';
@@ -244,10 +244,34 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             EventsBus = Simulink.Bus;
             EventsBus.Elements = events_elems;
             assignin('base', 'EventsBus', EventsBus);
+
+            flag_elems(1) = Simulink.BusElement; flag_elems(1).Name = 'ACC_Ready';  flag_elems(1).DataType = 'boolean';
+            flag_elems(2) = Simulink.BusElement; flag_elems(2).Name = 'CACC_Ready'; flag_elems(2).DataType = 'boolean';
+            flag_elems(3) = Simulink.BusElement; flag_elems(3).Name = 'LCC_Ready';  flag_elems(3).DataType = 'boolean';
+            flag_elems(4) = Simulink.BusElement; flag_elems(4).Name = 'AIN_Ready';  flag_elems(4).DataType = 'boolean';
+            flag_elems(5) = Simulink.BusElement; flag_elems(5).Name = 'AP_Ready';   flag_elems(5).DataType = 'boolean';
+            % Triggers
+            flag_elems(6) = Simulink.BusElement; flag_elems(6).Name = 'ACC_Enable_Cmd';  flag_elems(6).DataType = 'boolean';
+            flag_elems(7) = Simulink.BusElement; flag_elems(7).Name = 'CACC_Enable_Cmd'; flag_elems(7).DataType = 'boolean';
+            flag_elems(8) = Simulink.BusElement; flag_elems(8).Name = 'LCC_Enable_Cmd';  flag_elems(8).DataType = 'boolean';
+            flag_elems(9) = Simulink.BusElement; flag_elems(9).Name = 'AP_Enable_Cmd';   flag_elems(9).DataType = 'boolean';
+            
+            FlagsBus = Simulink.Bus;
+            FlagsBus.Elements = flag_elems;
+            assignin('base', 'FlagsBus', FlagsBus);
+            
+            gen_elems(1) = Simulink.BusElement; gen_elems(1).Name = 'CancelCmd';    gen_elems(1).DataType = 'boolean';
+            gen_elems(2) = Simulink.BusElement; gen_elems(2).Name = 'NextStateCmd'; gen_elems(2).DataType = 'boolean';
+            
+            GenericInputsBus = Simulink.Bus;
+            GenericInputsBus.Elements = gen_elems;
+            assignin('base', 'GenericInputsBus', GenericInputsBus);
         end
         
         function simOut = runSim(testCase, inputStruct, stopTime)
-            assignin('base', testCase.inputVarName, inputStruct);
+            ds = Simulink.SimulationData.Dataset();
+            ds = ds.addElement(inputStruct, 'EventsBus'); 
+            assignin('base', testCase.inputVarName, ds);
             set_param(testCase.modelName, 'StopTime', num2str(stopTime));
             simOut = sim(testCase.modelName);
         end
@@ -293,47 +317,56 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
         
         function in = createZeroBusInputs(~, timeVector)
             % Helper to create zero timeseries for all fields
+            % CRITICAL: Fields are defined in the EXACT order of the Bus Objects
+            
             zeroTS = timeseries(false(size(timeVector)), timeVector);
             zeroTS = setinterpmethod(zeroTS, 'zoh');
             
-            in.ACCStatusBus.Speed_GT_55_MPH = zeroTS; 
-            in.ACCStatusBus.ACC_Enable_Pressed = zeroTS;
-            in.ACCStatusBus.V2X_Switch_ON = zeroTS;
+            % 1. ACCStatusBus (9 Elements)
+            in.ACCStatusBus.ACC_Enable_Pressed     = zeroTS;
+            in.ACCStatusBus.V2X_Switch_ON          = zeroTS;
             in.ACCStatusBus.Longitudinal_Switch_ON = zeroTS;
-            in.ACCStatusBus.Set_Resume = zeroTS;
-            in.ACCStatusBus.Cancel_Pressed = zeroTS;
-            in.ACCStatusBus.Driver_Brakes = zeroTS;
-            in.ACCStatusBus.Timeout_Event = zeroTS;
-            in.ACCStatusBus.In_CACC_Speed_Range = zeroTS;
+            in.ACCStatusBus.Set_Resume             = zeroTS;
+            in.ACCStatusBus.Cancel_Pressed         = zeroTS;
+            in.ACCStatusBus.Driver_Brakes          = zeroTS;
+            in.ACCStatusBus.Timeout_Event          = zeroTS;
+            in.ACCStatusBus.In_CACC_Speed_Range    = zeroTS;
+            in.ACCStatusBus.Speed_GT_55_MPH        = zeroTS; % Element 9
 
-            in.CACCStatusBus.CACC_Enable_Pressed = zeroTS;
-            in.CACCStatusBus.V2X_Switch_ON = zeroTS;
+            % 2. CACCStatusBus (9 Elements)
+            in.CACCStatusBus.CACC_Enable_Pressed     = zeroTS;
+            in.CACCStatusBus.V2X_Switch_ON          = zeroTS;
             in.CACCStatusBus.Longitudinal_Switch_ON = zeroTS;
-            in.CACCStatusBus.Set_Resume = zeroTS;
-            in.CACCStatusBus.Cancel_Pressed = zeroTS;
-            in.CACCStatusBus.Driver_Brakes = zeroTS;
-            in.CACCStatusBus.Timeout_Event = zeroTS;
-            in.CACCStatusBus.In_CACC_Speed_Range = zeroTS;
-            in.CACCStatusBus.Speed_GT_55_MPH = zeroTS;
+            in.CACCStatusBus.Set_Resume             = zeroTS;
+            in.CACCStatusBus.Cancel_Pressed         = zeroTS;
+            in.CACCStatusBus.Driver_Brakes          = zeroTS;
+            in.CACCStatusBus.Timeout_Event          = zeroTS;
+            in.CACCStatusBus.In_CACC_Speed_Range    = zeroTS;
+            in.CACCStatusBus.Speed_GT_55_MPH        = zeroTS; % Element 9
 
-            in.LCCStatusBus.Lane_Change_Centred = zeroTS;
-            in.LCCStatusBus.Speed_GT_35_MPH = zeroTS;
-            in.LCCStatusBus.Lateral_Switch_ON = zeroTS;
-            in.LCCStatusBus.Activate_LCC_Pressed = zeroTS;
-            in.LCCStatusBus.Cancel_LCC_Pressed = zeroTS;
+            % 3. LCCStatusBus (7 Elements)
+            in.LCCStatusBus.Lane_Change_Centred      = zeroTS;
+            in.LCCStatusBus.CACC_Active              = zeroTS;
+            in.LCCStatusBus.Speed_GT_35_MPH          = zeroTS;
+            in.LCCStatusBus.Lateral_Switch_ON        = zeroTS;
+            in.LCCStatusBus.Activate_LCC_Pressed     = zeroTS;
+            in.LCCStatusBus.Cancel_LCC_Pressed       = zeroTS;
             in.LCCStatusBus.Driver_Inactivity_Detected = zeroTS;
 
+            % 4. AINStatusBus (3 Elements)
             in.AINStatusBus.Activate_AIN_Pressed = zeroTS;
-            in.AINStatusBus.Cancel_AIN_Pressed = zeroTS;
+            in.AINStatusBus.Cancel_AIN_Pressed   = zeroTS;
+            in.AINStatusBus.Speed_GT_55_MPH      = zeroTS; % Element 3
 
+            % 5. APStatusBus (8 Elements)
             in.APStatusBus.Longitudinal_Switch_ON = zeroTS;
-            in.APStatusBus.Lateral_Switch_ON = zeroTS;
-            in.APStatusBus.Driver_Brakes = zeroTS;
-            in.APStatusBus.Is_Stationary = zeroTS;
-            in.APStatusBus.Activate_AP_Pressed = zeroTS;
-            in.APStatusBus.Parking_In_Range = zeroTS;
-            in.APStatusBus.Finish_Pressed = zeroTS;
-            in.APStatusBus.Cancel_AP_Pressed = zeroTS;
+            in.APStatusBus.Lateral_Switch_ON      = zeroTS;
+            in.APStatusBus.Driver_Brakes          = zeroTS;
+            in.APStatusBus.Is_Stationary          = zeroTS;
+            in.APStatusBus.Activate_AP_Pressed    = zeroTS;
+            in.APStatusBus.Parking_In_Range       = zeroTS;
+            in.APStatusBus.Finish_Pressed         = zeroTS;
+            in.APStatusBus.Cancel_AP_Pressed      = zeroTS;
         end
     end
 end
