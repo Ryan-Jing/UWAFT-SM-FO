@@ -57,22 +57,22 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             in.ACCStatusBus.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
             % 2. Set -> Active
-            in.ACCStatusBus.Set_Resume.Data             = logical([0; 0; 1; 1; 1]);
+            in.ACCStatusBus.Set_Resume.Data             = logical([0; 0; 1; 0; 0]);
             
             % 3. Cancel -> Deactivated
             in.ACCStatusBus.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(in, 4);
-            mode = testCase.getSignal(simOut, 'System_Mode');
-            active = testCase.getSignal(simOut, 'Is_Active');
+            [mode, modeTime] = testCase.getSignal(simOut, 'System_Mode'); 
+            [active, activeTime] = testCase.getSignal(simOut, 'Is_Active');
             
             % Check t=1.5 (Standby)
-            testCase.verifyEqual(testCase.sampleAt(mode, time, 1.2), 1, 'Mode should be 1 (ACC).');
-            testCase.verifyEqual(testCase.sampleAt(active, time, 1.2), 0, 'Active should be 0 (Standby).');
+            testCase.verifyEqual(testCase.sampleAt(mode, modeTime, 1.2), 1, 'Mode should be 1 (ACC).');
+            testCase.verifyEqual(testCase.sampleAt(active, activeTime, 1.2), 0, 'Active should be 0 (Standby).');
             
             % Check t=2.5 (Active)
-            testCase.verifyEqual(testCase.sampleAt(mode, time, 2.5), 1, 'Mode should be 1 (ACC).');
-            testCase.verifyEqual(testCase.sampleAt(active, time, 2.5), 1, 'Active should be 1 (Driving).');
+            testCase.verifyEqual(testCase.sampleAt(mode, modeTime, 2.5), 1, 'Mode should be 1 (ACC).');
+            testCase.verifyEqual(testCase.sampleAt(active, activeTime, 2.5), 1, 'Active should be 1 (Active).');
             
             % Check t=3.5 (Deactivated)
             testCase.verifyEqual(mode(end), 0, 'Mode should return to 0.');
@@ -91,18 +91,14 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             in.ACCStatusBus.V2X_Switch_ON.Data          = logical([0; 1; 1]);
             in.ACCStatusBus.Longitudinal_Switch_ON.Data = logical([0; 1; 1]);
             in.ACCStatusBus.Set_Resume.Data             = logical([0; 1; 1]);
+            in.ACCStatusBus.In_CACC_Speed_Range.Data    = logical([0; 1; 1]);
             
             simOut = testCase.runSim(in, 2);
             
-            % Try to get the internal signal from the ACC Model
-            try
-                acc_state = testCase.getSignal(simOut, 'ACC_Current_State'); 
-                final_val = acc_state(end);
-                % Assuming internal logic outputs 2 for Active state
-                testCase.verifyEqual(final_val, 2, 'The Child ACC Model did not wake up! Enabler might be broken.');
-            catch
-                warning('Could not find ACC_Current_State. Did you enable logging on the signal line?');
-            end
+            acc_state = testCase.getSignal(simOut, 'ACC_Current_State'); 
+            final_val = acc_state(end);
+            % Assuming internal logic outputs 2 for Active state
+            testCase.verifyEqual(final_val, 2, 'The Child ACC Model did not wake up! Enabler might be broken.');
         end
 
         % =================================================================
@@ -155,19 +151,19 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             in.ACCStatusBus.Set_Resume.Data             = logical([0; 0; 1; 1; 1]); 
             
             simOut = testCase.runSim(in, 4);
-            mode = testCase.getSignal(simOut, 'System_Mode');
-            active = testCase.getSignal(simOut, 'Is_Active');
+            [mode, modeTime] = testCase.getSignal(simOut, 'System_Mode');
+            [active, activeTime] = testCase.getSignal(simOut, 'Is_Active');
             
             % t=2.5: Should be LCC Active (Mode 3)
-            testCase.verifyEqual(testCase.sampleAt(mode, time, 2.5), 3, 'Should be in LCC (Mode 3).');
-            testCase.verifyEqual(testCase.sampleAt(active, time, 2.5), 1, 'Should be Active.');
+            testCase.verifyEqual(testCase.sampleAt(mode, modeTime, 2.5), 3, 'Should be in LCC (Mode 3).');
+            testCase.verifyEqual(testCase.sampleAt(active, activeTime, 2.5), 1, 'Should be Active.');
             
             % t=3.5: Lane Lost -> Should degrade to ACC (Mode 1), NOT Deactivated (0)
-            currentMode = testCase.sampleAt(mode, time, 3.5);
+            currentMode = testCase.sampleAt(mode, modeTime, 3.5);
             testCase.verifyEqual(currentMode, 1, 'Should downgrade to ACC (Mode 1) when lane is lost.');
             
             % Verify we are STILL ACTIVE
-            currentActive = testCase.sampleAt(active, time, 3.5);
+            currentActive = testCase.sampleAt(active, activeTime, 3.5);
             testCase.verifyEqual(currentActive, 1, 'System should remain ACTIVE during downgrade.');
         end
 
@@ -176,9 +172,6 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
     methods(Access = private)
         
         function defineBuses(~)
-            % ============================================================
-            % 1. DEFINE CHILD BUSES FIRST (CRITICAL!)
-            % ============================================================
             clear acc_elems; clear cacc_elems; clear ap_elems; clear ain_elems; clear lcc_elems;
             
             % --- ACC Bus ---
