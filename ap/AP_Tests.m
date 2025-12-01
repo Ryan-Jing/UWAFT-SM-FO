@@ -229,4 +229,5 @@ classdef AP_Tests < matlab.unittest.TestCase
             end
         end
     end
+    clear;
 end
