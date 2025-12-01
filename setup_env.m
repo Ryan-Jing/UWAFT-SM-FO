@@ -18,4 +18,5 @@ end
 
 disp('Running: Event_Struct')
 Event_Struct
+Current_State_Struct
 disp('Variables setup. Ready to run tests!')
