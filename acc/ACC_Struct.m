@@ -32,10 +32,6 @@ acc_elems(8) = Simulink.BusElement;
 acc_elems(8).Name = 'In_CACC_Speed_Range';
 acc_elems(8).DataType = 'boolean';
 
-acc_elems(9) = Simulink.BusElement;
-acc_elems(9).Name = 'Speed_GT_55_MPH';
-acc_elems(9).DataType = 'boolean';
-
 ACCStatusBus = Simulink.Bus;
 ACCStatusBus.Elements = acc_elems;
 
