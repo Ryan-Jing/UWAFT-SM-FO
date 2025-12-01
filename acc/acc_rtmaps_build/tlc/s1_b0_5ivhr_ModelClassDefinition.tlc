@@ -1,4 +1,4 @@
-%implements s1_b0_ncvhr_ModelClassDefinition "C"
+%implements s1_b0_5ivhr_ModelClassDefinition "C"
 %function ModelClassDefinition(block) Output
 %openfile tmp
 class acc final 
