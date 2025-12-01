@@ -28,6 +28,11 @@ flag_elems(3) = Simulink.BusElement; flag_elems(3).Name = 'LCC_Ready';  flag_ele
 flag_elems(4) = Simulink.BusElement; flag_elems(4).Name = 'AIN_Ready';  flag_elems(4).DataType = 'boolean';
 flag_elems(5) = Simulink.BusElement; flag_elems(5).Name = 'AP_Ready';   flag_elems(5).DataType = 'boolean';
 
+flag_elems(6) = Simulink.BusElement; flag_elems(6).Name = 'ACC_Enable_Cmd';  flag_elems(6).DataType = 'boolean';
+flag_elems(7) = Simulink.BusElement; flag_elems(7).Name = 'CACC_Enable_Cmd'; flag_elems(7).DataType = 'boolean';
+flag_elems(8) = Simulink.BusElement; flag_elems(8).Name = 'LCC_Enable_Cmd';  flag_elems(8).DataType = 'boolean';
+flag_elems(9) = Simulink.BusElement; flag_elems(9).Name = 'AP_Enable_Cmd';   flag_elems(9).DataType = 'boolean';
+
 FlagsBus = Simulink.Bus;
 FlagsBus.Elements = flag_elems;
 assignin('base', 'FlagsBus', FlagsBus);
