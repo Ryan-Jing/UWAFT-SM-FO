@@ -7,7 +7,7 @@ classdef StatusType < Simulink.IntEnumType
 
     methods (Static)
         function retVal = getDefaultValue()
-            retVal = ACCStatusType.Deactivated;
+            retVal = StatusType.Deactivated;
         end
 
         function retVal = getDescription()
