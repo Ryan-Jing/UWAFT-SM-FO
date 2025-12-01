@@ -1,0 +1,10 @@
+%implements s1_b0_kuqhr_ModuleConstants "C"
+
+%function ModuleConstants(block) Output
+
+
+/* Named constants for Chart: '<Root>/Chart' */
+const uint8_T acc_IN_ACC_Active{1U};
+const uint8_T acc_IN_ACC_Deactivated{2U};
+const uint8_T acc_IN_ACC_Standby{3U};
+%endfunction

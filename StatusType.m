@@ -6,6 +6,10 @@ classdef StatusType < Simulink.IntEnumType
     end
 
     methods (Static)
+        function retVal = generateEnumClass()
+            retVal = false;
+        end
+
         function retVal = getDefaultValue()
             retVal = StatusType.Deactivated;
         end
@@ -18,12 +22,12 @@ classdef StatusType < Simulink.IntEnumType
             retVal = true;
         end
 
-        function retVal = getHeaderFile()
-            retVal = 'StatusType.h';
-        end
+        % function retVal = getHeaderFile()
+        %     retVal = 'StatusType.h';
+        % end
 
         function retVal = getDataScope()
-            retVal = 'Exported';
+            retVal = 'Imported';
         end
     end
 end

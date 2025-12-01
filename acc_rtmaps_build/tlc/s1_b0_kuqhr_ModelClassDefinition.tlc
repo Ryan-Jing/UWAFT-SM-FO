@@ -1,0 +1,42 @@
+%implements s1_b0_kuqhr_ModelClassDefinition "C"
+%function ModelClassDefinition(block) Output
+%openfile tmp
+class acc final 
+{
+  public:
+    %<SLibFillInPublicClassMembers()>
+        /* Root inports set method */
+void setExternalInputs(const ExtU_acc_T *pExtU_acc_T)
+    {
+        acc_U = *pExtU_acc_T;
+    }
+        /* Root outports get method */
+const ExtY_acc_T &getExternalOutputs() const
+    {
+        return acc_Y;
+    }
+        /* Initial conditions function */
+void initialize();
+        /* model step function */
+%<FcnStaticOnEmptyOutputUpdateMethod()>void step()%<AddConstToStepIfNeccessary("Outputs")>;
+        /* model terminate function */
+%<FcnStaticOnEmptyTermMethod()>void terminate()%<AddConstToTermIfNecessary("terminate")>;
+        /* Constructor */
+acc();
+        /* Destructor */
+~acc();
+  protected:
+    %<SLibFillInProtectedClassMembers()>
+  private:
+    /* External inputs */
+    ExtU_acc_T acc_U;
+    /* External outputs */
+    ExtY_acc_T acc_Y;
+    /* Block states */
+    DW_acc_T acc_DW;
+    %<SLibFillInPrivateClassMembers()>
+    %<SLibFillInLastPrivateClassMembers()>
+};
+%closefile tmp
+%return tmp
+%endfunction

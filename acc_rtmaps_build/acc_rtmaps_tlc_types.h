@@ -1,0 +1,139 @@
+#ifndef acc_rtmaps_tlc_types_h_
+#define acc_rtmaps_tlc_types_h_
+#ifdef _MSC_VER
+#if _MSC_VER < 1900
+#error "In order to compile this code, you must use Visual Studio >= 2015 compiler"
+#endif
+
+#else
+#if __cplusplus < 201103L
+#error "In order to compile this code, you must use a C++11 compiler (e.g. GCC >= 5) and make sure that the '-std=c++11' (or '-std=c++14' or '-std=c++17' etc.) compiler flag is used"
+#endif
+#endif
+
+#include <algorithm>
+#include <array>
+#include <cstddef>
+#include <initializer_list>
+#include <sstream>
+#include <string>
+#include <vector>
+
+namespace acc_rtmaps_tlc_types
+{
+  struct Field
+  {
+    std::string type;                  ///< type name
+    std::string name;                  ///< field name
+    size_t size = 0;                   ///< sizeof(type)
+    size_t offset = 0;                 ///< offsetof(field) in the Struct
+    bool is_array = false;             ///< true if array field
+    size_t capacity = 1;
+            ///< nb elements in the array. 1 if not array, or if array of size 1
+    Field() = default;
+    Field(const size_t offset_, const size_t size_, const std::string& type_,
+          const std::string& name_)
+      : type(Field::canonicalizeType(type_))
+      , name(name_)
+      , size(size_)
+      , offset(offset_)
+      , is_array(false)
+      , capacity(1)
+    {
+    }
+
+    Field(const size_t offset_, const size_t size_, const std::string& type_,
+          const std::string& name_, const size_t capacity_)
+      : type(Field::canonicalizeType(type_))
+      , name(name_)
+      , size(size_)
+      , offset(offset_)
+      , is_array(true)
+      , capacity(capacity_)
+    {
+    }
+
+    std::string toString() const
+    {
+
+#define _dump_field(field_name)        << " " << #field_name << ":" << field_name
+
+      std::ostringstream oss;
+      oss
+        _dump_field(type)
+        _dump_field(name)
+        _dump_field(size)
+        _dump_field(offset)
+        _dump_field(is_array)
+        _dump_field(capacity)
+        ;
+
+#undef _dump_field
+
+      return oss.str();
+    }
+
+    std::string toString_lite() const
+    {
+      std::ostringstream oss;
+      oss << name << " " << type;
+      if (is_array) {
+        oss << "[" << capacity << "]";
+      }
+
+      return oss.str();
+    }
+
+    static std::string canonicalizeType(const std::string& typeName_);
+  };
+
+  struct Struct
+  {
+    std::string name;                  ///< name of struct
+    std::vector<Field> fields;         ///< fields of the struct
+    size_t size;
+    Struct(const std::string& name_, const size_t size_, std::initializer_list<
+           Field> fields_)
+      : name(name_)
+      , fields(std::move(fields_))
+      , size(size_)
+    {
+      std::sort(fields.begin(), fields.end(), [] (const Field& a, const Field& b)
+                {
+                return a.offset < b.offset;
+                }
+
+                );
+    }
+
+    std::string toString() const
+    {
+      std::ostringstream oss;
+      oss << "name:" << name << " size:" << size << " fields:" << fields.size();
+      for (auto& f : fields) {
+        oss << "\n    " << f.toString();
+      }
+
+      return oss.str();
+    }
+
+    std::string toString_lite() const
+    {
+      std::ostringstream oss;
+      oss << name << " [" << size << " byte" << (size == 1 ? "" : "s")
+        << ", " << fields.size() << " field" << (fields.size() == 1 ? "" : "s") <<
+        "]\n{";
+      for (auto& f : fields) {
+        oss << "\n    " << f.toString_lite();
+      }
+
+      oss << "\n}";
+      return oss.str();
+    }
+  };
+
+  const std::array<Struct, 2 >& getStructs();
+  const Struct& getStruct(const std::string& structName);
+}
+
+#endif                                 /* acc_rtmaps_tlc_types_h_ */
