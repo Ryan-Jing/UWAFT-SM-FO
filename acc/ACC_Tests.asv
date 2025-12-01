@@ -1,25 +1,34 @@
-classdef CACC_Tests < matlab.unittest.TestCase
+classdef ACC_Tests < matlab.unittest.TestCase
     properties
-        modelName = 'cacc'
+        modelName = 'acc'
         
-        rootInputNames = {'CACC_Inputs', 'Current_State_Bus'};
+        % Must match the root-level Inport names in the Simulink model
+        rootInputNames = {'ACC_Inputs', 'Current_State_Bus'};
     end
     
-    methods(TestClassSetup)
+   methods(TestClassSetup)
         function loadModel(testCase)
             if ~bdIsLoaded(testCase.modelName)
                 load_system(testCase.modelName);
             end
             
+            % Ensure Bus & Enum Definitions exist
             testCase.defineBuses();
             
             set_param(testCase.modelName, 'SignalLogging', 'on');
             set_param(testCase.modelName, 'SignalLoggingName', 'logsout');
             set_param(testCase.modelName, 'SaveOutput', 'on');
 
-            
-            set_param([testCase.modelName '/Current_State_Bus'], 'Interpolate', 'off');
-            set_param([testCase.modelName '/CACC_Inputs'], 'Interpolate', 'off');
+            % === ADD THESE LINES HERE ===
+            % Force the Root Inport blocks to NOT interpolate data
+            % This prevents the Enum error
+            try
+                set_param([testCase.modelName '/Current_State_Bus'], 'Interpolate', 'off');
+                set_param([testCase.modelName '/ACC_Inputs'], 'Interpolate', 'off');
+            catch ME
+                warning('Could not set Interpolate to off. Check Inport block names: %s', ME.message);
+            end
+            % ============================
         end
     end
     
@@ -50,10 +59,12 @@ classdef CACC_Tests < matlab.unittest.TestCase
             time = [0; 1; 2];
             inputs = testCase.createInputs(time);
             
-            inputs.CACC_Inputs.CACC_Enable_Pressed.Data     = logical([0; 1; 1]);
-            inputs.CACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1]);
-            inputs.CACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1]);
+            % Modify ACC_Inputs
+            inputs.ACC_Inputs.ACC_Enable_Pressed.Data     = logical([0; 1; 1]);
+            inputs.ACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1]);
+            inputs.ACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1]);
             
+            % Modify Current_State_Bus (Must be Enum type)
             inputs.Current_State_Bus.APStatus.Data(1:3)   = StatusType.Deactivated;
             
             simOut = testCase.runSim(inputs, 2);
@@ -68,14 +79,14 @@ classdef CACC_Tests < matlab.unittest.TestCase
             time = [0; 1; 2; 3];
             inputs = testCase.createInputs(time);
             
-            inputs.CACC_Inputs.CACC_Enable_Pressed.Data     = logical([0; 1; 1; 1]);
-            inputs.CACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1]);
-            inputs.CACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1]);
+            inputs.ACC_Inputs.ACC_Enable_Pressed.Data     = logical([0; 1; 1; 1]);
+            inputs.ACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1]);
+            inputs.ACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1]);
             
             inputs.Current_State_Bus.APStatus.Data(1:4)   = StatusType.Deactivated;
             
-            inputs.CACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 1]);
-            inputs.CACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1]);
+            inputs.ACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 1]);
+            inputs.ACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1]);
             
             simOut = testCase.runSim(inputs, 3);
             currentState = testCase.getOutputState(simOut);
@@ -89,15 +100,15 @@ classdef CACC_Tests < matlab.unittest.TestCase
             time = [0; 1; 2; 3; 4];
             inputs = testCase.createInputs(time);
             
-            inputs.CACC_Inputs.CACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.ACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
             inputs.Current_State_Bus.APStatus.Data(1:5)   = StatusType.Deactivated;
             
-            inputs.CACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 0; 0]);
-            inputs.CACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 0; 0]);
-            inputs.CACC_Inputs.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
+            inputs.ACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 0; 0]);
+            inputs.ACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 0; 0]);
+            inputs.ACC_Inputs.Cancel_Pressed.Data         = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(inputs, 4);
             currentState = testCase.getOutputState(simOut);
@@ -111,15 +122,15 @@ classdef CACC_Tests < matlab.unittest.TestCase
             time = [0; 1; 2; 3; 4];
             inputs = testCase.createInputs(time);
             
-            inputs.CACC_Inputs.CACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.ACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
             inputs.Current_State_Bus.APStatus.Data(1:5)   = StatusType.Deactivated;
             
-            inputs.CACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 0; 0]);
-            inputs.CACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 0; 0]);
-            inputs.CACC_Inputs.Driver_Brakes.Data          = logical([0; 0; 0; 1; 1]); 
+            inputs.ACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 0; 0]);
+            inputs.ACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 0; 0]);
+            inputs.ACC_Inputs.Driver_Brakes.Data          = logical([0; 0; 0; 1; 1]); 
             
             simOut = testCase.runSim(inputs, 4);
             currentState = testCase.getOutputState(simOut);
@@ -133,15 +144,15 @@ classdef CACC_Tests < matlab.unittest.TestCase
             time = [0; 1; 2; 3; 4];
             inputs = testCase.createInputs(time);
             
-            inputs.CACC_Inputs.CACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
-            inputs.CACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.ACC_Enable_Pressed.Data     = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.V2X_Switch_ON.Data          = logical([0; 1; 1; 1; 1]);
+            inputs.ACC_Inputs.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
             inputs.Current_State_Bus.APStatus.Data(1:5)   = StatusType.Deactivated;
             
-            inputs.CACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 1; 1]);
-            inputs.CACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1; 1]);
-            inputs.CACC_Inputs.Timeout_Event.Data          = logical([0; 0; 0; 1; 1]);
+            inputs.ACC_Inputs.Set_Resume.Data             = logical([0; 0; 1; 1; 1]);
+            inputs.ACC_Inputs.In_CACC_Speed_Range.Data    = logical([0; 0; 1; 1; 1]);
+            inputs.ACC_Inputs.Timeout_Event.Data          = logical([0; 0; 0; 1; 1]);
             
             simOut = testCase.runSim(inputs, 4);
             currentState = testCase.getOutputState(simOut);
@@ -155,43 +166,48 @@ classdef CACC_Tests < matlab.unittest.TestCase
             mdl = testCase.modelName;
             
             % Assign structs to base workspace
-            assignin('base', 'CACC_Inputs', inputs.CACC_Inputs);
+            assignin('base', 'ACC_Inputs', inputs.ACC_Inputs);
             assignin('base', 'Current_State_Bus', inputs.Current_State_Bus);
             
             set_param(mdl, 'LoadExternalInput', 'on');
             % Order must match comma separated list
-            set_param(mdl, 'ExternalInput', 'CACC_Inputs, Current_State_Bus');
+            set_param(mdl, 'ExternalInput', 'ACC_Inputs, Current_State_Bus');
             set_param(mdl, 'StopTime', num2str(stopTime));
             
             simOut = sim(mdl);
         end
         
         function inputs = createInputs(~, timeVector)
-            caccStruct = struct();
-            caccFields = {'CACC_Enable_Pressed', 'V2X_Switch_ON', 'Longitudinal_Switch_ON', ...
+            % 1. Create ACC_Inputs (ACCStatusBus)
+            accStruct = struct();
+            accFields = {'ACC_Enable_Pressed', 'V2X_Switch_ON', 'Longitudinal_Switch_ON', ...
                          'Set_Resume', 'Cancel_Pressed', 'Driver_Brakes', 'Timeout_Event', 'In_CACC_Speed_Range'};
             
-            for i = 1:numel(caccFields)
+            for i = 1:numel(accFields)
                 ts = timeseries(false(size(timeVector)), timeVector);
-                ts.Name = caccFields{i};
+                ts.Name = accFields{i};
+                % CRITICAL FIX: Disable interpolation for booleans
                 ts = setinterpmethod(ts, 'zoh'); 
-                caccStruct.(caccFields{i}) = ts;
+                accStruct.(accFields{i}) = ts;
             end
             
+            % 2. Create Current_State_Bus (CurrentStateBus)
             stateStruct = struct();
             stateFields = {'ACCStatus', 'CACCStatus', 'LCCStatus', 'AINStatus', 'APStatus'};
             
+            % Initialize arrays of the Enumeration Type
             defaultEnumVal = StatusType.Deactivated;
             enumArray = repmat(defaultEnumVal, size(timeVector));
             
             for i = 1:numel(stateFields)
                 ts = timeseries(enumArray, timeVector);
                 ts.Name = stateFields{i};
+                % CRITICAL FIX: Disable interpolation for Enums (Causes the error)
                 ts = setinterpmethod(ts, 'zoh'); 
                 stateStruct.(stateFields{i}) = ts;
             end
             
-            inputs.CACC_Inputs = caccStruct;
+            inputs.ACC_Inputs = accStruct;
             inputs.Current_State_Bus = stateStruct;
         end
         
@@ -210,17 +226,17 @@ classdef CACC_Tests < matlab.unittest.TestCase
         end
         
         function defineBuses(~)
-            clear cacc_elems;
-            cacc_elems(1) = Simulink.BusElement; cacc_elems(1).Name = 'CACC_Enable_Pressed'; cacc_elems(1).DataType = 'boolean';
-            cacc_elems(2) = Simulink.BusElement; cacc_elems(2).Name = 'V2X_Switch_ON'; cacc_elems(2).DataType = 'boolean';
-            cacc_elems(3) = Simulink.BusElement; cacc_elems(3).Name = 'Longitudinal_Switch_ON'; cacc_elems(3).DataType = 'boolean';
-            cacc_elems(4) = Simulink.BusElement; cacc_elems(4).Name = 'Set_Resume'; cacc_elems(4).DataType = 'boolean';
-            cacc_elems(5) = Simulink.BusElement; cacc_elems(5).Name = 'Cancel_Pressed'; cacc_elems(5).DataType = 'boolean';
-            cacc_elems(6) = Simulink.BusElement; cacc_elems(6).Name = 'Driver_Brakes'; cacc_elems(6).DataType = 'boolean';
-            cacc_elems(7) = Simulink.BusElement; cacc_elems(7).Name = 'Timeout_Event'; cacc_elems(7).DataType = 'boolean';
-            cacc_elems(8) = Simulink.BusElement; cacc_elems(8).Name = 'In_CACC_Speed_Range'; cacc_elems(8).DataType = 'boolean';
-            CACCStatusBus = Simulink.Bus; CACCStatusBus.Elements = cacc_elems;
-            assignin('base', 'CACCStatusBus', CACCStatusBus);
+            clear acc_elems;
+            acc_elems(1) = Simulink.BusElement; acc_elems(1).Name = 'ACC_Enable_Pressed'; acc_elems(1).DataType = 'boolean';
+            acc_elems(2) = Simulink.BusElement; acc_elems(2).Name = 'V2X_Switch_ON'; acc_elems(2).DataType = 'boolean';
+            acc_elems(3) = Simulink.BusElement; acc_elems(3).Name = 'Longitudinal_Switch_ON'; acc_elems(3).DataType = 'boolean';
+            acc_elems(4) = Simulink.BusElement; acc_elems(4).Name = 'Set_Resume'; acc_elems(4).DataType = 'boolean';
+            acc_elems(5) = Simulink.BusElement; acc_elems(5).Name = 'Cancel_Pressed'; acc_elems(5).DataType = 'boolean';
+            acc_elems(6) = Simulink.BusElement; acc_elems(6).Name = 'Driver_Brakes'; acc_elems(6).DataType = 'boolean';
+            acc_elems(7) = Simulink.BusElement; acc_elems(7).Name = 'Timeout_Event'; acc_elems(7).DataType = 'boolean';
+            acc_elems(8) = Simulink.BusElement; acc_elems(8).Name = 'In_CACC_Speed_Range'; acc_elems(8).DataType = 'boolean';
+            ACCStatusBus = Simulink.Bus; ACCStatusBus.Elements = acc_elems;
+            assignin('base', 'ACCStatusBus', ACCStatusBus);
 
             clear status_elems;
             status_elems(1) = Simulink.BusElement; status_elems(1).Name = 'ACCStatus'; status_elems(1).DataType = 'Enum: StatusType';
