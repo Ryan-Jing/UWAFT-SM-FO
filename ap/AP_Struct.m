@@ -6,7 +6,7 @@ ap_elems(2) = Simulink.BusElement;
 ap_elems(2).Name = 'Lateral_Switch_ON';
 ap_elems(2).DataType = 'boolean';
 
-ap_elems(3) = Simulink.BwusElement;
+ap_elems(3) = Simulink.BusElement;
 ap_elems(3).Name = 'Driver_Brakes';
 ap_elems(3).DataType = 'boolean';
 

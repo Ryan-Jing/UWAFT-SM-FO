@@ -141,7 +141,6 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             in.ACCStatusBus.Longitudinal_Switch_ON.Data = logical([0; 1; 1; 1; 1]);
             
             in.LCCStatusBus.Lane_Change_Centred.Data    = logical([0; 1; 1; 0; 0]); % LOST at t=3
-            in.LCCStatusBus.CACC_Active.Data            = logical([0; 1; 1; 1; 1]);
             in.LCCStatusBus.Speed_GT_35_MPH.Data        = logical([0; 1; 1; 1; 1]);
             in.LCCStatusBus.Lateral_Switch_ON.Data      = logical([0; 1; 1; 1; 1]);
             
@@ -346,7 +345,6 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
 
             % 3. LCCStatusBus (7 Elements)
             in.LCCStatusBus.Lane_Change_Centred      = zeroTS;
-            in.LCCStatusBus.CACC_Active              = zeroTS;
             in.LCCStatusBus.Speed_GT_35_MPH          = zeroTS;
             in.LCCStatusBus.Lateral_Switch_ON        = zeroTS;
             in.LCCStatusBus.Activate_LCC_Pressed     = zeroTS;
@@ -356,7 +354,6 @@ classdef System_Supervisor_Tests < matlab.unittest.TestCase
             % 4. AINStatusBus (3 Elements)
             in.AINStatusBus.Activate_AIN_Pressed = zeroTS;
             in.AINStatusBus.Cancel_AIN_Pressed   = zeroTS;
-            in.AINStatusBus.Speed_GT_55_MPH      = zeroTS; % Element 3
 
             % 5. APStatusBus (8 Elements)
             in.APStatusBus.Longitudinal_Switch_ON = zeroTS;
