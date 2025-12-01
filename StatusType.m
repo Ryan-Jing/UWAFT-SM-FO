@@ -19,7 +19,7 @@ classdef StatusType < Simulink.IntEnumType
         end
 
         function retVal = addClassNameToEnumNames()
-            retVal = true;
+            retVal = false;
         end
 
         % function retVal = getHeaderFile()
