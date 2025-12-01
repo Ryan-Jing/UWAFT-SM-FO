@@ -14,7 +14,7 @@ lcc_elems(3).DataType = 'boolean';
 
 lcc_elems(4) = Simulink.BusElement;
 lcc_elems(4).Name = 'Activate_LCC_Pressed';
-lcc_elems(5).DataType = 'boolean';
+lcc_elems(4).DataType = 'boolean';
 
 lcc_elems(5) = Simulink.BusElement;
 lcc_elems(5).Name = 'Cancel_LCC_Pressed';
