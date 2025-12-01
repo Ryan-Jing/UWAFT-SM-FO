@@ -13,9 +13,17 @@ classdef StatusType < Simulink.IntEnumType
         function retVal = getDescription()
             retVal = 'Enumeration for Adaptive Cruise Control Status';
         end
-        
+
         function retVal = addClassNameToEnumNames()
-            retVal = true; 
+            retVal = true;
+        end
+
+        function retVal = getHeaderFile()
+            retVal = 'StatusType.h';
+        end
+
+        function retVal = getDataScope()
+            retVal = 'Exported';
         end
     end
 end
