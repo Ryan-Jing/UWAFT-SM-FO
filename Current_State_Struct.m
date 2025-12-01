@@ -19,10 +19,9 @@ status_elems(5).Name = 'APStatus';
 status_elems(5).DataType = 'Enum: APStatusType';
 
 
-CurrentState = Simulink.Bus;
-CurrentState.Elements = status_elems;
-assignin('base', 'CurrentState', EventsBus);
-
+CurrentStateBus = Simulink.Bus;
+CurrentStateBus.Elements = status_elems;
+assignin('base', 'CurrentStateBus', CurrentStateBus);
 
 
 
