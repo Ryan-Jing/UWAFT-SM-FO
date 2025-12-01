@@ -1,32 +1,31 @@
 classdef LCC_Tests < matlab.unittest.TestCase
-    % LCC_Tests
-    % Unit tests for the LCC Stateflow chart.
-    % Flow: Deactivated (0) <-> Standby (1) <-> Active (2)
-    % Run with: results = runtests('LCC_Tests');
-
     properties
-        modelName = 'lcc' 
+        modelName = 'lcc'
         
-        inputOrder = {'Lane_Change_Centred', ...       % 1
-                      'CACC_Active', ...               % 2
-                      'Speed_GT_35_MPH', ...           % 3
-                      'Lateral_Switch_ON', ...         % 4
-                      'Activate_LCC_Pressed', ...      % 5
-                      'Cancel_LCC_Pressed', ...        % 6
-                      'Driver_Inactivity_Detected'};   % 7
+        % The diagram implies two main bus inputs
+        rootInputNames = {'LCC_Inputs', 'Current_State_Bus'};
     end
     
     methods(TestClassSetup)
         function loadModel(testCase)
-            % Load the model once before tests start
             if ~bdIsLoaded(testCase.modelName)
                 load_system(testCase.modelName);
             end
             
-            % Ensure Model is configured to log data correctly
+            % Define the Buses so the model inputs match the diagram types
+            testCase.defineBuses();
+            
             set_param(testCase.modelName, 'SignalLogging', 'on');
             set_param(testCase.modelName, 'SignalLoggingName', 'logsout');
             set_param(testCase.modelName, 'SaveOutput', 'on');
+            
+            % Ensure interpolation is off for boolean logic to work cleanly
+            try
+                set_param([testCase.modelName '/LCC_Inputs'], 'Interpolate', 'off');
+                set_param([testCase.modelName '/Current_State_Bus'], 'Interpolate', 'off');
+            catch
+                % Ignore if blocks don't exist yet, but good practice
+            end
         end
     end
     
@@ -39,186 +38,197 @@ classdef LCC_Tests < matlab.unittest.TestCase
     methods(Test)
         
         % =================================================================
-        % TEST 1: Default State (Should be 0 - Deactivated)
+        % TEST 1: Default State
         % =================================================================
-        % The diagram shows the default transition pointing to LCC_Deactivated.
         function test_DefaultState(testCase)
             time = [0; 1]; 
-            in = testCase.createZeroInputs(time);
+            inputs = testCase.createInputs(time);
             
-            simOut = testCase.runSim(in, 0);
-            
+            simOut = testCase.runSim(inputs, 0);
             currentState = testCase.getOutputState(simOut);
-            testCase.verifyEqual(currentState(end), 0, 'Default state should be Deactivated (0).');
+            testCase.verifyEqual(currentState(end), 0, 'State should start at Deactivated (0).');
         end
         
         % =================================================================
-        % TEST 2: Deactivated -> Standby (State 0 -> 1)
+        % TEST 2: Deactivated -> Standby
         % =================================================================
-        % Transition requires: Lane_Change_Centred && CACC_Active && Speed > 35 && Switch ON
+        % Diagram Logic: 
+        % Lane_Change_Centred && Speed > 35 && Lateral_Switch_ON 
+        % && APStatus == 0 && ACCStatus == 2
         function test_DeactivatedToStandby(testCase)
             time = [0; 1; 2];
-            in = testCase.createZeroInputs(time);
+            inputs = testCase.createInputs(time);
             
-            % Set all conditions to TRUE at T=1
-            in.Lane_Change_Centred.Data = logical([0; 1; 1]);
-            in.CACC_Active.Data         = logical([0; 1; 1]);
-            in.Speed_GT_35_MPH.Data     = logical([0; 1; 1]);
-            in.Lateral_Switch_ON.Data   = logical([0; 1; 1]);
+            % 1. Set LCC Inputs (Booleans)
+            inputs.LCC_Inputs.Lane_Change_Centred.Data = logical([0; 1; 1]);
+            inputs.LCC_Inputs.Speed_GT_35_MPH.Data     = logical([0; 1; 1]);
+            inputs.LCC_Inputs.Lateral_Switch_ON.Data   = logical([0; 1; 1]);
             
-            simOut = testCase.runSim(in, 2);
+            % 2. Set Current_State_Bus (Enums/Integers)
+            % The diagram specifically checks for ACCStatus == 2 (Active)
+            % and APStatus == 0 (Deactivated)
+            inputs.Current_State_Bus.ACCStatus.Data(1:3) = StatusType.Active;      % 2
+            inputs.Current_State_Bus.APStatus.Data(1:3)  = StatusType.Deactivated; % 0
             
+            simOut = testCase.runSim(inputs, 2);
             currentState = testCase.getOutputState(simOut);
-            testCase.verifyEqual(currentState(end), 1, 'State should transition to Standby (1) when all safety conditions are met.');
+            testCase.verifyEqual(currentState(end), 1, 'State should be Standby (1) when conditions are met.');
         end
         
         % =================================================================
-        % TEST 3: Standby -> Active (State 1 -> 2)
+        % TEST 3: Standby -> Active
         % =================================================================
-        % Transition requires: Activate_LCC_Pressed
+        % Diagram Logic: Activate_LCC_Pressed
         function test_StandbyToActive(testCase)
             time = [0; 1; 2; 3];
-            in = testCase.createZeroInputs(time);
+            inputs = testCase.createInputs(time);
             
-            % T=1: Establish Standby conditions first
-            in.Lane_Change_Centred.Data = logical([0; 1; 1; 1]);
-            in.CACC_Active.Data         = logical([0; 1; 1; 1]);
-            in.Speed_GT_35_MPH.Data     = logical([0; 1; 1; 1]);
-            in.Lateral_Switch_ON.Data   = logical([0; 1; 1; 1]);
+            % Establish Standby conditions first
+            inputs.LCC_Inputs.Lane_Change_Centred.Data = logical([0; 1; 1; 1]);
+            inputs.LCC_Inputs.Speed_GT_35_MPH.Data     = logical([0; 1; 1; 1]);
+            inputs.LCC_Inputs.Lateral_Switch_ON.Data   = logical([0; 1; 1; 1]);
             
-            % T=2: Press Activate
-            in.Activate_LCC_Pressed.Data = logical([0; 0; 1; 1]);
+            inputs.Current_State_Bus.ACCStatus.Data(1:4) = StatusType.Active;
+            inputs.Current_State_Bus.APStatus.Data(1:4)  = StatusType.Deactivated;
             
-            simOut = testCase.runSim(in, 3);
+            % Press Activate at T=2
+            inputs.LCC_Inputs.Activate_LCC_Pressed.Data = logical([0; 0; 1; 1]);
             
+            simOut = testCase.runSim(inputs, 3);
             currentState = testCase.getOutputState(simOut);
-            testCase.verifyEqual(currentState(end), 2, 'State should transition to Active (2) after Activate is pressed.');
+            testCase.verifyEqual(currentState(end), 2, 'State should be Active (2) after Activate is pressed.');
         end
-
+        
         % =================================================================
-        % TEST 4: Active -> Deactivated (State 2 -> 0)
+        % TEST 4: Active -> Deactivated (via Cancel)
         % =================================================================
-        % Note: While there isn't a direct arrow from Active -> Deactivated in your
-        % diagram, usually safety condition failures drop you out. 
-        % However, based strictly on your diagram, the path is Active -> Standby.
-        % If you have a global "Cancel" or safety drop-out that isn't drawn yet, 
-        % this test might need modification. 
-        %
-        % Assuming strict diagram logic: 
-        % If I remove safety conditions (e.g. Lateral Switch OFF), does it go 
-        % Active -> Standby -> Deactivated? Let's test that chain.
-        function test_ActiveToDeactivated_SafetyLoss(testCase)
+        % Diagram Logic: [LCC_Inputs.Cancel_LCC_Pressed] -> returns to Deactivated
+        function test_ActiveToDeactivated_Cancel(testCase)
             time = [0; 1; 2; 3; 4];
-            in = testCase.createZeroInputs(time);
+            inputs = testCase.createInputs(time);
             
-            % T=0-2: Everything valid
-            in.Lane_Change_Centred.Data = logical([1; 1; 1; 0; 0]);
-            in.CACC_Active.Data         = logical([1; 1; 1; 1; 1]);
-            in.Speed_GT_35_MPH.Data     = logical([1; 1; 1; 1; 1]);
-            in.Lateral_Switch_ON.Data   = logical([1; 1; 1; 1; 1]);
+            % 1. Setup Active Conditions
+            inputs.LCC_Inputs.Lane_Change_Centred.Data = logical([0; 1; 1; 1; 1]);
+            inputs.LCC_Inputs.Speed_GT_35_MPH.Data     = logical([0; 1; 1; 1; 1]);
+            inputs.LCC_Inputs.Lateral_Switch_ON.Data   = logical([0; 1; 1; 1; 1]);
+            inputs.Current_State_Bus.ACCStatus.Data    = repmat(StatusType.Active, size(time));
+            inputs.Current_State_Bus.APStatus.Data     = repmat(StatusType.Deactivated, size(time));
+            inputs.LCC_Inputs.Activate_LCC_Pressed.Data = logical([0; 0; 1; 0; 0]);
             
-            % T=1: Go Active
-            in.Activate_LCC_Pressed.Data = logical([0; 1; 0; 0; 0]);
+            % 2. Press Cancel at T=3
+            inputs.LCC_Inputs.Cancel_LCC_Pressed.Data   = logical([0; 0; 0; 1; 1]);
             
-            % T=3: Lane Change Not Centred (Safety Violation)
-            % NOTE: Your diagram connects Standby -> Deactivated, but doesn't explicitly
-            % show Active -> Deactivated. Stateflow usually keeps you in Active unless
-            % a specific transition is valid. 
-            % If your logic relies on parent states or implicit fallbacks, this test 
-            % verifies if the system safely drops out.
-            
-            simOut = testCase.runSim(in, 4);
+            simOut = testCase.runSim(inputs, 4);
             currentState = testCase.getOutputState(simOut);
-            
-            % Adjust this expectation based on your specific logic implementation
-            % For now, assuming it stays Active if no direct line exists, 
-            % OR if you implemented a super-state/logic that handles this.
-            % If this fails, change 2 to 0.
-            testCase.verifyEqual(currentState(end), 0, 'Should drop to Deactivated on safety loss.');
+            testCase.verifyEqual(currentState(end), 0, 'State should return to Deactivated (0) when Cancel is pressed.');
         end
 
+        % =================================================================
+        % TEST 5: Standby Logic Fail (ACC Not Active)
+        % =================================================================
+        % Verify we DO NOT go to Standby if ACC is not Active (ACCStatus != 2)
+        function test_FailToStandby_ACCNotReady(testCase)
+            time = [0; 1; 2];
+            inputs = testCase.createInputs(time);
+            
+            % Valid inputs otherwise...
+            inputs.LCC_Inputs.Lane_Change_Centred.Data = logical([0; 1; 1]);
+            inputs.LCC_Inputs.Speed_GT_35_MPH.Data     = logical([0; 1; 1]);
+            inputs.LCC_Inputs.Lateral_Switch_ON.Data   = logical([0; 1; 1]);
+            
+            % BUT ACC is only Standby (1), not Active (2)
+            inputs.Current_State_Bus.ACCStatus.Data    = repmat(StatusType.Standby, size(time));
+            
+            simOut = testCase.runSim(inputs, 2);
+            currentState = testCase.getOutputState(simOut);
+            testCase.verifyEqual(currentState(end), 0, 'Should NOT enter Standby if ACC is not Active.');
+        end
     end
     
     methods(Access = private)
-        % =================================================================
-        % HELPER: SIMULATION RUNNER
-        % =================================================================
-        function simOut = runSim(testCase, inputStruct, stopTime)
+        
+        function simOut = runSim(testCase, inputs, stopTime)
             mdl = testCase.modelName;
             
-            % 1. Push variables to BASE workspace
-            for i = 1:numel(testCase.inputOrder)
-                varName = testCase.inputOrder{i};
-                if isfield(inputStruct, varName)
-                    assignin('base', varName, inputStruct.(varName));
-                else
-                    error('Missing input variable in test structure: %s', varName);
-                end
-            end
+            % Assign structs to base workspace
+            assignin('base', 'LCC_Inputs', inputs.LCC_Inputs);
+            assignin('base', 'Current_State_Bus', inputs.Current_State_Bus);
             
-            % 2. Configure Model Parameters
             set_param(mdl, 'LoadExternalInput', 'on');
-            inputMapStr = strjoin(testCase.inputOrder, ',');
-            set_param(mdl, 'ExternalInput', inputMapStr);
+            % Order must match the bus inputs expected by the model root
+            set_param(mdl, 'ExternalInput', 'LCC_Inputs, Current_State_Bus');
             set_param(mdl, 'StopTime', num2str(stopTime));
             
-            % 3. Run Simulation
             simOut = sim(mdl);
         end
         
-        % =================================================================
-        % HELPER: OUTPUT EXTRACTION
-        % =================================================================
+        function inputs = createInputs(~, timeVector)
+            % 1. Create LCC_Inputs Structure (Booleans)
+            lccStruct = struct();
+            lccFields = {'Lane_Change_Centred', 'Speed_GT_35_MPH', 'Lateral_Switch_ON', ...
+                         'Activate_LCC_Pressed', 'Cancel_LCC_Pressed'};
+            
+            for i = 1:numel(lccFields)
+                ts = timeseries(false(size(timeVector)), timeVector);
+                ts.Name = lccFields{i};
+                ts = setinterpmethod(ts, 'zoh'); 
+                lccStruct.(lccFields{i}) = ts;
+            end
+            
+            % 2. Create Current_State_Bus Structure (Enums)
+            stateStruct = struct();
+            stateFields = {'ACCStatus', 'APStatus'}; % Add others if needed (CACC, etc)
+            
+            defaultEnumVal = StatusType.Deactivated;
+            enumArray = repmat(defaultEnumVal, size(timeVector));
+            
+            for i = 1:numel(stateFields)
+                ts = timeseries(enumArray, timeVector);
+                ts.Name = stateFields{i};
+                ts = setinterpmethod(ts, 'zoh'); 
+                stateStruct.(stateFields{i}) = ts;
+            end
+            
+            inputs.LCC_Inputs = lccStruct;
+            inputs.Current_State_Bus = stateStruct;
+        end
+        
         function stateData = getOutputState(~, simOut)
             rawObj = [];
-            
             if isprop(simOut, 'logsout') && ~isempty(simOut.logsout)
                 rawObj = simOut.logsout.get('CurrentState');
             end
-            
-            if isempty(rawObj) && isprop(simOut, 'yout') && ~isempty(simOut.yout)
-                 try
-                    rawObj = simOut.yout.get('CurrentState');
-                 catch
-                 end
-            end
-            
             if isempty(rawObj)
-                error('Could not find signal "CurrentState" in simulation output.');
+                 error('Could not find signal "CurrentState" in logsout.');
             end
-            
-            % Drill down into nested datasets if necessary
-            while isa(rawObj, 'Simulink.SimulationData.Dataset')
-                if rawObj.numElements > 0
-                    rawObj = rawObj.get(1); 
-                else
-                    error('Found a Dataset named "CurrentState", but it is empty.');
-                end
+            if isa(rawObj, 'Simulink.SimulationData.Dataset')
+                rawObj = rawObj.get(1); 
             end
-            
-            if isa(rawObj, 'Simulink.SimulationData.Signal')
-                stateData = rawObj.Values.Data;
-            elseif isa(rawObj, 'timeseries')
-                stateData = rawObj.Data;
-            else
-                error('Found "CurrentState", but object type is unexpected: %s', class(rawObj));
-            end
-            
-            % Cast to double for easy comparison
-            stateData = double(stateData);
+            stateData = double(rawObj.Values.Data);
         end
         
-        % =================================================================
-        % HELPER: INPUT CREATION
-        % =================================================================
-        function in = createZeroInputs(testCase, timeVector)
-            for i = 1:numel(testCase.inputOrder)
-                varName = testCase.inputOrder{i};
-                ts = timeseries(false(size(timeVector)), timeVector);
-                ts.Name = varName;
-                ts = setinterpmethod(ts, 'zoh'); 
-                in.(varName) = ts;
-            end
+        function defineBuses(~)
+            % Define LCC_Inputs Bus
+            clear lcc_elems;
+            lcc_elems(1) = Simulink.BusElement; lcc_elems(1).Name = 'Lane_Change_Centred'; lcc_elems(1).DataType = 'boolean';
+            lcc_elems(2) = Simulink.BusElement; lcc_elems(2).Name = 'Speed_GT_35_MPH';     lcc_elems(2).DataType = 'boolean';
+            lcc_elems(3) = Simulink.BusElement; lcc_elems(3).Name = 'Lateral_Switch_ON';   lcc_elems(3).DataType = 'boolean';
+            lcc_elems(4) = Simulink.BusElement; lcc_elems(4).Name = 'Activate_LCC_Pressed';lcc_elems(4).DataType = 'boolean';
+            lcc_elems(5) = Simulink.BusElement; lcc_elems(5).Name = 'Cancel_LCC_Pressed';  lcc_elems(5).DataType = 'boolean';
+            LCCInputBus = Simulink.Bus; LCCInputBus.Elements = lcc_elems;
+            assignin('base', 'LCCInputBus', LCCInputBus);
+            
+            % Define Current_State_Bus (Reusing specific fields from your ACC example)
+            clear status_elems;
+            status_elems(1) = Simulink.BusElement; status_elems(1).Name = 'ACCStatus'; status_elems(1).DataType = 'Enum: StatusType';
+            status_elems(2) = Simulink.BusElement; status_elems(2).Name = 'APStatus';  status_elems(2).DataType = 'Enum: StatusType';
+            % Add padding elements if your bus expects 5 elements like the ACC one did
+            status_elems(3) = Simulink.BusElement; status_elems(3).Name = 'CACCStatus'; status_elems(3).DataType = 'Enum: StatusType';
+            status_elems(4) = Simulink.BusElement; status_elems(4).Name = 'LCCStatus';  status_elems(4).DataType = 'Enum: StatusType';
+            status_elems(5) = Simulink.BusElement; status_elems(5).Name = 'AINStatus';  status_elems(5).DataType = 'Enum: StatusType';
+            
+            CurrentStateBus = Simulink.Bus; CurrentStateBus.Elements = status_elems;
+            assignin('base', 'CurrentStateBus', CurrentStateBus);
         end
     end
 end
