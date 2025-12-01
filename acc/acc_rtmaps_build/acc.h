@@ -7,9 +7,9 @@
  *
  * Code generation for model "acc".
  *
- * Model version              : 2.0
+ * Model version              : 2.3
  * Simulink Coder version : 25.2 (R2025b) 28-Jul-2025
- * C++ source code generated on : Mon Dec  1 13:53:21 2025
+ * C++ source code generated on : Mon Dec  1 14:06:34 2025
  *
  * Target selection: rtmaps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

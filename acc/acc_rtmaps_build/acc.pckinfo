@@ -1,7 +1,7 @@
 # Package information
-VERSION=2.0
+VERSION=2.3
 DESCRIPTION=This is an RTMaps package generated from the acc Simulink model using the RTMaps TLC Target for Simulink v2.7.1
 
 # LOG
-# 2.0:
+# 2.3:
 

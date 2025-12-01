@@ -19,7 +19,7 @@
 #include "./acc_rtmaps_tlc_types.h"
 #define ComponentClass                 maps_acc_splitter
 #define ComponentName                  "acc_splitter"
-#define ComponentVersion               "2.0"
+#define ComponentVersion               "2.3"
 
 class ComponentClass : public MAPSComponent
 {

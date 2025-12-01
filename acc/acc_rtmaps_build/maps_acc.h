@@ -285,7 +285,7 @@ struct ComponentOutputInfo
 
 #define ComponentClass                 maps_acc
 #define ComponentName                  "acc"
-#define ComponentVersion               "2.0"
+#define ComponentVersion               "2.3"
 
 class ComponentClass : public MAPSComponent
 {

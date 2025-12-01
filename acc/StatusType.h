@@ -14,31 +14,31 @@ typedef enum {
 
 #endif
 
-// Define comparison operators for StatusType
-#ifdef __cplusplus
-inline bool operator!=(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) != static_cast<int>(rhs);
-}
+// // Define comparison operators for StatusType
+// #ifdef __cplusplus
+// inline bool operator!=(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) != static_cast<int>(rhs);
+// }
 
-inline bool operator==(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) == static_cast<int>(rhs);
-}
+// inline bool operator==(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) == static_cast<int>(rhs);
+// }
 
-inline bool operator<(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) < static_cast<int>(rhs);
-}
+// inline bool operator<(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) < static_cast<int>(rhs);
+// }
 
-inline bool operator>(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) > static_cast<int>(rhs);
-}
+// inline bool operator>(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) > static_cast<int>(rhs);
+// }
 
-inline bool operator<=(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) <= static_cast<int>(rhs);
-}
+// inline bool operator<=(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) <= static_cast<int>(rhs);
+// }
 
-inline bool operator>=(const StatusType& lhs, const StatusType& rhs) {
-    return static_cast<int>(lhs) >= static_cast<int>(rhs);
-}
-#endif
+// inline bool operator>=(const StatusType& lhs, const StatusType& rhs) {
+//     return static_cast<int>(lhs) >= static_cast<int>(rhs);
+// }
+// #endif
 
 #endif /* STATUSTYPE_H */
