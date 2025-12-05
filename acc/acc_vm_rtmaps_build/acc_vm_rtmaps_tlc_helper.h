@@ -1,0 +1,434 @@
+#ifndef acc_vm_rtmaps_tlc_helper_h_
+#define acc_vm_rtmaps_tlc_helper_h_
+#ifdef _MSC_VER
+#if _MSC_VER < 1900
+#error "In order to compile this code, you must use Visual Studio >= 2015 compiler"
+#endif
+
+#else
+#if __cplusplus < 201103L
+#error "In order to compile this code, you must use a C++11 compiler (e.g. GCC >= 5) and make sure that the '-std=c++11' (or '-std=c++14' or '-std=c++17' etc.) compiler flag is used"
+#endif
+#endif
+
+#include <algorithm>
+#include <cstdint>
+#include <cstdlib>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
+#include <type_traits>
+#include <utility>
+#if _WIN32
+#include <string.h>                    // _stricmp()
+#else
+#include <strings.h>                   // strcasecmp()
+#endif
+
+#include <maps_os_helpers.hpp>
+#include <maps_data_structures.hpp>
+
+namespace acc_vm_rtmaps_tlc_helper
+{
+  template <bool b, typename T>
+    using enable_if_t = typename std::enable_if<b, T>::type;
+  template <bool b, typename T, typename F>
+    using conditional_t = typename std::conditional<b, T, F>::type;
+  template <typename T>
+    using remove_cv_t = typename std::remove_cv<T>::type;
+  template <typename T>
+      struct to_fixed_width_type
+  {
+    using R = remove_cv_t<T>;          ///< Raw T
+    using type =
+      conditional_t<std::is_same<R, bool >::value, bool ,
+      conditional_t<std::is_same<R, float >::value, float ,
+      conditional_t<std::is_same<R, double>::value, double,
+      conditional_t<std::is_integral<R>::value,
+      conditional_t<sizeof(R) == 1, conditional_t<std::is_signed<R>::value,
+      int8_t , uint8_t >,
+      conditional_t<sizeof(R) == 2, conditional_t<std::is_signed<R>::value,
+      int16_t, uint16_t>,
+      conditional_t<sizeof(R) == 4, conditional_t<std::is_signed<R>::value,
+      int32_t, uint32_t>,
+      conditional_t<sizeof(R) == 8, conditional_t<std::is_signed<R>::value,
+      int64_t, uint64_t>, void
+      >
+      >
+      >
+      >, void
+      >
+      >
+      >
+      >;
+  };
+
+  template <typename T>
+    using to_fixed_width_type_t = typename to_fixed_width_type<T>::type;
+  template <typename T> struct to_rtmaps_type {
+  };
+
+  template <typename T>
+    using to_rtmaps_type_t = typename to_rtmaps_type<T>::type;
+  template <> struct to_rtmaps_type<bool > {
+    using type = MAPSInt8 ;
+  };
+
+  template <> struct to_rtmaps_type<int8_t > {
+    using type = MAPSInt8 ;
+  };
+
+  template <> struct to_rtmaps_type<int16_t > {
+    using type = MAPSInt16 ;
+  };
+
+  template <> struct to_rtmaps_type<int32_t > {
+    using type = MAPSInt32 ;
+  };
+
+  template <> struct to_rtmaps_type<int64_t > {
+    using type = MAPSInt64 ;
+  };
+
+  template <> struct to_rtmaps_type<uint8_t > {
+    using type = MAPSUInt8 ;
+  };
+
+  template <> struct to_rtmaps_type<uint16_t> {
+    using type = MAPSUInt16 ;
+  };
+
+  template <> struct to_rtmaps_type<uint32_t> {
+    using type = MAPSUInt32 ;
+  };
+
+  template <> struct to_rtmaps_type<uint64_t> {
+    using type = MAPSUInt64 ;
+  };
+
+  template <> struct to_rtmaps_type<float > {
+    using type = MAPSFloat32;
+  };
+
+  template <> struct to_rtmaps_type<double > {
+    using type = MAPSFloat64;
+  };
+
+  template <typename T> struct is_int_type : std::false_type {
+  };
+
+  template <> struct is_int_type<int8_t > : std::true_type {
+  };
+
+  template <> struct is_int_type<int16_t > : std::true_type {
+  };
+
+  template <> struct is_int_type<int32_t > : std::true_type {
+  };
+
+  template <> struct is_int_type<int64_t > : std::true_type {
+  };
+
+  template <> struct is_int_type<uint8_t > : std::true_type {
+  };
+
+  template <> struct is_int_type<uint16_t> : std::true_type {
+  };
+
+  template <> struct is_int_type<uint32_t> : std::true_type {
+  };
+
+  template <> struct is_int_type<uint64_t> : std::true_type {
+  };
+
+  template <typename T> enable_if_t<std::is_same<T, bool>::value, std::string>
+    mapPrimitiveType()
+  {
+    return "bool";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && std::is_signed<T>::value && (sizeof(T) == 1), std::string>
+    mapPrimitiveType()
+  {
+    return "int8_t" ;
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && std::is_signed<T>::value && (sizeof(T) == 2), std::string>
+    mapPrimitiveType()
+  {
+    return "int16_t";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && std::is_signed<T>::value && (sizeof(T) == 4), std::string>
+    mapPrimitiveType()
+  {
+    return "int32_t";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && std::is_signed<T>::value && (sizeof(T) == 8), std::string>
+    mapPrimitiveType()
+  {
+    return "int64_t";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && !std::is_signed<T>::value && (sizeof(T) == 1), std::string>
+    mapPrimitiveType()
+  {
+    return "uint8_t" ;
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && !std::is_signed<T>::value && (sizeof(T) == 2), std::string>
+    mapPrimitiveType()
+  {
+    return "uint16_t";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && !std::is_signed<T>::value && (sizeof(T) == 4), std::string>
+    mapPrimitiveType()
+  {
+    return "uint32_t";
+  }
+
+  template <typename T> enable_if_t<is_int_type< to_fixed_width_type_t<T> >::
+    value && !std::is_signed<T>::value && (sizeof(T) == 8), std::string>
+    mapPrimitiveType()
+  {
+    return "uint64_t";
+  }
+
+  template <typename T> enable_if_t<std::is_floating_point<T>::value && (sizeof
+    (T) == 4), std::string> mapPrimitiveType()
+  {
+    return "float" ;
+  }
+
+  template <typename T> enable_if_t<std::is_floating_point<T>::value && (sizeof
+    (T) == 8), std::string> mapPrimitiveType()
+  {
+    return "double";
+  }
+
+  template <typename TTo, typename TFrom>
+    enable_if_t<!std::is_same<TTo, bool>::value, TTo> staticCast_primitiveType
+    (TFrom from_)
+  {
+    return static_cast<TTo>(from_);
+  }
+
+  template <typename TTo, typename TFrom>
+    enable_if_t<std::is_same<TTo, bool>::value, TTo> staticCast_primitiveType
+    (TFrom from_)
+  {
+    return from_ != 0;
+  }
+
+  inline
+    std::string toString(const MAPSString& utf8Str)
+  {
+    std::unique_ptr<char, void(*)(char*)> localeCStr(
+      MAPSIconv::UTF8ToLocale(utf8Str),
+      [] (char* s)
+    {
+      MAPSIconv::releaseLocale(s);
+    }
+
+    );
+    std::string localeStr(localeCStr.get());
+    return localeStr;
+  }
+
+  inline
+    std::string toString(const MAPSTypeInfo& typeInfo)
+  {
+    std::string str;
+
+#define _case_type(type_name)          case MAPS::type_name: str = #type_name; break
+
+    switch (typeInfo.value & MAPS::TypeMask)
+    {
+      _case_type(Integer8 );
+      _case_type(Integer16 );
+      _case_type(Integer32 );
+      _case_type(Integer64 );
+      _case_type(UnsignedInteger8 );
+      _case_type(UnsignedInteger16);
+      _case_type(UnsignedInteger32);
+      _case_type(UnsignedInteger64);
+      _case_type(Float32 );
+      _case_type(Float64 );
+      _case_type(CANFDFrame );
+      _case_type(CANFrame );
+      _case_type(DrawingObject );
+      _case_type(RealObject );
+      _case_type(Triangles3D );
+
+     case MAPS::Structure:
+      str = (typeInfo.name != nullptr)
+        ? std::string((const char*) (*typeInfo.name))
+        : std::string("");
+      break;
+
+     default:
+      str = "";
+      break;
+    }
+
+#undef _case_type
+
+    return str;
+  }
+
+  // add as friend to your component's class
+  template <
+    typename TComponent,
+    typename TContainer,
+    typename TLambda
+    >
+    void fillEnumPropertyWithContainerValues(TComponent* comp,
+    MAPSProperty& prop, TContainer&& container, TLambda appendCallback, const
+    bool sortElements)
+  {
+    const MAPSString previousValue = prop.EnumValues().GetSelected() >= 0
+      ? prop.StringValue()
+      : MAPSString("");
+    MAPSEnumStruct enumStruct;
+    MAPSArray<MAPSString>& enumValues = *enumStruct.enumValues;
+    std::vector<MAPSString> tmpValues;
+
+    // fill in the new enum value list
+    for (auto&& element : container) {
+      MAPSString s = appendCallback(element);
+      if (s.Length() > 0) {
+        tmpValues.push_back(s);
+      }
+    }
+
+    if (sortElements) {
+      std::sort(tmpValues.begin(), tmpValues.end(), [](const MAPSString& a,
+                 const MAPSString& b)
+                {
+
+#ifdef _MSC_VER
+
+                return _stricmp(a, b) < 0;
+
+#else
+
+                return strcasecmp(a, b) < 0;
+
+#endif
+
+                }
+
+                );
+    }
+
+    for (const MAPSString& s : tmpValues) {
+      enumValues.Append() = s;
+    }
+
+    // update the selected enum value
+    if (enumValues.Size() == 0) {
+      enumStruct.selectedEnum = -1;
+    } else {
+      // if the previous value is still valid, select it
+      // otherwise, select the first value
+      if ((previousValue.Length() == 0) || (!enumStruct.Select(previousValue)))
+      {
+        enumStruct.selectedEnum = -1;
+      }
+    }
+
+    // update the enum
+    comp->DirectSet(prop, enumStruct);
+  }
+
+  template <typename TContainer>
+    MAPSString typeListToMapsString_lite(const TContainer& typeList)
+  {
+    std::string str;
+    for (auto& st : typeList) {
+      str += st.toString_lite();
+      str += "\n\n";
+    }
+
+    MAPSString mstr;
+    mstr = str.c_str();
+    return mstr;
+  }
+
+  // add as friend to your component's class
+  class DynamicInputModel
+  {
+   private:
+    struct State
+    {
+      std::string m_name;
+      MAPSTypeInfoValue m_typeinfovalue;
+      std::string m_typename;
+      MAPSTypeFilterBase m_filter;
+      MAPSInputDefinition m_definition;
+      MAPSInput* m_input;
+      State(const std::string& name_, const MAPSTypeInfoValue tiv, const std::
+            string& typename_, const int readerType_ = MAPS::FifoReader)
+        : m_name(name_),
+        m_typeinfovalue(tiv),
+        m_typename(typename_),
+        m_filter {
+          MAPS::NoMask, MAPS::NoType, m_typeinfovalue,
+          m_typename.c_str(),
+          nullptr, nullptr, nullptr
+        },
+        m_definition{
+          m_name.c_str(), 0,
+          &m_filter,
+          readerType_,
+          1
+        },
+        m_input(nullptr)
+      {
+      }
+    };
+
+    std::unique_ptr<State> m_state;
+   public:
+    DynamicInputModel() = default;
+    template <typename TComponent>
+      void newInput(TComponent* const comp_, const std::string& inputName_,
+                    const MAPSTypeInfoValue tiv_, const std::string& typeName_,
+                    const int readerType_)
+    {
+      // disconnect and destroy the input if type has changed
+      const bool createNewModel = (m_state == nullptr) || (tiv_ !=
+        m_state->m_typeinfovalue) || (typeName_ != m_state->m_typename);
+      if (createNewModel) {
+        std::unique_ptr<State> st{ new State{
+            inputName_,
+            tiv_,
+            typeName_,
+            readerType_
+          } };
+
+        st->m_input = &comp_->NewInput(st->m_definition);
+        m_state = std::move(st);
+      } else {
+        m_state->m_input = &comp_->NewInput(m_state->m_definition);
+      }
+    }
+
+    MAPSInput* GetInput() const
+    {
+      return m_state->m_input;
+    }
+  };
+}
+
+#endif                                 /* acc_vm_rtmaps_tlc_helper_h_ */

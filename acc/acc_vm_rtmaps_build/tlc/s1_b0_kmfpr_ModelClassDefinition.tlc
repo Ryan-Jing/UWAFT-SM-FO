@@ -1,0 +1,42 @@
+%implements s1_b0_kmfpr_ModelClassDefinition "C"
+%function ModelClassDefinition(block) Output
+%openfile tmp
+class acc_vm final 
+{
+  public:
+    %<SLibFillInPublicClassMembers()>
+        /* Root inports set method */
+void setExternalInputs(const ExtU_acc_vm_T *pExtU_acc_vm_T)
+    {
+        acc_vm_U = *pExtU_acc_vm_T;
+    }
+        /* Root outports get method */
+const ExtY_acc_vm_T &getExternalOutputs() const
+    {
+        return acc_vm_Y;
+    }
+        /* Initial conditions function */
+void initialize();
+        /* model step function */
+%<FcnStaticOnEmptyOutputUpdateMethod()>void step()%<AddConstToStepIfNeccessary("Outputs")>;
+        /* model terminate function */
+%<FcnStaticOnEmptyTermMethod()>void terminate()%<AddConstToTermIfNecessary("terminate")>;
+        /* Constructor */
+acc_vm();
+        /* Destructor */
+~acc_vm();
+  protected:
+    %<SLibFillInProtectedClassMembers()>
+  private:
+    /* External inputs */
+    ExtU_acc_vm_T acc_vm_U;
+    /* External outputs */
+    ExtY_acc_vm_T acc_vm_Y;
+    /* Block states */
+    DW_acc_vm_T acc_vm_DW;
+    %<SLibFillInPrivateClassMembers()>
+    %<SLibFillInLastPrivateClassMembers()>
+};
+%closefile tmp
+%return tmp
+%endfunction
