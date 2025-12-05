@@ -1,0 +1,7 @@
+# Package information
+VERSION=1.0
+DESCRIPTION=This is an RTMaps package generated from the simple_test Simulink model using the RTMaps TLC Target for Simulink v2.7.1
+
+# LOG
+# 1.0:
+

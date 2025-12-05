@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<RTMapsDiagram xmlns="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EngineVersion="4.8" version="4.8.0" xsi:schemaLocation="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram.xsd http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram_RTBoardView.xsd">
+  <RequiredPackages>
+    <File><![CDATA[C:/Program Files (x86)/Intempora/RTMaps 4/packages/rtmaps_mathworks.pck]]>
+<Relative><![CDATA[%RTMAPS_INSTDIR%/packages/rtmaps_mathworks.pck]]></Relative>
+</File>
+  </RequiredPackages>
+<RequiredMacroPackages/>
+<MacroComponentDefinitions/>
+  <EngineProperties>
+    <Property LongName="Engine.startTimespeed" Type="1">1000</Property>
+    <Property LongName="Engine.startTime" Type="1">0</Property>
+    <Property LongName="Engine.session" Type="3"><![CDATA[unspecified]]></Property>
+    <Property LongName="Engine.recordingAtStart" Type="0">true</Property>
+    <Property LongName="Engine.recording" Type="0">true</Property>
+    <Property LongName="Engine.sequentialStart" Type="0">false</Property>
+    <Property LongName="Engine.shutdownTimeout" Type="1">10000000</Property>
+    <Property LongName="Engine.autoDetectStartTime" Type="0">true</Property>
+    <Property LongName="Engine.coreFunctionsToSaveInDiag" Type="4"><![CDATA[0|-1]]></Property>
+  </EngineProperties>
+  <ClocksManagement>
+    <Property LongName="ClocksManagement.activeClock" Type="4"><![CDATA[1|0|RTMaps_standard_clock]]></Property>
+  </ClocksManagement>
+  <Component InstanceName="Randint_2" Model="Randint" x="112" y="296" z="0">
+    <Output LongName="Randint_2.outputInteger" Name="outputInteger">
+      <Property LongName="Randint_2.outputInteger.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_2.outputInteger.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_2.outputInteger.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_2.outputFloat" Name="outputFloat">
+      <Property LongName="Randint_2.outputFloat.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_2.outputFloat.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_2.outputFloat.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_2.outputAscii" Name="outputAscii">
+      <Property LongName="Randint_2.outputAscii.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_2.outputAscii.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_2.outputAscii.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_2.outputIntegerVector" Name="outputIntegerVector">
+      <Property LongName="Randint_2.outputIntegerVector.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_2.outputIntegerVector.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_2.outputIntegerVector.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_2.outputFloatVector" Name="outputFloatVector">
+      <Property LongName="Randint_2.outputFloatVector.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_2.outputFloatVector.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_2.outputFloatVector.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="Randint_2.period" Type="1">100000</Property>
+    <Property LongName="Randint_2.max" Type="1">100</Property>
+    <Property LongName="Randint_2.vectorSize" Type="1">3</Property>
+    <Property LongName="Randint_2.threaded" Type="0">true</Property>
+    <Property LongName="Randint_2.priority" Type="1">255</Property>
+    <Property LongName="Randint_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_1" Model="DataViewer" x="552" y="168" z="0">
+    <Input LongName="DataViewer_1.input_0" Name="input_0">
+      <Property LongName="DataViewer_1.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_1.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_1.nbInputs" Type="1">1</Property>
+    <Property LongName="DataViewer_1.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_1.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_1.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_1.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_1.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_1.integer32Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_1.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_1.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_1.run" Type="0">true</Property>
+    <Property LongName="DataViewer_1.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_1.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_1.title" Type="3"><![CDATA[DataViewer_1]]></Property>
+    <Property LongName="DataViewer_1.x" Type="1">2485</Property>
+    <Property LongName="DataViewer_1.y" Type="1">225</Property>
+    <Property LongName="DataViewer_1.width" Type="1">536</Property>
+    <Property LongName="DataViewer_1.height" Type="1">666</Property>
+    <Property LongName="DataViewer_1.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_1.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="SimulinkDSpaceSerialize_1" Model="SimulinkDSpaceSerialize" x="344" y="360" z="0">
+    <Input LongName="SimulinkDSpaceSerialize_1.input0" Name="input0">
+      <Property LongName="SimulinkDSpaceSerialize_1.input0.readerType" Type="1">0</Property>
+      <Property LongName="SimulinkDSpaceSerialize_1.input0.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="SimulinkDSpaceSerialize_1.outputStream8" Name="outputStream8">
+      <Property LongName="SimulinkDSpaceSerialize_1.outputStream8.subsampling" Type="1">1</Property>
+      <Property LongName="SimulinkDSpaceSerialize_1.outputStream8.fifosize" Type="1">16</Property>
+      <Property LongName="SimulinkDSpaceSerialize_1.outputStream8.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="SimulinkDSpaceSerialize_1.dSPACEformat" Type="3"><![CDATA[[ 9  9  9 ]]]></Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.nbInputs" Type="1">1</Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.samplingMode" Type="4"><![CDATA[4|0|Synchronized|Periodic resampling|Asynchronous arrival on any of the inputs|Triggered by first input]]></Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.synchroTolerance" Type="1">0</Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.inputType0" Type="4"><![CDATA[9|8|BOOL|INT8|UINT8|INT16|UINT16|INT32|UINT32|FLOAT|DOUBLE]]></Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.inputSize0" Type="1">3</Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.threaded" Type="0">true</Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.priority" Type="1">128</Property>
+    <Property LongName="SimulinkDSpaceSerialize_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="SimulinkDSpaceDeserialize_2" Model="SimulinkDSpaceDeserialize" x="328" y="168" z="0">
+    <Input LongName="SimulinkDSpaceDeserialize_2.input" Name="input">
+      <Property LongName="SimulinkDSpaceDeserialize_2.input.readerType" Type="1">0</Property>
+      <Property LongName="SimulinkDSpaceDeserialize_2.input.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="SimulinkDSpaceDeserialize_2.output0" Name="output0">
+      <Property LongName="SimulinkDSpaceDeserialize_2.output0.subsampling" Type="1">1</Property>
+      <Property LongName="SimulinkDSpaceDeserialize_2.output0.fifosize" Type="1">16</Property>
+      <Property LongName="SimulinkDSpaceDeserialize_2.output0.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="SimulinkDSpaceDeserialize_2.dSPACEformat" Type="3"><![CDATA[[ 9  9  9 ]]]></Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.numberOfOutputs" Type="1">1</Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.outputType0" Type="4"><![CDATA[9|8|BOOL|INT8|UINT8|INT16|UINT16|INT32|UINT32|FLOAT|DOUBLE]]></Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.outputSize0" Type="1">3</Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.threaded" Type="0">true</Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.priority" Type="1">128</Property>
+    <Property LongName="SimulinkDSpaceDeserialize_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="UDPSocket_1" Model="UDPSocket" x="112" y="168" z="0">
+    <Output LongName="UDPSocket_1.output" Name="output">
+      <Property LongName="UDPSocket_1.output.subsampling" Type="1">1</Property>
+      <Property LongName="UDPSocket_1.output.fifosize" Type="1">16</Property>
+      <Property LongName="UDPSocket_1.output.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="UDPSocket_1.Type" Type="4"><![CDATA[3|0|UDP|Broadcast|Multicast]]></Property>
+    <Property LongName="UDPSocket_1.RemotePort" Type="1">55000</Property>
+    <Property LongName="UDPSocket_1.RemoteIP" Type="3"><![CDATA[0.0.0.0]]></Property>
+    <Property LongName="UDPSocket_1.Family" Type="4"><![CDATA[3|0|Auto|IPv4|IPv6]]></Property>
+    <Property LongName="UDPSocket_1.EnableSend" Type="0">false</Property>
+    <Property LongName="UDPSocket_1.MaxMsgSize" Type="1">65507</Property>
+    <Property LongName="UDPSocket_1.EnableRecv" Type="0">true</Property>
+    <Property LongName="UDPSocket_1.threaded" Type="0">true</Property>
+    <Property LongName="UDPSocket_1.priority" Type="1">128</Property>
+    <Property LongName="UDPSocket_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="UDPSocket_2" Model="UDPSocket" x="552" y="360" z="0">
+    <Input LongName="UDPSocket_2.input" Name="input">
+      <Property LongName="UDPSocket_2.input.readerType" Type="1">0</Property>
+      <Property LongName="UDPSocket_2.input.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="UDPSocket_2.Type" Type="4"><![CDATA[3|0|UDP|Broadcast|Multicast]]></Property>
+    <Property LongName="UDPSocket_2.RemotePort" Type="1">9999</Property>
+    <Property LongName="UDPSocket_2.RemoteIP" Type="3"><![CDATA[192.168.1.111]]></Property>
+    <Property LongName="UDPSocket_2.Family" Type="4"><![CDATA[3|0|Auto|IPv4|IPv6]]></Property>
+    <Property LongName="UDPSocket_2.EnableSend" Type="0">true</Property>
+    <Property LongName="UDPSocket_2.MaxMsgSize" Type="1">65507</Property>
+    <Property LongName="UDPSocket_2.EnableRecv" Type="0">false</Property>
+    <Property LongName="UDPSocket_2.threaded" Type="0">true</Property>
+    <Property LongName="UDPSocket_2.priority" Type="1">128</Property>
+    <Property LongName="UDPSocket_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Connection Input="DataViewer_1.input_0" Output="SimulinkDSpaceDeserialize_2.output0"/>
+  <Connection Input="SimulinkDSpaceSerialize_1.input0" Output="Randint_2.outputFloatVector"/>
+  <Connection Input="SimulinkDSpaceDeserialize_2.input" Output="UDPSocket_1.output"/>
+  <Connection Input="UDPSocket_2.input" Output="SimulinkDSpaceSerialize_1.outputStream8"/>
+<RTBoardView ID="JavaStudio1.0">
+<Description/>
+<ComponentBox InstanceName="UDPSocket_2" reversed="false">
+<Description/>
+<InputInfos Name="input">
+<Description/>
+</InputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="SimulinkDSpaceDeserialize_2" reversed="false">
+<Description/>
+<InputInfos Name="input">
+<Description/>
+</InputInfos>
+<OutputInfos Name="output0">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="Randint_2" reversed="false">
+<Description/>
+<OutputInfos Name="outputInteger">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputFloat">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputAscii">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputIntegerVector">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputFloatVector">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="UDPSocket_1" reversed="false">
+<Description/>
+<OutputInfos Name="output">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="SimulinkDSpaceSerialize_1" reversed="false">
+<Description/>
+<InputInfos Name="input0">
+<Description/>
+</InputInfos>
+<OutputInfos Name="outputStream8">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="DataViewer_1" reversed="false">
+<Description/>
+<InputInfos Name="input_0">
+<Description/>
+</InputInfos>
+</ComponentBox>
+<ConnectionShape InstanceName="UDPSocket_2.input" color="0"/>
+<ConnectionShape InstanceName="SimulinkDSpaceDeserialize_2.input" color="0"/>
+<ConnectionShape InstanceName="SimulinkDSpaceSerialize_1.input0" color="0"/>
+<ConnectionShape InstanceName="DataViewer_1.input_0" color="0"/>
+</RTBoardView>
+</RTMapsDiagram>

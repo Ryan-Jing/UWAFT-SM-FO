@@ -1,0 +1,222 @@
+%% SYSTLC: Generate an RTMaps component embedding the model  TMF: rtmaps_default_tmf \
+%% MAKE: make_rtw  EXTMODE: ext_comm
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RTMaps TLC Target for Simulink v2.7.1
+%% Copyright 2013-2023 Intempora S.A.S.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% System Target File for the RTMaps TLC Target for Simulink %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%selectfile NULL_FILE
+
+%assign RTMapsTLCTargetVersion = "2.7.1"
+
+%assign CodeFormat = "RealTime"
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%assign GenRTModel = 1
+%assign _GRT_      = 1
+
+%assign GenerateInterfaceAPI = 1
+%assign MapBlockOutputs      = 1
+%assign MapBlockHierarchy    = 1
+%assign MapExternalInputs    = 1
+%assign MapExternalOutputs   = 1
+%assign MapParameters        = 1
+
+%include "codegenentry.tlc"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% shared lib generation options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Error out on incompatible options
+%if (ExtMode != 0)
+  %assign errTxt = "External mode is not supported by the Embedded Coder shared library target."
+  %<LibReportError(errTxt)>
+%endif
+
+%if (CompiledModel.NumAsynchronousSampleTimes > 0)
+  %assign warnTxt = "Asynchronous functions are not supported by the Embedded Coder shared library target."
+  %<LibReportWarning(warnTxt)>
+%endif
+
+%% generate export symbol description files.
+%include "rtmaps_export_shrlib_def.tlc"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% rtmaps.tlc-specific configuration option %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+/%
+  BEGIN_RTW_OPTIONS
+
+  oIdx = 1;
+
+  rtwoptions(oIdx).prompt        = 'RTMaps Options';
+  rtwoptions(oIdx).type          = 'Category';
+  rtwoptions(oIdx).enable        = 'on';
+  rtwoptions(oIdx).default       = 15;
+
+  rtwoptions(oIdx).popupstrings  = '';
+  rtwoptions(oIdx).tlcvariable   = '';
+  rtwoptions(oIdx).tooltip       = '';
+  rtwoptions(oIdx).callback      = '';
+  rtwoptions(oIdx).opencallback  = '';
+  rtwoptions(oIdx).closecallback = '';
+  rtwoptions(oIdx).makevariable  = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Display Optimization Options';
+  rtwoptions(oIdx).tlcvariable    = 'DisplayOptimOptions';
+  rtwoptions(oIdx).makevariable   = 'DISPLAY_OPTIM_OPTIONS';
+  rtwoptions(oIdx).type           = 'Checkbox';
+  rtwoptions(oIdx).tooltip        = sprintf(['Displays your current optimization configurations.']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'File customization template';
+  rtwoptions(oIdx).tlcvariable    = 'CustomFileTemplate';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  %% backward compatibility %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Is generated code purely integer?';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_IntegerCode';
+  rtwoptions(oIdx).makevariable   = 'INTEGER_CODE';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Generate Alloc Function';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_GenerateAllocFcn';
+  rtwoptions(oIdx).makevariable   = 'GENERATE_ALLOC_FCN';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Code Interface Packaging';
+  rtwoptions(oIdx).tlcvariable    = 'CodeInterfacePackaging';
+  rtwoptions(oIdx).makevariable   = 'CODE_INTERFACE_PACKAGING';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Generate ERT S-Function?';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_GenerateERTSFunction';
+  rtwoptions(oIdx).makevariable   = 'GENERATE_ERT_S_FUNCTION';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Enable Mat File Logging';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_MatFileLogging';
+  rtwoptions(oIdx).makevariable   = 'MAT_FILE';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = '';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_GRTInterface';
+  rtwoptions(oIdx).makevariable   = 'CLASSIC_INTERFACE';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = '';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_CombineOutputUpdateFcns';
+  rtwoptions(oIdx).makevariable   = 'COMBINE_OUTPUT_UPDATE_FCNS';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = '';
+  rtwoptions(oIdx).tlcvariable    = 'RTMaps_MultiInstanceCode';
+  rtwoptions(oIdx).makevariable   = 'MULTI_INSTANCE_CODE';
+  rtwoptions(oIdx).type           = 'NonUI';
+  rtwoptions(oIdx).default        = '';
+
+  %% rtmaps info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Path';
+  rtwoptions(oIdx).makevariable   = 'RTMAPS_SDKDIR';
+  rtwoptions(oIdx).tlcvariable    = 'RTMAPS_SDKDIR';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['RTMaps installation directory.']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'OS';
+  rtwoptions(oIdx).makevariable   = 'RTMAPS_OS';
+  rtwoptions(oIdx).tlcvariable    = 'RTMAPS_OS';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['On windows, this is the version of Visual C++. On Linux, it is the taget distribution''s name.']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Architecture';
+  rtwoptions(oIdx).makevariable   = 'RTMAPS_ARCH';
+  rtwoptions(oIdx).tlcvariable    = 'RTMAPS_ARCH';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['The target architecture.']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Board';
+  rtwoptions(oIdx).makevariable   = 'RTMAPS_BOARD';
+  rtwoptions(oIdx).tlcvariable    = 'RTMAPS_BOARD';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['The identifier of the target. (RTMaps-specific convention)']);
+
+  %% workarounds %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %% rtw_ug.pdf doesn't provide a way to attach "open config window" callbacks
+  %% (opencallback and closecallback seem to be ineffective)
+  %% therefore we provide the following "Update Display" button to... update the above variables
+  %% when needed (e.g. 'mex -setup' was used to change the compiler while the config window is open)
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Update Display';
+  rtwoptions(oIdx).type           = 'Pushbutton';
+  rtwoptions(oIdx).default        = '';
+  rtwoptions(oIdx).callback       = 'rtmaps_update_display_callback(hDlg, hSrc, '''')';
+  rtwoptions(oIdx).tooltip        = sprintf([...
+                                        'Update the values of "RTMAPS_SDKDIR", "RTMAPS_OS", "RTMAPS_ARCH" and "RTMAPS_BOARD".\n',...
+                                        'This particularity important if the the compiler changed while the "rtmaps.tlc" target was selected.'...
+                                    ]);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Configure RTW code generation settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  rtwgensettings.DerivedFrom    = 'grt.tlc';
+  rtwgensettings.BuildDirSuffix = '_rtmaps_build'; %TODO
+  rtwgensettings.Version        = '5';
+  rtwgensettings.SelectCallback = 'rtmaps_select_callback(hDlg, hSrc)';
+
+  END_RTW_OPTIONS
+ %/

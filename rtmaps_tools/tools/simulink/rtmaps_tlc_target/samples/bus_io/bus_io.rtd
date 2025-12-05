@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RTMapsDiagram version="4.6.0" EngineVersion="4.7" xmlns="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram.xsd">
+  <RequiredPackages>
+    <File Version="1.11.0"><![CDATA[C:/Program Files/Intempora/RTMaps 4/packages/rtmaps_custom_data/rtmaps_custom_data.pck]]><Relative><![CDATA[%RTMAPS_INSTDIR%/packages/rtmaps_custom_data/rtmaps_custom_data.pck]]></Relative></File>
+    <File Version="1.9"><![CDATA[C:/Program Files/Intempora/RTMaps 4/tools/simulink/rtmaps_tlc_target/samples/bus_io/bus_io.pck]]><Relative><![CDATA[%RTMAPS_DIAGRAMDIR%/bus_io.pck]]></Relative></File>
+  </RequiredPackages>
+  <EngineProperties>
+    <Property LongName="Engine.startTimespeed" Type="1">1000</Property>
+    <Property LongName="Engine.startTime" Type="1">0</Property>
+    <Property LongName="Engine.session" Type="3"><![CDATA[unspecified]]></Property>
+    <Property LongName="Engine.recordingAtStart" Type="0">true</Property>
+    <Property LongName="Engine.recording" Type="0">true</Property>
+    <Property LongName="Engine.sequentialStart" Type="0">false</Property>
+    <Property LongName="Engine.shutdownTimeout" Type="1">10000000</Property>
+    <Property LongName="Engine.autoDetectStartTime" Type="0">true</Property>
+    <Property LongName="Engine.coreFunctionsToSaveInDiag" Type="4"><![CDATA[0|-1]]></Property>
+    <Property LongName="Engine.useUTCTimeReference" Type="0">false</Property>
+    <Property LongName="Engine.fastForwardThreshold" Type="1">2000</Property>
+    <Property LongName="Engine.fastRewindThreshold" Type="1">-2000</Property>
+    <Property LongName="Engine.priorityClass" Type="4"><![CDATA[3|0|Shared Time|Preemptive|Auto]]></Property>
+    <Property LongName="Engine.posixTimerThread" Type="4"><![CDATA[3|0|Auto|Timer Interval|Real Time Clock]]></Property>
+    <Property LongName="Engine.posixRealTimeClockIrqFrequency" Type="4"><![CDATA[4|0|1024|2048|4096|8192]]></Property>
+    <Property LongName="Engine.posixPreemptiveSchedulingPolicy" Type="4"><![CDATA[2|0|FIFO|Round Robin]]></Property>
+    <Property LongName="Engine.windowsUsePerformanceCounter" Type="0">true</Property>
+  </EngineProperties>
+  <ClocksManagement>
+    <Property LongName="ClocksManagement.activeClock" Type="4"><![CDATA[1|0|RTMaps_standard_clock]]></Property>
+  </ClocksManagement>
+  <Component InstanceName="bus_io_1" Model="bus_io" Version="1.9" x="592" y="216" z="0">
+    <Input LongName="bus_io_1.InOneStruct" Name="InOneStruct">
+      <Property LongName="bus_io_1.InOneStruct.readerType" Type="1">4</Property>
+      <Property LongName="bus_io_1.InOneStruct.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="bus_io_1.InStructArray" Name="InStructArray">
+      <Property LongName="bus_io_1.InStructArray.readerType" Type="1">4</Property>
+      <Property LongName="bus_io_1.InStructArray.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_1.OutOneStruct" Name="OutOneStruct">
+      <Property LongName="bus_io_1.OutOneStruct.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_1.OutOneStruct.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_1.OutOneStruct.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_1.OutStructArray" Name="OutStructArray">
+      <Property LongName="bus_io_1.OutStructArray.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_1.OutStructArray.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_1.OutStructArray.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_1.OutNbStructs" Name="OutNbStructs">
+      <Property LongName="bus_io_1.OutNbStructs.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_1.OutNbStructs.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_1.OutNbStructs.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="bus_io_1.executionMode" Type="4"><![CDATA[3|0|Periodic|Triggered by First Input|Periodic Sampling While Post-Processing]]></Property>
+    <ReadOnlyProperty LongName="bus_io_1.executionPeriod" Type="1" SubType="1">200000</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="bus_io_1.p_input_values_begin" Type="3" SubType="256"><![CDATA[input_values]]></ReadOnlyProperty>
+    <ReadOnlyProperty LongName="bus_io_1.p_input_values_end" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="bus_io_1.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_1.priority" Type="1">128</Property>
+    <Property LongName="bus_io_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_merger_1" Model="bus_io_merger" Version="1.9" x="384" y="80" z="0">
+    <Input LongName="bus_io_merger_1.i_x" Name="i_x">
+      <Property LongName="bus_io_merger_1.i_x.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1.i_x.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="bus_io_merger_1.i_y" Name="i_y">
+      <Property LongName="bus_io_merger_1.i_y.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1.i_y.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="bus_io_merger_1.i_arr" Name="i_arr">
+      <Property LongName="bus_io_merger_1.i_arr.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1.i_arr.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="bus_io_merger_1.i_obj" Name="i_obj">
+      <Property LongName="bus_io_merger_1.i_obj.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1.i_obj.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_merger_1.o_MyStruct" Name="o_MyStruct">
+      <Property LongName="bus_io_merger_1.o_MyStruct.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_merger_1.o_MyStruct.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_merger_1.o_MyStruct.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_merger_1.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_merger_1.p_data_type" Type="4"><![CDATA[2|0|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_merger_1.p_data_type_info" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_merger_1.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_merger_1.p_reading_policy" Type="4"><![CDATA[6|2|Synchronized|Periodic Sampling|Reactive|Triggered|Wait For All Inputs|Periodic Sampling While Post-Processing]]></Property>
+    <Property LongName="bus_io_merger_1.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_merger_1.priority" Type="1">128</Property>
+    <Property LongName="bus_io_merger_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_merger_1_obj" Model="bus_io_merger" Version="1.9" x="256" y="312" z="0">
+    <Input LongName="bus_io_merger_1_obj.i_a" Name="i_a">
+      <Property LongName="bus_io_merger_1_obj.i_a.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1_obj.i_a.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="bus_io_merger_1_obj.i_b" Name="i_b">
+      <Property LongName="bus_io_merger_1_obj.i_b.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_merger_1_obj.i_b.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_merger_1_obj.o_MySubStruct" Name="o_MySubStruct">
+      <Property LongName="bus_io_merger_1_obj.o_MySubStruct.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_merger_1_obj.o_MySubStruct.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_merger_1_obj.o_MySubStruct.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_merger_1_obj.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_merger_1_obj.p_data_type" Type="4"><![CDATA[2|1|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_merger_1_obj.p_data_type_info" Type="3"><![CDATA[MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_merger_1_obj.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_merger_1_obj.p_reading_policy" Type="4"><![CDATA[6|2|Synchronized|Periodic Sampling|Reactive|Triggered|Wait For All Inputs|Periodic Sampling While Post-Processing]]></Property>
+    <Property LongName="bus_io_merger_1_obj.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_merger_1_obj.priority" Type="1">128</Property>
+    <Property LongName="bus_io_merger_1_obj.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_splitter_1" Model="bus_io_splitter" Version="1.9" x="832" y="80" z="0">
+    <Input LongName="bus_io_splitter_1.i_MyStruct" Name="i_MyStruct">
+      <Property LongName="bus_io_splitter_1.i_MyStruct.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_splitter_1.i_MyStruct.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_splitter_1.o_x" Name="o_x">
+      <Property LongName="bus_io_splitter_1.o_x.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1.o_x.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1.o_x.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_1.o_y" Name="o_y">
+      <Property LongName="bus_io_splitter_1.o_y.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1.o_y.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1.o_y.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_1.o_arr" Name="o_arr">
+      <Property LongName="bus_io_splitter_1.o_arr.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1.o_arr.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1.o_arr.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_1.o_obj" Name="o_obj">
+      <Property LongName="bus_io_splitter_1.o_obj.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1.o_obj.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1.o_obj.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_splitter_1.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_1.p_data_type" Type="4"><![CDATA[2|0|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_splitter_1.p_data_type_info" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_1.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_splitter_1.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_splitter_1.priority" Type="1">128</Property>
+    <Property LongName="bus_io_splitter_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_splitter_1_obj" Model="bus_io_splitter" Version="1.9" x="1072" y="152" z="0">
+    <Input LongName="bus_io_splitter_1_obj.i_MySubStruct" Name="i_MySubStruct">
+      <Property LongName="bus_io_splitter_1_obj.i_MySubStruct.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_splitter_1_obj.i_MySubStruct.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_splitter_1_obj.o_a" Name="o_a">
+      <Property LongName="bus_io_splitter_1_obj.o_a.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1_obj.o_a.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1_obj.o_a.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_1_obj.o_b" Name="o_b">
+      <Property LongName="bus_io_splitter_1_obj.o_b.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_1_obj.o_b.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_1_obj.o_b.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_splitter_1_obj.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_1_obj.p_data_type" Type="4"><![CDATA[2|1|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_splitter_1_obj.p_data_type_info" Type="3"><![CDATA[MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_1_obj.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_splitter_1_obj.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_splitter_1_obj.priority" Type="1">128</Property>
+    <Property LongName="bus_io_splitter_1_obj.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_splitter_2" Model="bus_io_splitter" Version="1.9" x="1072" y="544" z="0">
+    <Input LongName="bus_io_splitter_2.i_MySubStruct" Name="i_MySubStruct">
+      <Property LongName="bus_io_splitter_2.i_MySubStruct.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_splitter_2.i_MySubStruct.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_splitter_2.o_a" Name="o_a">
+      <Property LongName="bus_io_splitter_2.o_a.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2.o_a.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2.o_a.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_2.o_b" Name="o_b">
+      <Property LongName="bus_io_splitter_2.o_b.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2.o_b.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2.o_b.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_splitter_2.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_2.p_data_type" Type="4"><![CDATA[2|1|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_splitter_2.p_data_type_info" Type="3"><![CDATA[MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_2.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_splitter_2.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_splitter_2.priority" Type="1">128</Property>
+    <Property LongName="bus_io_splitter_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="bus_io_splitter_2_random_struct_array" Model="bus_io_splitter" Version="1.9" x="832" y="472" z="0">
+    <Input LongName="bus_io_splitter_2_random_struct_array.i_MyStruct" Name="i_MyStruct">
+      <Property LongName="bus_io_splitter_2_random_struct_array.i_MyStruct.readerType" Type="1">0</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.i_MyStruct.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="bus_io_splitter_2_random_struct_array.o_x" Name="o_x">
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_x.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_x.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_x.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_2_random_struct_array.o_y" Name="o_y">
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_y.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_y.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_y.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_2_random_struct_array.o_arr" Name="o_arr">
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_arr.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_arr.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_arr.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="bus_io_splitter_2_random_struct_array.o_obj" Name="o_obj">
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_obj.subsampling" Type="1">1</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_obj.fifosize" Type="1">16</Property>
+      <Property LongName="bus_io_splitter_2_random_struct_array.o_obj.periodic" Type="0">false</Property>
+    </Output>
+    <ReadOnlyProperty LongName="bus_io_splitter_2_random_struct_array.p_data_types" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}
+
+MySubStruct [2 bytes, 2 fields]
+{
+    a int8_t
+    b uint8_t
+}
+
+]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_2_random_struct_array.p_data_type" Type="4"><![CDATA[2|0|MyStruct|MySubStruct]]></Property>
+    <ReadOnlyProperty LongName="bus_io_splitter_2_random_struct_array.p_data_type_info" Type="3"><![CDATA[MyStruct [40 bytes, 4 fields]
+{
+    x int8_t
+    y double
+    arr int32_t[4]
+    obj MySubStruct
+}]]></ReadOnlyProperty>
+    <Property LongName="bus_io_splitter_2_random_struct_array.p_field_selection_regex" Type="3"><![CDATA[]]></Property>
+    <Property LongName="bus_io_splitter_2_random_struct_array.threaded" Type="0">true</Property>
+    <Property LongName="bus_io_splitter_2_random_struct_array.priority" Type="1">128</Property>
+    <Property LongName="bus_io_splitter_2_random_struct_array.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_OneStruct" Model="DataViewer" Version="2.0.10" x="1248" y="80" z="0">
+    <Input LongName="DataViewer_OneStruct.input_0" Name="input_0">
+      <Property LongName="DataViewer_OneStruct.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_OneStruct.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_OneStruct.input_1" Name="input_1">
+      <Property LongName="DataViewer_OneStruct.input_1.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_OneStruct.input_1.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_OneStruct.input_2" Name="input_2">
+      <Property LongName="DataViewer_OneStruct.input_2.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_OneStruct.input_2.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_OneStruct.input_3" Name="input_3">
+      <Property LongName="DataViewer_OneStruct.input_3.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_OneStruct.input_3.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_OneStruct.input_4" Name="input_4">
+      <Property LongName="DataViewer_OneStruct.input_4.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_OneStruct.input_4.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_OneStruct.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_OneStruct.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_OneStruct.autoDirty" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.run" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_OneStruct.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.hidden" Type="0">false</Property>
+    <Property LongName="DataViewer_OneStruct.title" Type="3"><![CDATA[OneStruct]]></Property>
+    <Property LongName="DataViewer_OneStruct.x" Type="1">840</Property>
+    <Property LongName="DataViewer_OneStruct.y" Type="1">96</Property>
+    <Property LongName="DataViewer_OneStruct.width" Type="1">424</Property>
+    <Property LongName="DataViewer_OneStruct.height" Type="1">515</Property>
+    <Property LongName="DataViewer_OneStruct.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_OneStruct.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="DataViewer_OneStruct.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_OneStruct.nbInputs" Type="1">5</Property>
+    <Property LongName="DataViewer_OneStruct.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_OneStruct.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.showPrettyTimestamp" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_OneStruct.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_OneStruct.integer8Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_OneStruct.integer16Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_OneStruct.integer32Format" Type="3"><![CDATA[%I32d]]></Property>
+    <Property LongName="DataViewer_OneStruct.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_OneStruct.unsignedInteger8Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_OneStruct.unsignedInteger16Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_OneStruct.unsignedInteger32Format" Type="3"><![CDATA[%I32u]]></Property>
+    <Property LongName="DataViewer_OneStruct.unsignedInteger64Format" Type="3"><![CDATA[%I64u]]></Property>
+    <Property LongName="DataViewer_OneStruct.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_OneStruct.internalState" Type="3" SubType="128"><![CDATA[188;226]]></Property>
+    <Property LongName="DataViewer_OneStruct.expandedState" Type="3" SubType="128"><![CDATA[1|bus_io_splitter_1.o_x;0|Info:bus_io_splitter_1.o_x;1|Data:bus_io_splitter_1.o_x;1|bus_io_splitter_1.o_y;0|Info:bus_io_splitter_1.o_y;1|Data:bus_io_splitter_1.o_y;1|bus_io_splitter_1.o_arr;0|Info:bus_io_splitter_1.o_arr;1|Data:bus_io_splitter_1.o_arr;1|bus_io_splitter_1_obj.o_a;0|Info:bus_io_splitter_1_obj.o_a;1|Data:bus_io_splitter_1_obj.o_a;1|bus_io_splitter_1_obj.o_b;0|Info:bus_io_splitter_1_obj.o_b;1|Data:bus_io_splitter_1_obj.o_b]]></Property>
+    <ReadOnlyProperty LongName="DataViewer_OneStruct.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="DataViewer_OneStruct.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_OneStruct.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_OneStruct.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_StructArray" Model="DataViewer" Version="2.0.10" x="1288" y="456" z="0">
+    <Input LongName="DataViewer_StructArray.input_0" Name="input_0">
+      <Property LongName="DataViewer_StructArray.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_StructArray.input_1" Name="input_1">
+      <Property LongName="DataViewer_StructArray.input_1.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_1.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_StructArray.input_2" Name="input_2">
+      <Property LongName="DataViewer_StructArray.input_2.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_2.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_StructArray.input_3" Name="input_3">
+      <Property LongName="DataViewer_StructArray.input_3.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_3.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_StructArray.input_4" Name="input_4">
+      <Property LongName="DataViewer_StructArray.input_4.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_4.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_StructArray.input_5" Name="input_5">
+      <Property LongName="DataViewer_StructArray.input_5.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_StructArray.input_5.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_StructArray.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_StructArray.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_StructArray.autoDirty" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.run" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_StructArray.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.hidden" Type="0">false</Property>
+    <Property LongName="DataViewer_StructArray.title" Type="3"><![CDATA[StructArray]]></Property>
+    <Property LongName="DataViewer_StructArray.x" Type="1">1280</Property>
+    <Property LongName="DataViewer_StructArray.y" Type="1">97</Property>
+    <Property LongName="DataViewer_StructArray.width" Type="1">466</Property>
+    <Property LongName="DataViewer_StructArray.height" Type="1">650</Property>
+    <Property LongName="DataViewer_StructArray.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_StructArray.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="DataViewer_StructArray.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_StructArray.nbInputs" Type="1">6</Property>
+    <Property LongName="DataViewer_StructArray.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_StructArray.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.showPrettyTimestamp" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_StructArray.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_StructArray.integer8Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_StructArray.integer16Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_StructArray.integer32Format" Type="3"><![CDATA[%I32d]]></Property>
+    <Property LongName="DataViewer_StructArray.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_StructArray.unsignedInteger8Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_StructArray.unsignedInteger16Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_StructArray.unsignedInteger32Format" Type="3"><![CDATA[%I32u]]></Property>
+    <Property LongName="DataViewer_StructArray.unsignedInteger64Format" Type="3"><![CDATA[%I64u]]></Property>
+    <Property LongName="DataViewer_StructArray.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_StructArray.internalState" Type="3" SubType="128"><![CDATA[265;174]]></Property>
+    <Property LongName="DataViewer_StructArray.expandedState" Type="3" SubType="128"><![CDATA[1|bus_io_1.OutNbStructs;0|Info:bus_io_1.OutNbStructs;1|Data:bus_io_1.OutNbStructs;1|bus_io_splitter_2_random_struct_array.o_x;0|Info:bus_io_splitter_2_random_struct_array.o_x;1|Data:bus_io_splitter_2_random_struct_array.o_x;1|bus_io_splitter_2_random_struct_array.o_y;0|Info:bus_io_splitter_2_random_struct_array.o_y;1|Data:bus_io_splitter_2_random_struct_array.o_y;1|bus_io_splitter_2_random_struct_array.o_arr;0|Info:bus_io_splitter_2_random_struct_array.o_arr;1|Data:bus_io_splitter_2_random_struct_array.o_arr;1|bus_io_splitter_2.o_a;0|Info:bus_io_splitter_2.o_a;1|Data:bus_io_splitter_2.o_a;1|bus_io_splitter_2.o_b;0|Info:bus_io_splitter_2.o_b;1|Data:bus_io_splitter_2.o_b]]></Property>
+    <ReadOnlyProperty LongName="DataViewer_StructArray.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="DataViewer_StructArray.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_StructArray.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_StructArray.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="MAPS_TypeCast_random_struct_array" Model="MAPS_TypeCast" Version="1.3.0" x="384" y="512" z="0">
+    <Input LongName="MAPS_TypeCast_random_struct_array.i_data" Name="i_data">
+      <Property LongName="MAPS_TypeCast_random_struct_array.i_data.readerType" Type="1">0</Property>
+      <Property LongName="MAPS_TypeCast_random_struct_array.i_data.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="MAPS_TypeCast_random_struct_array.o_struct" Name="o_struct">
+      <Property LongName="MAPS_TypeCast_random_struct_array.o_struct.subsampling" Type="1">1</Property>
+      <Property LongName="MAPS_TypeCast_random_struct_array.o_struct.fifosize" Type="1">16</Property>
+      <Property LongName="MAPS_TypeCast_random_struct_array.o_struct.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="MAPS_TypeCast_random_struct_array.p_output_type" Type="4"><![CDATA[15|10|Int 8|UInt 8|Int 16|UInt 16|Int 32|UInt 32|Int 64|UInt 64|Float 32|Float 64|Struct|Real Object|CAN Frame|CAN FD Frame|CAN Universal Frame]]></Property>
+    <Property LongName="MAPS_TypeCast_random_struct_array.p_struct_name" Type="3"><![CDATA[MyStruct]]></Property>
+    <Property LongName="MAPS_TypeCast_random_struct_array.p_struct_size" Type="1">40</Property>
+    <Property LongName="MAPS_TypeCast_random_struct_array.threaded" Type="0">true</Property>
+    <Property LongName="MAPS_TypeCast_random_struct_array.priority" Type="1">128</Property>
+    <Property LongName="MAPS_TypeCast_random_struct_array.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_1_arr" Model="number_generator" Version="1.0.2" x="72" y="184" z="0">
+    <Output LongName="number_generator_1_arr.o_int32" Name="o_int32">
+      <Property LongName="number_generator_1_arr.o_int32.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_1_arr.o_int32.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_1_arr.o_int32.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_1_arr.p_output_type" Type="4"><![CDATA[10|4|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_1_arr.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_1_arr.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_1_arr.p_vector_size" Type="1">4</Property>
+    <Property LongName="number_generator_1_arr.p_value_0" Type="3"><![CDATA[30]]></Property>
+    <Property LongName="number_generator_1_arr.p_value_1" Type="3"><![CDATA[40]]></Property>
+    <Property LongName="number_generator_1_arr.p_value_2" Type="3"><![CDATA[50]]></Property>
+    <Property LongName="number_generator_1_arr.p_value_3" Type="3"><![CDATA[60]]></Property>
+    <Property LongName="number_generator_1_arr.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_1_arr.priority" Type="1">128</Property>
+    <Property LongName="number_generator_1_arr.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_1_obj_a" Model="number_generator" Version="1.0.2" x="72" y="280" z="0">
+    <Output LongName="number_generator_1_obj_a.o_int8" Name="o_int8">
+      <Property LongName="number_generator_1_obj_a.o_int8.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_1_obj_a.o_int8.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_1_obj_a.o_int8.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_1_obj_a.p_output_type" Type="4"><![CDATA[10|2|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_1_obj_a.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_1_obj_a.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_1_obj_a.p_vector_size" Type="1">1</Property>
+    <Property LongName="number_generator_1_obj_a.p_value_0" Type="3"><![CDATA[70]]></Property>
+    <Property LongName="number_generator_1_obj_a.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_1_obj_a.priority" Type="1">128</Property>
+    <Property LongName="number_generator_1_obj_a.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_1_obj_b" Model="number_generator" Version="1.0.2" x="72" y="368" z="0">
+    <Output LongName="number_generator_1_obj_b.o_uint8" Name="o_uint8">
+      <Property LongName="number_generator_1_obj_b.o_uint8.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_1_obj_b.o_uint8.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_1_obj_b.o_uint8.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_1_obj_b.p_output_type" Type="4"><![CDATA[10|6|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_1_obj_b.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_1_obj_b.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_1_obj_b.p_vector_size" Type="1">1</Property>
+    <Property LongName="number_generator_1_obj_b.p_value_0" Type="3"><![CDATA[80]]></Property>
+    <Property LongName="number_generator_1_obj_b.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_1_obj_b.priority" Type="1">128</Property>
+    <Property LongName="number_generator_1_obj_b.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_1_x" Model="number_generator" Version="1.0.2" x="72" y="8" z="0">
+    <Output LongName="number_generator_1_x.o_int8" Name="o_int8">
+      <Property LongName="number_generator_1_x.o_int8.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_1_x.o_int8.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_1_x.o_int8.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_1_x.p_output_type" Type="4"><![CDATA[10|2|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_1_x.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_1_x.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_1_x.p_vector_size" Type="1">1</Property>
+    <Property LongName="number_generator_1_x.p_value_0" Type="3"><![CDATA[10]]></Property>
+    <Property LongName="number_generator_1_x.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_1_x.priority" Type="1">128</Property>
+    <Property LongName="number_generator_1_x.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_1_y" Model="number_generator" Version="1.0.2" x="72" y="96" z="0">
+    <Output LongName="number_generator_1_y.o_float64" Name="o_float64">
+      <Property LongName="number_generator_1_y.o_float64.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_1_y.o_float64.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_1_y.o_float64.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_1_y.p_output_type" Type="4"><![CDATA[10|1|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_1_y.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_1_y.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_1_y.p_vector_size" Type="1">1</Property>
+    <Property LongName="number_generator_1_y.p_value_0" Type="3"><![CDATA[20]]></Property>
+    <Property LongName="number_generator_1_y.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_1_y.priority" Type="1">128</Property>
+    <Property LongName="number_generator_1_y.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="RandomStream8_random_struct_array" Model="RandomStream8" Version="1.3.2" x="72" y="512" z="0">
+    <Output LongName="RandomStream8_random_struct_array.oStream8" Name="oStream8">
+      <Property LongName="RandomStream8_random_struct_array.oStream8.subsampling" Type="1">1</Property>
+      <Property LongName="RandomStream8_random_struct_array.oStream8.fifosize" Type="1">16</Property>
+      <Property LongName="RandomStream8_random_struct_array.oStream8.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="RandomStream8_random_struct_array.random" Type="0">true</Property>
+    <Property LongName="RandomStream8_random_struct_array.addSequenceNumber" Type="0">false</Property>
+    <Property LongName="RandomStream8_random_struct_array.pMaxVectorSize" Type="1">120</Property>
+    <Property LongName="RandomStream8_random_struct_array.pRandomVectorSize" Type="0">false</Property>
+    <Property LongName="RandomStream8_random_struct_array.pPeriod" Type="1">1000000</Property>
+    <Property LongName="RandomStream8_random_struct_array.threaded" Type="0">true</Property>
+    <Property LongName="RandomStream8_random_struct_array.priority" Type="1">128</Property>
+    <Property LongName="RandomStream8_random_struct_array.autoStart" Type="0">true</Property>
+  </Component>
+  <Connection Output="bus_io_merger_1.o_MyStruct" Input="bus_io_1.InOneStruct"/>
+  <Connection Output="MAPS_TypeCast_random_struct_array.o_struct" Input="bus_io_1.InStructArray"/>
+  <Connection Output="number_generator_1_x.o_int8" Input="bus_io_merger_1.i_x"/>
+  <Connection Output="number_generator_1_y.o_float64" Input="bus_io_merger_1.i_y"/>
+  <Connection Output="number_generator_1_arr.o_int32" Input="bus_io_merger_1.i_arr"/>
+  <Connection Output="bus_io_merger_1_obj.o_MySubStruct" Input="bus_io_merger_1.i_obj"/>
+  <Connection Output="number_generator_1_obj_a.o_int8" Input="bus_io_merger_1_obj.i_a"/>
+  <Connection Output="number_generator_1_obj_b.o_uint8" Input="bus_io_merger_1_obj.i_b"/>
+  <Connection Output="bus_io_1.OutOneStruct" Input="bus_io_splitter_1.i_MyStruct"/>
+  <Connection Output="bus_io_splitter_1.o_obj" Input="bus_io_splitter_1_obj.i_MySubStruct"/>
+  <Connection Output="bus_io_splitter_2_random_struct_array.o_obj" Input="bus_io_splitter_2.i_MySubStruct"/>
+  <Connection Output="bus_io_1.OutStructArray" Input="bus_io_splitter_2_random_struct_array.i_MyStruct"/>
+  <Connection Output="bus_io_splitter_1.o_x" Input="DataViewer_OneStruct.input_0"/>
+  <Connection Output="bus_io_splitter_1.o_y" Input="DataViewer_OneStruct.input_1"/>
+  <Connection Output="bus_io_splitter_1.o_arr" Input="DataViewer_OneStruct.input_2"/>
+  <Connection Output="bus_io_splitter_1_obj.o_a" Input="DataViewer_OneStruct.input_3"/>
+  <Connection Output="bus_io_splitter_1_obj.o_b" Input="DataViewer_OneStruct.input_4"/>
+  <Connection Output="bus_io_1.OutNbStructs" Input="DataViewer_StructArray.input_0"/>
+  <Connection Output="bus_io_splitter_2_random_struct_array.o_x" Input="DataViewer_StructArray.input_1"/>
+  <Connection Output="bus_io_splitter_2_random_struct_array.o_y" Input="DataViewer_StructArray.input_2"/>
+  <Connection Output="bus_io_splitter_2_random_struct_array.o_arr" Input="DataViewer_StructArray.input_3"/>
+  <Connection Output="bus_io_splitter_2.o_a" Input="DataViewer_StructArray.input_4"/>
+  <Connection Output="bus_io_splitter_2.o_b" Input="DataViewer_StructArray.input_5"/>
+  <Connection Output="RandomStream8_random_struct_array.oStream8" Input="MAPS_TypeCast_random_struct_array.i_data"/>
+  <RTBoardView ID="JavaStudio1.0">
+    <ComponentBox InstanceName="bus_io_splitter_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <CommentBox x="17" y="4" z="-1" w="472" h="455" align="8" bgcolor="ccffff" fgcolor="0">Generate a single "MyStruct" object</CommentBox>
+    <CommentBox x="17" y="466" z="-1" w="472" h="152" align="8" bgcolor="ffd9ff" fgcolor="0">Generate an array of 3 random "MyStruct" objects</CommentBox>
+    <CommentBox x="510" y="184" z="-1" w="227" h="141" align="1" bgcolor="c1ffc1" fgcolor="0">Process the data</CommentBox>
+    <CommentBox x="761" y="34" z="-1" w="590" h="206" align="8" bgcolor="ccffff" fgcolor="0">Visualize the processed (single "MyStruct") data</CommentBox>
+    <CommentBox x="758" y="424" z="-1" w="627" h="208" align="8" bgcolor="ffd9ff" fgcolor="0">Visualize the processed (random array of "MyStruct") data</CommentBox>
+    <ConnectionShape InstanceName="bus_io_1.InOneStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_1.InStructArray" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_arr" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_obj" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_x" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_y" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_a" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_b" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1_obj.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2_random_struct_array.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_5" color="0"/>
+    <ConnectionShape InstanceName="MAPS_TypeCast_random_struct_array.i_data" color="0"/>
+  </RTBoardView>
+</RTMapsDiagram>

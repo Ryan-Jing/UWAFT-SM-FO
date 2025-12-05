@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RTMapsDiagram version="4.6.0" EngineVersion="4.7" xmlns="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram.xsd">
+  <RequiredPackages>
+    <File Version="1.24"><![CDATA[C:/Program Files/Intempora/RTMaps 4/tools/simulink/rtmaps_tlc_target/samples/io_meta_info/io_meta_info.pck]]><Relative><![CDATA[%RTMAPS_DIAGRAMDIR%/io_meta_info.pck]]></Relative></File>
+  </RequiredPackages>
+  <EngineProperties>
+    <Property LongName="Engine.startTimespeed" Type="1">1000</Property>
+    <Property LongName="Engine.startTime" Type="1">0</Property>
+    <Property LongName="Engine.session" Type="3"><![CDATA[unspecified]]></Property>
+    <Property LongName="Engine.recordingAtStart" Type="0">true</Property>
+    <Property LongName="Engine.recording" Type="0">true</Property>
+    <Property LongName="Engine.sequentialStart" Type="0">false</Property>
+    <Property LongName="Engine.shutdownTimeout" Type="1">10000000</Property>
+    <Property LongName="Engine.autoDetectStartTime" Type="0">true</Property>
+    <Property LongName="Engine.coreFunctionsToSaveInDiag" Type="4"><![CDATA[0|-1]]></Property>
+    <Property LongName="Engine.useUTCTimeReference" Type="0">false</Property>
+    <Property LongName="Engine.fastForwardThreshold" Type="1">2000</Property>
+    <Property LongName="Engine.fastRewindThreshold" Type="1">-2000</Property>
+    <Property LongName="Engine.priorityClass" Type="4"><![CDATA[3|0|Shared Time|Preemptive|Auto]]></Property>
+    <Property LongName="Engine.posixTimerThread" Type="4"><![CDATA[3|0|Auto|Timer Interval|Real Time Clock]]></Property>
+    <Property LongName="Engine.posixRealTimeClockIrqFrequency" Type="4"><![CDATA[4|0|1024|2048|4096|8192]]></Property>
+    <Property LongName="Engine.posixPreemptiveSchedulingPolicy" Type="4"><![CDATA[2|0|FIFO|Round Robin]]></Property>
+    <Property LongName="Engine.windowsUsePerformanceCounter" Type="0">true</Property>
+  </EngineProperties>
+  <ClocksManagement>
+    <Property LongName="ClocksManagement.activeClock" Type="4"><![CDATA[1|0|RTMaps_standard_clock]]></Property>
+  </ClocksManagement>
+  <Component InstanceName="DataViewer_1" Model="DataViewer" Version="2.0.10" x="696" y="32" z="0">
+    <Input LongName="DataViewer_1.input_0" Name="input_0">
+      <Property LongName="DataViewer_1.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_1.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_1.input_1" Name="input_1">
+      <Property LongName="DataViewer_1.input_1.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_1.input_1.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_1.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_1.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_1.autoDirty" Type="0">true</Property>
+    <Property LongName="DataViewer_1.run" Type="0">true</Property>
+    <Property LongName="DataViewer_1.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_1.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_1.hidden" Type="0">false</Property>
+    <Property LongName="DataViewer_1.title" Type="3"><![CDATA[DataViewer_1]]></Property>
+    <Property LongName="DataViewer_1.x" Type="1">835</Property>
+    <Property LongName="DataViewer_1.y" Type="1">108</Property>
+    <Property LongName="DataViewer_1.width" Type="1">338</Property>
+    <Property LongName="DataViewer_1.height" Type="1">563</Property>
+    <Property LongName="DataViewer_1.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_1.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="DataViewer_1.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_1.nbInputs" Type="1">2</Property>
+    <Property LongName="DataViewer_1.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_1.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_1.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_1.showPrettyTimestamp" Type="0">true</Property>
+    <Property LongName="DataViewer_1.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_1.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_1.integer8Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_1.integer16Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_1.integer32Format" Type="3"><![CDATA[%I32d]]></Property>
+    <Property LongName="DataViewer_1.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_1.unsignedInteger8Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_1.unsignedInteger16Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_1.unsignedInteger32Format" Type="3"><![CDATA[%I32u]]></Property>
+    <Property LongName="DataViewer_1.unsignedInteger64Format" Type="3"><![CDATA[%I64u]]></Property>
+    <Property LongName="DataViewer_1.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_1.internalState" Type="3" SubType="128"><![CDATA[171;157]]></Property>
+    <Property LongName="DataViewer_1.expandedState" Type="3" SubType="128"><![CDATA[0|;0|]]></Property>
+    <ReadOnlyProperty LongName="DataViewer_1.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="DataViewer_1.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_1.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_2" Model="DataViewer" Version="2.0.10" x="696" y="136" z="0">
+    <Input LongName="DataViewer_2.input_0" Name="input_0">
+      <Property LongName="DataViewer_2.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_2.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_2.input_1" Name="input_1">
+      <Property LongName="DataViewer_2.input_1.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_2.input_1.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_2.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_2.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_2.autoDirty" Type="0">true</Property>
+    <Property LongName="DataViewer_2.run" Type="0">true</Property>
+    <Property LongName="DataViewer_2.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_2.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_2.hidden" Type="0">false</Property>
+    <Property LongName="DataViewer_2.title" Type="3"><![CDATA[DataViewer_2]]></Property>
+    <Property LongName="DataViewer_2.x" Type="1">1178</Property>
+    <Property LongName="DataViewer_2.y" Type="1">108</Property>
+    <Property LongName="DataViewer_2.width" Type="1">346</Property>
+    <Property LongName="DataViewer_2.height" Type="1">564</Property>
+    <Property LongName="DataViewer_2.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_2.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="DataViewer_2.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_2.nbInputs" Type="1">2</Property>
+    <Property LongName="DataViewer_2.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_2.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_2.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_2.showPrettyTimestamp" Type="0">true</Property>
+    <Property LongName="DataViewer_2.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_2.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_2.integer8Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_2.integer16Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_2.integer32Format" Type="3"><![CDATA[%I32d]]></Property>
+    <Property LongName="DataViewer_2.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_2.unsignedInteger8Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_2.unsignedInteger16Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_2.unsignedInteger32Format" Type="3"><![CDATA[%I32u]]></Property>
+    <Property LongName="DataViewer_2.unsignedInteger64Format" Type="3"><![CDATA[%I64u]]></Property>
+    <Property LongName="DataViewer_2.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_2.internalState" Type="3" SubType="128"><![CDATA[184;152]]></Property>
+    <Property LongName="DataViewer_2.expandedState" Type="3" SubType="128"><![CDATA[1|number_generator_2.o_uint32;0|Info:number_generator_2.o_uint32;1|Data:number_generator_2.o_uint32;0|]]></Property>
+    <ReadOnlyProperty LongName="DataViewer_2.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="DataViewer_2.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_2.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_3" Model="DataViewer" Version="2.0.10" x="696" y="272" z="0">
+    <Input LongName="DataViewer_3.input_0" Name="input_0">
+      <Property LongName="DataViewer_3.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_3.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="DataViewer_3.input_1" Name="input_1">
+      <Property LongName="DataViewer_3.input_1.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_3.input_1.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_3.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_3.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_3.autoDirty" Type="0">true</Property>
+    <Property LongName="DataViewer_3.run" Type="0">true</Property>
+    <Property LongName="DataViewer_3.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_3.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_3.hidden" Type="0">false</Property>
+    <Property LongName="DataViewer_3.title" Type="3"><![CDATA[DataViewer_3]]></Property>
+    <Property LongName="DataViewer_3.x" Type="1">1529</Property>
+    <Property LongName="DataViewer_3.y" Type="1">106</Property>
+    <Property LongName="DataViewer_3.width" Type="1">375</Property>
+    <Property LongName="DataViewer_3.height" Type="1">560</Property>
+    <Property LongName="DataViewer_3.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="DataViewer_3.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="DataViewer_3.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="DataViewer_3.nbInputs" Type="1">2</Property>
+    <Property LongName="DataViewer_3.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_3.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_3.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_3.showPrettyTimestamp" Type="0">true</Property>
+    <Property LongName="DataViewer_3.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_3.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_3.integer8Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_3.integer16Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_3.integer32Format" Type="3"><![CDATA[%I32d]]></Property>
+    <Property LongName="DataViewer_3.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_3.unsignedInteger8Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_3.unsignedInteger16Format" Type="3"><![CDATA[%u]]></Property>
+    <Property LongName="DataViewer_3.unsignedInteger32Format" Type="3"><![CDATA[%I32u]]></Property>
+    <Property LongName="DataViewer_3.unsignedInteger64Format" Type="3"><![CDATA[%I64u]]></Property>
+    <Property LongName="DataViewer_3.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_3.internalState" Type="3" SubType="128"><![CDATA[189;176]]></Property>
+    <Property LongName="DataViewer_3.expandedState" Type="3" SubType="128"><![CDATA[1|number_generator_3.o_float32;0|Info:number_generator_3.o_float32;1|Data:number_generator_3.o_float32;0|]]></Property>
+    <ReadOnlyProperty LongName="DataViewer_3.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="DataViewer_3.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_3.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_3.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="io_meta_info_1" Model="io_meta_info" Version="1.24" x="440" y="192" z="0">
+    <Input LongName="io_meta_info_1.In1" Name="In1">
+      <Property LongName="io_meta_info_1.In1.readerType" Type="1">0</Property>
+      <Property LongName="io_meta_info_1.In1.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="io_meta_info_1.In2" Name="In2">
+      <Property LongName="io_meta_info_1.In2.readerType" Type="1">4</Property>
+      <Property LongName="io_meta_info_1.In2.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="io_meta_info_1.In3" Name="In3">
+      <Property LongName="io_meta_info_1.In3.readerType" Type="1">4</Property>
+      <Property LongName="io_meta_info_1.In3.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="io_meta_info_1.Out1" Name="Out1">
+      <Property LongName="io_meta_info_1.Out1.subsampling" Type="1">1</Property>
+      <Property LongName="io_meta_info_1.Out1.fifosize" Type="1">16</Property>
+      <Property LongName="io_meta_info_1.Out1.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="io_meta_info_1.Out2" Name="Out2">
+      <Property LongName="io_meta_info_1.Out2.subsampling" Type="1">1</Property>
+      <Property LongName="io_meta_info_1.Out2.fifosize" Type="1">16</Property>
+      <Property LongName="io_meta_info_1.Out2.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="io_meta_info_1.Out3" Name="Out3">
+      <Property LongName="io_meta_info_1.Out3.subsampling" Type="1">1</Property>
+      <Property LongName="io_meta_info_1.Out3.fifosize" Type="1">16</Property>
+      <Property LongName="io_meta_info_1.Out3.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="io_meta_info_1.executionMode" Type="4"><![CDATA[3|1|Periodic|Triggered by First Input|Periodic Sampling While Post-Processing]]></Property>
+    <ReadOnlyProperty LongName="io_meta_info_1.p_model_params_begin" Type="3" SubType="256"><![CDATA[model_parameters]]></ReadOnlyProperty>
+    <Property LongName="io_meta_info_1.Gain_Gain" Type="3"><![CDATA[1.0]]></Property>
+    <Property LongName="io_meta_info_1.Constant_Value" Type="3"><![CDATA[1000]]></Property>
+    <Property LongName="io_meta_info_1.Gain2_Gain" Type="3"><![CDATA[1073741824]]></Property>
+    <Property LongName="io_meta_info_1.Gain8_Gain" Type="3"><![CDATA[10.0F]]></Property>
+    <Property LongName="io_meta_info_1.Gain1_Gain" Type="3"><![CDATA[3355443200U]]></Property>
+    <ReadOnlyProperty LongName="io_meta_info_1.p_model_params_end" Type="0" SubType="512">true</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="io_meta_info_1.p_input_values_begin" Type="3" SubType="256"><![CDATA[input_values]]></ReadOnlyProperty>
+    <Property LongName="io_meta_info_1.p_force_value_of_In2" Type="0">false</Property>
+    <Property LongName="io_meta_info_1.p_force_value_of_In3" Type="0">false</Property>
+    <ReadOnlyProperty LongName="io_meta_info_1.p_input_values_end" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="io_meta_info_1.threaded" Type="0">true</Property>
+    <Property LongName="io_meta_info_1.priority" Type="1">128</Property>
+    <Property LongName="io_meta_info_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_2" Model="number_generator" Version="1.0.2" x="56" y="136" z="0">
+    <Output LongName="number_generator_2.o_uint32" Name="o_uint32">
+      <Property LongName="number_generator_2.o_uint32.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_2.o_uint32.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_2.o_uint32.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_2.p_output_type" Type="4"><![CDATA[10|8|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_2.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_2.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_2.p_vector_size" Type="1">3</Property>
+    <Property LongName="number_generator_2.p_value_0" Type="3"><![CDATA[22]]></Property>
+    <Property LongName="number_generator_2.p_value_1" Type="3"><![CDATA[222]]></Property>
+    <Property LongName="number_generator_2.p_value_2" Type="3"><![CDATA[2222]]></Property>
+    <Property LongName="number_generator_2.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_2.priority" Type="1">128</Property>
+    <Property LongName="number_generator_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="number_generator_3" Model="number_generator" Version="1.0.2" x="56" y="272" z="0">
+    <Output LongName="number_generator_3.o_float32" Name="o_float32">
+      <Property LongName="number_generator_3.o_float32.subsampling" Type="1">1</Property>
+      <Property LongName="number_generator_3.o_float32.fifosize" Type="1">16</Property>
+      <Property LongName="number_generator_3.o_float32.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="number_generator_3.p_output_type" Type="4"><![CDATA[10|0|Float32|Float64|Integer8|Integer16|Integer32|Integer64|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="number_generator_3.p_output_mode" Type="4"><![CDATA[3|0|Once at Start|Periodic|Triggered]]></Property>
+    <Property LongName="number_generator_3.p_output_on_value_change" Type="0">true</Property>
+    <Property LongName="number_generator_3.p_vector_size" Type="1">1</Property>
+    <Property LongName="number_generator_3.p_value_0" Type="3"><![CDATA[44]]></Property>
+    <Property LongName="number_generator_3.threaded" Type="0">true</Property>
+    <Property LongName="number_generator_3.priority" Type="1">128</Property>
+    <Property LongName="number_generator_3.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="numbers_converter_1" Model="numbers_converter" Version="1.1.3" x="216" y="32" z="0">
+    <Input LongName="numbers_converter_1.input" Name="input">
+      <Property LongName="numbers_converter_1.input.readerType" Type="1">0</Property>
+      <Property LongName="numbers_converter_1.input.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="numbers_converter_1.output" Name="output">
+      <Property LongName="numbers_converter_1.output.subsampling" Type="1">1</Property>
+      <Property LongName="numbers_converter_1.output.fifosize" Type="1">16</Property>
+      <Property LongName="numbers_converter_1.output.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="numbers_converter_1.outputType" Type="4"><![CDATA[10|3|Integer32|Integer64|Float32|Float64|Integer8|Integer16|UnsignedInteger8|UnsignedInteger16|UnsignedInteger32|UnsignedInteger64]]></Property>
+    <Property LongName="numbers_converter_1.threaded" Type="0">false</Property>
+    <Property LongName="numbers_converter_1.priority" Type="1">128</Property>
+    <Property LongName="numbers_converter_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="Potentiometer_1" Model="Potentiometer" Version="2.0.5" x="56" y="32" z="0">
+    <Output LongName="Potentiometer_1.output0" Name="output0">
+      <Property LongName="Potentiometer_1.output0.subsampling" Type="1">1</Property>
+      <Property LongName="Potentiometer_1.output0.fifosize" Type="1">16</Property>
+      <Property LongName="Potentiometer_1.output0.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="Potentiometer_1.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="Potentiometer_1.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="Potentiometer_1.autoDirty" Type="0">true</Property>
+    <Property LongName="Potentiometer_1.run" Type="0">true</Property>
+    <Property LongName="Potentiometer_1.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="Potentiometer_1.moveable" Type="0">true</Property>
+    <Property LongName="Potentiometer_1.hidden" Type="0">false</Property>
+    <Property LongName="Potentiometer_1.title" Type="3"><![CDATA[Potentiometer_1]]></Property>
+    <Property LongName="Potentiometer_1.x" Type="1">572</Property>
+    <Property LongName="Potentiometer_1.y" Type="1">445</Property>
+    <Property LongName="Potentiometer_1.width" Type="1">110</Property>
+    <Property LongName="Potentiometer_1.height" Type="1">130</Property>
+    <Property LongName="Potentiometer_1.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="Potentiometer_1.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="Potentiometer_1.vector_begin_config" Type="3" SubType="256"><![CDATA[Multiple Widgets Configuration]]></ReadOnlyProperty>
+    <Property LongName="Potentiometer_1.numberOfWidgets" Type="1">1</Property>
+    <Property LongName="Potentiometer_1.widgetLayout" Type="4"><![CDATA[2|0|Horizontal|Vertical]]></Property>
+    <Property LongName="Potentiometer_1.showAdditionalTitles" Type="0">false</Property>
+    <Property LongName="Potentiometer_1.guard_vector" Type="0" SubType="128">false</Property>
+    <ReadOnlyProperty LongName="Potentiometer_1.vector_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="Potentiometer_1.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="Potentiometer_1.unit0" Type="3"><![CDATA[Unit]]></Property>
+    <Property LongName="Potentiometer_1.min0" Type="2">0</Property>
+    <Property LongName="Potentiometer_1.max0" Type="2">100</Property>
+    <Property LongName="Potentiometer_1.value0" Type="2">40</Property>
+    <Property LongName="Potentiometer_1.behaviour0" Type="4"><![CDATA[2|0|On Event|Periodic]]></Property>
+    <Property LongName="Potentiometer_1.wheelSpeed0" Type="2">1.5</Property>
+    <Property LongName="Potentiometer_1.scaleMode0" Type="0">true</Property>
+    <Property LongName="Potentiometer_1.stepAngle0" Type="1">30</Property>
+    <Property LongName="Potentiometer_1.samplingTime0" Type="1" SubType="1">40000</Property>
+    <Property LongName="Potentiometer_1.resetAtShutdown0" Type="0">false</Property>
+    <Property LongName="Potentiometer_1.resetValue0" Type="2">0</Property>
+    <ReadOnlyProperty LongName="Potentiometer_1.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="Potentiometer_1.threaded" Type="0">true</Property>
+    <Property LongName="Potentiometer_1.priority" Type="1">128</Property>
+    <Property LongName="Potentiometer_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Connection Output="numbers_converter_1.output" Input="DataViewer_1.input_0"/>
+  <Connection Output="io_meta_info_1.Out1" Input="DataViewer_1.input_1"/>
+  <Connection Output="number_generator_2.o_uint32" Input="DataViewer_2.input_0"/>
+  <Connection Output="io_meta_info_1.Out2" Input="DataViewer_2.input_1"/>
+  <Connection Output="number_generator_3.o_float32" Input="DataViewer_3.input_0"/>
+  <Connection Output="io_meta_info_1.Out3" Input="DataViewer_3.input_1"/>
+  <Connection Output="numbers_converter_1.output" Input="io_meta_info_1.In1"/>
+  <Connection Output="number_generator_2.o_uint32" Input="io_meta_info_1.In2"/>
+  <Connection Output="number_generator_3.o_float32" Input="io_meta_info_1.In3"/>
+  <Connection Output="Potentiometer_1.output0" Input="numbers_converter_1.input"/>
+  <RTBoardView ID="JavaStudio1.0">
+    <ComponentBox InstanceName="bus_io_splitter_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ConnectionShape InstanceName="bus_io_1.InOneStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_1.InStructArray" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_arr" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_obj" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_x" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_y" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_a" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_b" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1_obj.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2_random_struct_array.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="conversion_1.angle" color="0"/>
+    <ConnectionShape InstanceName="conversion_1.offset" color="0"/>
+    <ConnectionShape InstanceName="data_vectorizer_1.i_data_1" color="0"/>
+    <ConnectionShape InstanceName="data_vectorizer_1.i_data_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_1.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_1.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_2.input_0" color="55552"/>
+    <ConnectionShape InstanceName="DataViewer_2.input_1" color="55552"/>
+    <ConnectionShape InstanceName="DataViewer_3.input_0" color="33023"/>
+    <ConnectionShape InstanceName="DataViewer_3.input_1" color="33023"/>
+    <ConnectionShape InstanceName="DataViewer_4.input_0" color="255"/>
+    <ConnectionShape InstanceName="DataViewer_4.input_1" color="48896"/>
+    <ConnectionShape InstanceName="DataViewer_4.input_2" color="16753920"/>
+    <ConnectionShape InstanceName="DataViewer_4.input_3" color="16711680"/>
+    <ConnectionShape InstanceName="DataViewer_4.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_5" color="0"/>
+    <ConnectionShape InstanceName="float32_to_float64.input" color="0"/>
+    <ConnectionShape InstanceName="force_input_value_1.In1" color="0"/>
+    <ConnectionShape InstanceName="func_m_1.i_a" color="255"/>
+    <ConnectionShape InstanceName="func_m_1.i_b" color="48896"/>
+    <ConnectionShape InstanceName="func_p_2.i_in1" color="255"/>
+    <ConnectionShape InstanceName="func_p_2.i_in2" color="48896"/>
+    <ConnectionShape InstanceName="hypot_b_3.i_in1" color="255"/>
+    <ConnectionShape InstanceName="hypot_b_3.i_in2" color="48896"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In1" color="0"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In2" color="55552"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In2_misc1" color="0"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In2_misc2" color="0"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In2_misc3" color="0"/>
+    <ConnectionShape InstanceName="io_meta_info_1.In3" color="33023"/>
+    <ConnectionShape InstanceName="MAPS_TypeCast_random_struct_array.i_data" color="0"/>
+    <ConnectionShape InstanceName="numbers_converter_1.input" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputA" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputB" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputC" color="0"/>
+    <ConnectionShape InstanceName="SampleRate_2.input" color="0"/>
+    <ConnectionShape InstanceName="simple_test_1.iPort" color="0"/>
+    <ConnectionShape InstanceName="Splitter_1.input" color="0"/>
+    <ConnectionShape InstanceName="Splitter_2.input" color="0"/>
+    <ConnectionShape InstanceName="to_float64_1.input" color="255"/>
+    <ConnectionShape InstanceName="to_float64_2.input" color="48896"/>
+    <ConnectionSplitter InstanceName="Splitter_1" color="0" source="io_meta_info_1.Out1" x="532" y="76" z="-1">
+      <Target InstanceName="DataViewer_1.input_1" color="0"/>
+    </ConnectionSplitter>
+  </RTBoardView>
+</RTMapsDiagram>

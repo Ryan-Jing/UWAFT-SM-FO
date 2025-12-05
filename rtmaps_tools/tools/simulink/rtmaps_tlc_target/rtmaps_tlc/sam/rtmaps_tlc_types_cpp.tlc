@@ -1,0 +1,178 @@
+%assign cFile = LibCreateSourceFile("Source", "Custom", LibGetModelName() + "_rtmaps_tlc_types")
+%openfile tmpBuf
+
+#include "%<LibGetModelName()>_rtmaps_tlc_types.h"
+
+%closefile tmpBuf
+%<LibSetSourceFileSection(cFile, "Includes", tmpBuf)>
+%openfile tmpBuf
+
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <string>
+#include <type_traits>
+
+//#include "rtwtypes.h"
+#include "%<LibGetModelName()>_types.h"
+#include "tmwtypes.h"
+#include "simstruc_types.h"
+
+#include <maps.hpp>
+
+namespace %<LibGetModelName()>_rtmaps_tlc_types {
+
+namespace detail
+{
+
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value && std::is_signed<T>::value, std::string>::type makePrimitiveTypeName()
+{
+    return std::string{"int"} + std::to_string(sizeof(T) * 8) + "_t";
+}
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value && std::is_unsigned<T>::value, std::string>::type makePrimitiveTypeName()
+{
+    return std::string{"uint"} + std::to_string(sizeof(T) * 8) + "_t";
+}
+template <typename T>
+typename std::enable_if<std::is_same<T, double>::value, std::string>::type makePrimitiveTypeName()
+{
+    return "double";
+}
+template <typename T>
+typename std::enable_if<std::is_same<T, float>::value, std::string>::type makePrimitiveTypeName()
+{
+    return "float";
+}
+
+std::array<Struct, %<MAPSNbBusStructs()> > makeSortedStructs()
+{
+    std::array<Struct, %<MAPSNbBusStructs()> > structArr {
+
+%foreach idx = DataTypes.NumDataTypes
+    %assign dataType = CompiledModel.DataTypes.DataType[idx]
+    %assign dataTypeName = LibGetDataTypeNameFromId(dataType.Id)
+    %if ((dataType.Id > 8) && (dataType.IsBus == 1) && (dataType.Skip == 0))
+        Struct{
+            "%<dataTypeName>", sizeof(%<dataTypeName>),
+            {
+                %assign numElements = CompiledModel.DataTypes.DataType[idx].NumElements
+                %foreach fieldIdx = numElements
+                    %assign fieldElement = CompiledModel.DataTypes.DataType[idx].Elements[fieldIdx]
+
+                    Field{
+                        %<fieldElement.Offset>, sizeof(%<LibCGTypeName(fieldElement.CGTypeIdx)>),
+                        "%<LibCGTypeName(fieldElement.CGTypeIdx)>", "%<fieldElement.Name>"
+                        %if LibCGTypeWidth(fieldElement.CGTypeIdx) > 1
+                            , %<LibCGTypeWidth(fieldElement.CGTypeIdx)>
+                        %endif
+                    }
+
+                    %if (fieldIdx < (numElements - 1))
+                    ,
+                    %endif
+                %endforeach
+            }
+        }
+
+        %if (idx < (DataTypes.NumDataTypes - 1))
+        ,
+        %endif
+    %endif
+%endforeach
+
+    };
+
+    std::sort(structArr.begin(), structArr.end(), [] (const Struct& a, const Struct& b) {
+        return a.name < b.name;
+    });
+
+    return structArr;
+}
+
+}  /* namespace detail */
+
+std::string Field::canonicalizeType(const std::string& typeName_)
+{
+    #define _to_canonical_name(T) if (typeName_ == #T) { return detail::makePrimitiveTypeName<T>(); }
+
+         _to_canonical_name(bool)
+
+    else _to_canonical_name(int8_t)
+    else _to_canonical_name(int16_t)
+    else _to_canonical_name(int32_t)
+    else _to_canonical_name(int64_t)
+
+    else _to_canonical_name(uint8_t)
+    else _to_canonical_name(uint16_t)
+    else _to_canonical_name(uint32_t)
+    else _to_canonical_name(uint64_t)
+
+    else _to_canonical_name(float)
+    else _to_canonical_name(double)
+
+    else _to_canonical_name(char)
+    else _to_canonical_name(short)
+    else _to_canonical_name(int)
+    else _to_canonical_name(long)
+
+    else _to_canonical_name(unsigned char)
+    else _to_canonical_name(unsigned short)
+    else _to_canonical_name(unsigned int)
+    else _to_canonical_name(unsigned long)
+
+    else _to_canonical_name(signed char)
+    else _to_canonical_name(signed short)
+    else _to_canonical_name(signed int)
+    else _to_canonical_name(signed long)
+
+    // rtwtypes
+    else _to_canonical_name(int8_T)
+    else _to_canonical_name(uint8_T)
+    else _to_canonical_name(int16_T)
+    else _to_canonical_name(uint16_T)
+    else _to_canonical_name(int32_T)
+    else _to_canonical_name(uint32_T)
+    else _to_canonical_name(real32_T)
+    else _to_canonical_name(real64_T)
+    else _to_canonical_name(real_T)
+    else _to_canonical_name(time_T)
+    else _to_canonical_name(boolean_T)
+    else _to_canonical_name(int_T)
+    else _to_canonical_name(uint_T)
+    else _to_canonical_name(char_T)
+    else _to_canonical_name(byte_T)
+    else _to_canonical_name(DTypeId)
+
+    else { return typeName_; /* structName */ }
+
+    #undef _to_canonical_name
+}
+
+const std::array<Struct, %<MAPSNbBusStructs()> >& getStructs()
+{
+    static const std::array<Struct, %<MAPSNbBusStructs()> > structArr { detail::makeSortedStructs() };
+
+    return structArr;
+}
+
+const Struct& getStruct(const std::string& structName)
+{
+    const auto& structArr = getStructs();
+    auto structIt = std::find_if(structArr.begin(), structArr.end(), [&] (const Struct& st) {
+        return st.name == structName;
+    });
+    if (structIt == structArr.end())
+    {
+        MAPS::ReportError(MAPSString("%<LibGetModelName()>_rtmaps_tlc_types::getStruct: Struct [") + structName.c_str() + "] not found");
+        throw MAPS::ErrorException;
+    }
+
+    return *structIt;
+}
+
+}
+
+%closefile tmpBuf
+%<LibSetSourceFileSection(cFile, "Functions", tmpBuf)>

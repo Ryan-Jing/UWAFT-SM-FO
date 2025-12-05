@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RTMapsDiagram version="4.6.0" EngineVersion="4.7" xmlns="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram.xsd">
+  <RequiredPackages>
+    <File Version="1.25"><![CDATA[C:/Program Files/Intempora/RTMaps 4/tools/simulink/rtmaps_tlc_target/samples/conversion/conversion.pck]]><Relative><![CDATA[%RTMAPS_DIAGRAMDIR%/conversion.pck]]></Relative></File>
+  </RequiredPackages>
+  <EngineProperties>
+    <Property LongName="Engine.startTimespeed" Type="1">1000</Property>
+    <Property LongName="Engine.startTime" Type="1">0</Property>
+    <Property LongName="Engine.session" Type="3"><![CDATA[unspecified]]></Property>
+    <Property LongName="Engine.recordingAtStart" Type="0">true</Property>
+    <Property LongName="Engine.recording" Type="0">true</Property>
+    <Property LongName="Engine.sequentialStart" Type="0">false</Property>
+    <Property LongName="Engine.shutdownTimeout" Type="1">10000000</Property>
+    <Property LongName="Engine.autoDetectStartTime" Type="0">true</Property>
+    <Property LongName="Engine.coreFunctionsToSaveInDiag" Type="4"><![CDATA[0|-1]]></Property>
+    <Property LongName="Engine.useUTCTimeReference" Type="0">false</Property>
+    <Property LongName="Engine.fastForwardThreshold" Type="1">2000</Property>
+    <Property LongName="Engine.fastRewindThreshold" Type="1">-2000</Property>
+    <Property LongName="Engine.priorityClass" Type="4"><![CDATA[3|0|Shared Time|Preemptive|Auto]]></Property>
+    <Property LongName="Engine.posixTimerThread" Type="4"><![CDATA[3|0|Auto|Timer Interval|Real Time Clock]]></Property>
+    <Property LongName="Engine.posixRealTimeClockIrqFrequency" Type="4"><![CDATA[4|0|1024|2048|4096|8192]]></Property>
+    <Property LongName="Engine.posixPreemptiveSchedulingPolicy" Type="4"><![CDATA[2|0|FIFO|Round Robin]]></Property>
+    <Property LongName="Engine.windowsUsePerformanceCounter" Type="0">true</Property>
+  </EngineProperties>
+  <ClocksManagement>
+    <Property LongName="ClocksManagement.activeClock" Type="4"><![CDATA[1|0|RTMaps_standard_clock]]></Property>
+  </ClocksManagement>
+  <Component InstanceName="conversion_1" Model="conversion" Version="1.25" x="184" y="104" z="0">
+    <Input LongName="conversion_1.angle" Name="angle">
+      <Property LongName="conversion_1.angle.readerType" Type="1">4</Property>
+      <Property LongName="conversion_1.angle.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="conversion_1.offset" Name="offset">
+      <Property LongName="conversion_1.offset.readerType" Type="1">4</Property>
+      <Property LongName="conversion_1.offset.subsampling" Type="1">1</Property>
+    </Input>
+    <Output LongName="conversion_1.sin_plus_offset" Name="sin_plus_offset">
+      <Property LongName="conversion_1.sin_plus_offset.subsampling" Type="1">1</Property>
+      <Property LongName="conversion_1.sin_plus_offset.fifosize" Type="1">16</Property>
+      <Property LongName="conversion_1.sin_plus_offset.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="conversion_1.sign" Name="sign">
+      <Property LongName="conversion_1.sign.subsampling" Type="1">1</Property>
+      <Property LongName="conversion_1.sign.fifosize" Type="1">16</Property>
+      <Property LongName="conversion_1.sign.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="conversion_1.executionMode" Type="4"><![CDATA[3|0|Periodic|Triggered by first input|Periodic while post-processing]]></Property>
+    <ReadOnlyProperty LongName="conversion_1.executionPeriod" Type="1" SubType="1">100000</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="conversion_1.p_model_params_begin" Type="3" SubType="256"><![CDATA[model_parameters]]></ReadOnlyProperty>
+    <Property LongName="conversion_1.Gain_Gain" Type="3"><![CDATA[3.0]]></Property>
+    <ReadOnlyProperty LongName="conversion_1.p_model_params_end" Type="0" SubType="512">true</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="conversion_1.p_input_values_begin" Type="3" SubType="256"><![CDATA[input_values]]></ReadOnlyProperty>
+    <Property LongName="conversion_1.p_force_value_of_angle" Type="0">false</Property>
+    <Property LongName="conversion_1.p_force_value_of_offset" Type="0">false</Property>
+    <ReadOnlyProperty LongName="conversion_1.p_input_values_end" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="conversion_1.threaded" Type="0">true</Property>
+    <Property LongName="conversion_1.priority" Type="1">128</Property>
+    <Property LongName="conversion_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="Float_constants_generator_3" Model="Float_constants_generator" Version="2.2" x="48" y="176" z="0">
+    <Output LongName="Float_constants_generator_3.output" Name="output">
+      <Property LongName="Float_constants_generator_3.output.subsampling" Type="1">1</Property>
+      <Property LongName="Float_constants_generator_3.output.fifosize" Type="1">16</Property>
+      <Property LongName="Float_constants_generator_3.output.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="Float_constants_generator_3.outputMode" Type="4"><![CDATA[3|1|Once at start|Periodic|Use trigger input]]></Property>
+    <Property LongName="Float_constants_generator_3.outputWhenValueChanges" Type="0">true</Property>
+    <Property LongName="Float_constants_generator_3.vectorSize" Type="1">1</Property>
+    <Property LongName="Float_constants_generator_3.outputPeriod" Type="1">10000</Property>
+    <Property LongName="Float_constants_generator_3.value_1" Type="2">0.707</Property>
+    <Property LongName="Float_constants_generator_3.threaded" Type="0">true</Property>
+    <Property LongName="Float_constants_generator_3.priority" Type="1">128</Property>
+    <Property LongName="Float_constants_generator_3.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="Oscilloscope_1" Model="Oscilloscope" Version="5.0.5" x="480" y="88" z="0">
+    <Input LongName="Oscilloscope_1.inputA" Name="inputA">
+      <Property LongName="Oscilloscope_1.inputA.readerType" Type="1">0</Property>
+      <Property LongName="Oscilloscope_1.inputA.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="Oscilloscope_1.inputB" Name="inputB">
+      <Property LongName="Oscilloscope_1.inputB.readerType" Type="1">0</Property>
+      <Property LongName="Oscilloscope_1.inputB.subsampling" Type="1">1</Property>
+    </Input>
+    <Input LongName="Oscilloscope_1.inputC" Name="inputC">
+      <Property LongName="Oscilloscope_1.inputC.readerType" Type="1">0</Property>
+      <Property LongName="Oscilloscope_1.inputC.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="Oscilloscope_1.begin_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="Oscilloscope_1.widget_begin_config" Type="3" SubType="256"><![CDATA[General Configuration]]></ReadOnlyProperty>
+    <Property LongName="Oscilloscope_1.autoDirty" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.run" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="Oscilloscope_1.moveable" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.hidden" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.title" Type="3"><![CDATA[Oscilloscope_1]]></Property>
+    <Property LongName="Oscilloscope_1.x" Type="1">891</Property>
+    <Property LongName="Oscilloscope_1.y" Type="1">103</Property>
+    <Property LongName="Oscilloscope_1.width" Type="1">913</Property>
+    <Property LongName="Oscilloscope_1.height" Type="1">677</Property>
+    <Property LongName="Oscilloscope_1.end_guard" Type="0" SubType="128">true</Property>
+    <ReadOnlyProperty LongName="Oscilloscope_1.widget_end_config" Type="0" SubType="512">false</ReadOnlyProperty>
+    <ReadOnlyProperty LongName="Oscilloscope_1.specific_begin_config" Type="3" SubType="256"><![CDATA[Specific Configuration]]></ReadOnlyProperty>
+    <Property LongName="Oscilloscope_1.nbInputs" Type="1">3</Property>
+    <Property LongName="Oscilloscope_1.timeScale" Type="2">1</Property>
+    <Property LongName="Oscilloscope_1.timeOffset" Type="2">0</Property>
+    <Property LongName="Oscilloscope_1.scroll" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.showCommonPanel" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.showChannelPanel" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.triggerChannel" Type="4"><![CDATA[3|0|A|B|C]]></Property>
+    <Property LongName="Oscilloscope_1.triggerLevel" Type="2">2.583333333</Property>
+    <Property LongName="Oscilloscope_1.triggerSlope" Type="4"><![CDATA[3|1|any|positive|negative]]></Property>
+    <Property LongName="Oscilloscope_1.memory" Type="1">50000</Property>
+    <Property LongName="Oscilloscope_1.pensWidth" Type="1">1</Property>
+    <Property LongName="Oscilloscope_1.refreshPeriod" Type="1">40000</Property>
+    <Property LongName="Oscilloscope_1.inputA_name" Type="3"><![CDATA[input_angle]]></Property>
+    <Property LongName="Oscilloscope_1.inputA_scale" Type="2">1</Property>
+    <Property LongName="Oscilloscope_1.inputA_offset" Type="2">-1.623333333</Property>
+    <Property LongName="Oscilloscope_1.inputA_isSigned" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.inputA_mode" Type="4"><![CDATA[3|0|Interpolated|Steps|Vertical bars]]></Property>
+    <Property LongName="Oscilloscope_1.inputA_color" Type="1" SubType="4">4227327</Property>
+    <Property LongName="Oscilloscope_1.inputA_showScale" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.inputB_name" Type="3"><![CDATA[output_sinus]]></Property>
+    <Property LongName="Oscilloscope_1.inputB_scale" Type="2">1</Property>
+    <Property LongName="Oscilloscope_1.inputB_offset" Type="2">-1.6</Property>
+    <Property LongName="Oscilloscope_1.inputB_isSigned" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.inputB_mode" Type="4"><![CDATA[3|0|Interpolated|Steps|Vertical bars]]></Property>
+    <Property LongName="Oscilloscope_1.inputB_color" Type="1" SubType="4">16776960</Property>
+    <Property LongName="Oscilloscope_1.inputB_showScale" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.inputC_name" Type="3"><![CDATA[output_sign]]></Property>
+    <Property LongName="Oscilloscope_1.inputC_scale" Type="2">1</Property>
+    <Property LongName="Oscilloscope_1.inputC_offset" Type="2">-1.6</Property>
+    <Property LongName="Oscilloscope_1.inputC_isSigned" Type="0">false</Property>
+    <Property LongName="Oscilloscope_1.inputC_mode" Type="4"><![CDATA[3|0|Interpolated|Steps|Vertical bars]]></Property>
+    <Property LongName="Oscilloscope_1.inputC_color" Type="1" SubType="4">65535</Property>
+    <Property LongName="Oscilloscope_1.inputC_showScale" Type="0">false</Property>
+    <ReadOnlyProperty LongName="Oscilloscope_1.specific_end_config" Type="0" SubType="512">true</ReadOnlyProperty>
+    <Property LongName="Oscilloscope_1.threaded" Type="0">true</Property>
+    <Property LongName="Oscilloscope_1.priority" Type="1">128</Property>
+    <Property LongName="Oscilloscope_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="SampleRate_2" Model="SampleRate" Version="2.3.1" x="440" y="192" z="0">
+    <Input LongName="SampleRate_2.input" Name="input">
+      <Property LongName="SampleRate_2.input.readerType" Type="1">0</Property>
+      <Property LongName="SampleRate_2.input.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="SampleRate_2.verboseSampleRate" Type="0">true</Property>
+    <Property LongName="SampleRate_2.outputSampleRate" Type="0">false</Property>
+    <Property LongName="SampleRate_2.verboseWarnings" Type="0">false</Property>
+    <Property LongName="SampleRate_2.outputWarnings" Type="0">false</Property>
+    <Property LongName="SampleRate_2.expectedSampleRate" Type="1">25</Property>
+    <Property LongName="SampleRate_2.expectedSampleRateTolerance" Type="1">5</Property>
+    <ReadOnlyProperty LongName="SampleRate_2.sampleRate" Type="1">3</ReadOnlyProperty>
+    <Property LongName="SampleRate_2.threaded" Type="0">true</Property>
+    <Property LongName="SampleRate_2.priority" Type="1">128</Property>
+    <Property LongName="SampleRate_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="WaveformGenerator_7" Model="WaveformGenerator" Version="1.5" x="48" y="40" z="0">
+    <Output LongName="WaveformGenerator_7.output" Name="output">
+      <Property LongName="WaveformGenerator_7.output.subsampling" Type="1">1</Property>
+      <Property LongName="WaveformGenerator_7.output.fifosize" Type="1">16</Property>
+      <Property LongName="WaveformGenerator_7.output.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="WaveformGenerator_7.waveform" Type="4"><![CDATA[4|3|noise|sinus|square|sawtooth]]></Property>
+    <Property LongName="WaveformGenerator_7.dataType" Type="4"><![CDATA[4|2|int|int64|double|stream8]]></Property>
+    <Property LongName="WaveformGenerator_7.maxVectorSize" Type="1">1</Property>
+    <Property LongName="WaveformGenerator_7.sampleRate_mHz" Type="1">20000</Property>
+    <ReadOnlyProperty LongName="WaveformGenerator_7.packetRate" Type="3"><![CDATA[20 Hz]]></ReadOnlyProperty>
+    <Property LongName="WaveformGenerator_7.randomVectorSize" Type="0">false</Property>
+    <Property LongName="WaveformGenerator_7.signalPeriod" Type="1">30000000</Property>
+    <ReadOnlyProperty LongName="WaveformGenerator_7.signalFrequency" Type="3"><![CDATA[0.03333333333 Hz]]></ReadOnlyProperty>
+    <ReadOnlyProperty LongName="WaveformGenerator_7.nbSamplesPerPeriod" Type="2">600</ReadOnlyProperty>
+    <Property LongName="WaveformGenerator_7.amplitude" Type="2">5</Property>
+    <Property LongName="WaveformGenerator_7.dutyCycle" Type="2">0.5</Property>
+    <Property LongName="WaveformGenerator_7.threaded" Type="0">true</Property>
+    <Property LongName="WaveformGenerator_7.priority" Type="1">128</Property>
+    <Property LongName="WaveformGenerator_7.autoStart" Type="0">true</Property>
+  </Component>
+  <Connection Output="WaveformGenerator_7.output" Input="conversion_1.angle"/>
+  <Connection Output="Float_constants_generator_3.output" Input="conversion_1.offset"/>
+  <Connection Output="WaveformGenerator_7.output" Input="Oscilloscope_1.inputA"/>
+  <Connection Output="conversion_1.sin_plus_offset" Input="Oscilloscope_1.inputB"/>
+  <Connection Output="conversion_1.sign" Input="Oscilloscope_1.inputC"/>
+  <Connection Output="conversion_1.sin_plus_offset" Input="SampleRate_2.input"/>
+  <RTBoardView ID="JavaStudio1.0">
+    <Description><![CDATA[Upgraded from an older diagram version]]></Description>
+    <ComponentBox InstanceName="bus_io_splitter_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="conversion_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="Float_constants_generator_3" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_1_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="number_generator_1_2_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="Oscilloscope_1" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="SampleRate_2" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ComponentBox InstanceName="WaveformGenerator_7" reversed="false">
+      <Description/>
+    </ComponentBox>
+    <ConnectionShape InstanceName="bus_io_1.InOneStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_1.InStructArray" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_arr" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_obj" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_x" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1.i_y" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_a" color="0"/>
+    <ConnectionShape InstanceName="bus_io_merger_1_obj.i_b" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_1_obj.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2.i_MySubStruct" color="0"/>
+    <ConnectionShape InstanceName="bus_io_splitter_2_random_struct_array.i_MyStruct" color="0"/>
+    <ConnectionShape InstanceName="conversion_1.angle" color="0"/>
+    <ConnectionShape InstanceName="conversion_1.offset" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_OneStruct.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_0" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_1" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_2" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_3" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_4" color="0"/>
+    <ConnectionShape InstanceName="DataViewer_StructArray.input_5" color="0"/>
+    <ConnectionShape InstanceName="MAPS_TypeCast_random_struct_array.i_data" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputA" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputB" color="0"/>
+    <ConnectionShape InstanceName="Oscilloscope_1.inputC" color="0"/>
+    <ConnectionShape InstanceName="SampleRate_2.input" color="0"/>
+  </RTBoardView>
+</RTMapsDiagram>

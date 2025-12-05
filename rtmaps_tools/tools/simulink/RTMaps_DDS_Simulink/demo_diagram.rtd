@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<RTMapsDiagram xmlns="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EngineVersion="4.8" version="4.8.0" xsi:schemaLocation="http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram.xsd http://schemas.intempora.com/RTMaps/2011/RTMapsFiles http://www.intempora.com/schemas/RTMaps/2011/RTMapsDiagram_RTBoardView.xsd">
+  <RequiredPackages>
+    <File><![CDATA[C:\Program Files\Intempora\RTMaps 4\packages\rtmaps_dds_vortex\rtmaps_dds_vortex.pck]]>
+<Relative><![CDATA[%RTMAPS_INSTDIR%\packages\rtmaps_dds_vortex\rtmaps_dds_vortex.pck]]></Relative>
+</File>
+  </RequiredPackages>
+<RequiredMacroPackages/>
+<MacroComponentDefinitions/>
+  <EngineProperties>
+    <Property LongName="Engine.startTimespeed" Type="1">1000</Property>
+    <Property LongName="Engine.startTime" Type="1">0</Property>
+    <Property LongName="Engine.session" Type="3"><![CDATA[unspecified]]></Property>
+    <Property LongName="Engine.recordingAtStart" Type="0">true</Property>
+    <Property LongName="Engine.recording" Type="0">true</Property>
+    <Property LongName="Engine.sequentialStart" Type="0">false</Property>
+    <Property LongName="Engine.shutdownTimeout" Type="1">10000000</Property>
+    <Property LongName="Engine.autoDetectStartTime" Type="0">true</Property>
+    <Property LongName="Engine.coreFunctionsToSaveInDiag" Type="4"><![CDATA[0|-1]]></Property>
+  </EngineProperties>
+  <ClocksManagement>
+    <Property LongName="ClocksManagement.activeClock" Type="4"><![CDATA[1|0|RTMaps_standard_clock]]></Property>
+  </ClocksManagement>
+  <Component InstanceName="DDSSubscriber_1" Model="DDSSubscriber" x="80" y="224" z="0">
+    <Output LongName="DDSSubscriber_1.simulinktortmaps" Name="simulinktortmaps">
+      <Property LongName="DDSSubscriber_1.simulinktortmaps.subsampling" Type="1">1</Property>
+      <Property LongName="DDSSubscriber_1.simulinktortmaps.fifosize" Type="1">16</Property>
+      <Property LongName="DDSSubscriber_1.simulinktortmaps.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="DDSSubscriber_1.nbOutputs" Type="1">1</Property>
+    <Property LongName="DDSSubscriber_1.forceTimestamping" Type="0">false</Property>
+    <Property LongName="DDSSubscriber_1.topicName0" Type="3"><![CDATA[simulinktortmaps]]></Property>
+    <Property LongName="DDSSubscriber_1.outputType0" Type="4"><![CDATA[10|0|Integer32|Integer64|Float32|Float64|Stream8|Text|IplImage|MAPSImage|CANFrame|RealObject]]></Property>
+    <Property LongName="DDSSubscriber_1.QoS0" Type="4"><![CDATA[2|0|Never Skipping (KeepALL + Volatile + Reliable)|Best effort (KeepLast(1) + Volatile + BestEffort)]]></Property>
+    <Property LongName="DDSSubscriber_1.threaded" Type="0">true</Property>
+    <Property LongName="DDSSubscriber_1.priority" Type="1">128</Property>
+    <Property LongName="DDSSubscriber_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DDSPublisher_2" Model="DDSPublisher" x="400" y="72" z="0">
+    <Input LongName="DDSPublisher_2.rtmapstosimulink" Name="rtmapstosimulink">
+      <Property LongName="DDSPublisher_2.rtmapstosimulink.readerType" Type="1">0</Property>
+      <Property LongName="DDSPublisher_2.rtmapstosimulink.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DDSPublisher_2.nbInputs" Type="1">1</Property>
+    <Property LongName="DDSPublisher_2.topicName0" Type="3"><![CDATA[rtmapstosimulink]]></Property>
+    <Property LongName="DDSPublisher_2.QoS0" Type="4"><![CDATA[2|0|Never Skipping (KeepALL + Volatile + Reliable)|Best effort (KeepLast(1) + Volatile + BestEffort)]]></Property>
+    <Property LongName="DDSPublisher_2.threaded" Type="0">true</Property>
+    <Property LongName="DDSPublisher_2.priority" Type="1">128</Property>
+    <Property LongName="DDSPublisher_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="Randint_1" Model="Randint" x="80" y="72" z="0">
+    <Output LongName="Randint_1.outputInteger" Name="outputInteger">
+      <Property LongName="Randint_1.outputInteger.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_1.outputInteger.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_1.outputInteger.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_1.outputFloat" Name="outputFloat">
+      <Property LongName="Randint_1.outputFloat.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_1.outputFloat.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_1.outputFloat.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_1.outputAscii" Name="outputAscii">
+      <Property LongName="Randint_1.outputAscii.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_1.outputAscii.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_1.outputAscii.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_1.outputIntegerVector" Name="outputIntegerVector">
+      <Property LongName="Randint_1.outputIntegerVector.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_1.outputIntegerVector.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_1.outputIntegerVector.periodic" Type="0">false</Property>
+    </Output>
+    <Output LongName="Randint_1.outputFloatVector" Name="outputFloatVector">
+      <Property LongName="Randint_1.outputFloatVector.subsampling" Type="1">1</Property>
+      <Property LongName="Randint_1.outputFloatVector.fifosize" Type="1">16</Property>
+      <Property LongName="Randint_1.outputFloatVector.periodic" Type="0">false</Property>
+    </Output>
+    <Property LongName="Randint_1.period" Type="1">100000</Property>
+    <Property LongName="Randint_1.max" Type="1">100</Property>
+    <Property LongName="Randint_1.vectorSize" Type="1">5</Property>
+    <Property LongName="Randint_1.threaded" Type="0">true</Property>
+    <Property LongName="Randint_1.priority" Type="1">255</Property>
+    <Property LongName="Randint_1.autoStart" Type="0">true</Property>
+  </Component>
+  <Component InstanceName="DataViewer_2" Model="DataViewer" x="408" y="224" z="0">
+    <Input LongName="DataViewer_2.input_0" Name="input_0">
+      <Property LongName="DataViewer_2.input_0.readerType" Type="1">4</Property>
+      <Property LongName="DataViewer_2.input_0.subsampling" Type="1">1</Property>
+    </Input>
+    <Property LongName="DataViewer_2.nbInputs" Type="1">1</Property>
+    <Property LongName="DataViewer_2.compactMode" Type="0">false</Property>
+    <Property LongName="DataViewer_2.showInfo" Type="0">true</Property>
+    <Property LongName="DataViewer_2.showData" Type="0">true</Property>
+    <Property LongName="DataViewer_2.float32Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_2.float64Format" Type="3"><![CDATA[%9g]]></Property>
+    <Property LongName="DataViewer_2.integer32Format" Type="3"><![CDATA[%d]]></Property>
+    <Property LongName="DataViewer_2.integer64Format" Type="3"><![CDATA[%I64d]]></Property>
+    <Property LongName="DataViewer_2.hexDisplay" Type="0">false</Property>
+    <Property LongName="DataViewer_2.run" Type="0">true</Property>
+    <Property LongName="DataViewer_2.alwaysOnTop" Type="4"><![CDATA[4|0|Only at run time|Only at design time|No|Both at run time and design time]]></Property>
+    <Property LongName="DataViewer_2.moveable" Type="0">true</Property>
+    <Property LongName="DataViewer_2.title" Type="3"/>
+    <Property LongName="DataViewer_2.x" Type="1">0</Property>
+    <Property LongName="DataViewer_2.y" Type="1">0</Property>
+    <Property LongName="DataViewer_2.width" Type="1">0</Property>
+    <Property LongName="DataViewer_2.height" Type="1">0</Property>
+    <Property LongName="DataViewer_2.threaded" Type="0">true</Property>
+    <Property LongName="DataViewer_2.priority" Type="1">128</Property>
+    <Property LongName="DataViewer_2.autoStart" Type="0">true</Property>
+  </Component>
+  <Connection Input="DDSPublisher_2.rtmapstosimulink" Output="Randint_1.outputInteger"/>
+  <Connection Input="DataViewer_2.input_0" Output="DDSSubscriber_1.simulinktortmaps"/>
+<RTBoardView ID="JavaStudio1.0">
+<Description/>
+<ComponentBox InstanceName="DDSSubscriber_1" reversed="false">
+<Description/>
+<OutputInfos Name="simulinktortmaps">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="Randint_1" reversed="false">
+<Description/>
+<OutputInfos Name="outputInteger">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputFloat">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputAscii">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputIntegerVector">
+<Description/>
+</OutputInfos>
+<OutputInfos Name="outputFloatVector">
+<Description/>
+</OutputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="DataViewer_2" reversed="false">
+<Description/>
+<InputInfos Name="input_0">
+<Description/>
+</InputInfos>
+</ComponentBox>
+<ComponentBox InstanceName="DDSPublisher_2" reversed="false">
+<Description/>
+<InputInfos Name="rtmapstosimulink">
+<Description/>
+</InputInfos>
+</ComponentBox>
+<ConnectionShape InstanceName="DataViewer_2.input_0" color="0"/>
+<ConnectionShape InstanceName="DDSPublisher_2.rtmapstosimulink" color="0"/>
+</RTBoardView>
+</RTMapsDiagram>

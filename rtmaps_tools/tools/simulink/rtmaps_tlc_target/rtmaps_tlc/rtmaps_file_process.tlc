@@ -1,0 +1,21 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RTMaps TLC Target for Simulink v2.7.1
+%% Copyright 2013-2023 Intempora S.A.S.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+
+%selectfile NULL_FILE
+
+  %% Need to set the template compliance flag before we can use the API
+  %<LibSetCodeTemplateComplianceLevel(1)>
+
+  %if LibIsSingleRateModel() || LibIsSingleTasking()
+    %%warning rtmaps_file_process.tlc: Single rate/task model. Including rtmaps_srmain.tlc
+    %include "rtmaps_srmain.tlc"
+    %<FcnSingleTaskingMain()>
+  %else
+    %error: Multi-tasking mode not implemented yet. Please change the solver configuration to use a single-tasking solver.
+    %%warning rtmaps_file_process.tlc: multi rate model. including rtmaps_mrmain.tlc
+%%    %include "rtmaps_mrmain.tlc"
+%%    %<FcnMultiTaskingMain()>
+  %endif

@@ -1,0 +1,393 @@
+%assign cFile = LibCreateSourceFile("Source", "Custom", "maps_" + LibGetModelName() + "_splitter")
+%openfile tmpBuf
+
+#include "maps_%<LibGetModelName()>_splitter.h"
+
+%closefile tmpBuf
+%<LibSetSourceFileSection(cFile, "Includes", tmpBuf)>
+%openfile tmpBuf
+
+#include <algorithm>
+#include <cstring>
+#include <type_traits>
+
+#include <maps_type_traits.hpp>
+
+using namespace %<LibGetModelName()>_rtmaps_tlc_helper;
+
+// Use the macros to declare the inputs
+MAPS_BEGIN_INPUTS_DEFINITION(ComponentClass)
+    MAPS_INPUT("i_data", MAPS::FilterStructure, MAPS::FifoReader)
+MAPS_END_INPUTS_DEFINITION
+
+#define I_IDX_DATA 0
+
+// Use the macros to declare the outputs
+MAPS_BEGIN_OUTPUTS_DEFINITION(ComponentClass)
+    // bool
+    MAPS_OUTPUT("o_bool"     , MAPS::GetTypeInfoValue< to_rtmaps_type_t<bool    > >(), nullptr, nullptr, 0)
+    // signed ints
+    MAPS_OUTPUT("o_int8_t"   , MAPS::GetTypeInfoValue< to_rtmaps_type_t<int8_t  > >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_int16_t"  , MAPS::GetTypeInfoValue< to_rtmaps_type_t<int16_t > >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_int32_t"  , MAPS::GetTypeInfoValue< to_rtmaps_type_t<int32_t > >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_int64_t"  , MAPS::GetTypeInfoValue< to_rtmaps_type_t<int64_t > >(), nullptr, nullptr, 0)
+    // unsigned ints
+    MAPS_OUTPUT("o_uint8_t"  , MAPS::GetTypeInfoValue< to_rtmaps_type_t<uint8_t > >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_uint16_t" , MAPS::GetTypeInfoValue< to_rtmaps_type_t<uint16_t> >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_uint32_t" , MAPS::GetTypeInfoValue< to_rtmaps_type_t<uint32_t> >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_uint64_t" , MAPS::GetTypeInfoValue< to_rtmaps_type_t<uint64_t> >(), nullptr, nullptr, 0)
+    // floats
+    MAPS_OUTPUT("o_float"    , MAPS::GetTypeInfoValue< to_rtmaps_type_t<float   > >(), nullptr, nullptr, 0)
+    MAPS_OUTPUT("o_double"   , MAPS::GetTypeInfoValue< to_rtmaps_type_t<double  > >(), nullptr, nullptr, 0)
+    // other
+    MAPS_OUTPUT("o_struct"   , MAPS::Structure, nullptr, nullptr, 0)  // structs
+MAPS_END_OUTPUTS_DEFINITION
+
+// Use the macros to declare the properties
+MAPS_BEGIN_PROPERTIES_DEFINITION(ComponentClass)
+    MAPS_PROPERTY_READ_ONLY("p_data_types", "")
+    MAPS_PROPERTY_ENUM("p_data_type", "", -1, true, false)
+    MAPS_PROPERTY_READ_ONLY("p_data_type_info", "")
+    MAPS_PROPERTY("p_field_selection_regex", "", false, false)
+MAPS_END_PROPERTIES_DEFINITION
+
+#define P_IDX_INPUT_TYPES            0
+#define P_IDX_INPUT_TYPE             1
+#define P_IDX_INPUT_TYPE_INFO        2
+#define P_IDX_OUTPUT_SELECTION_REGEX 3
+
+// Use the macros to declare the actions
+MAPS_BEGIN_ACTIONS_DEFINITION(ComponentClass)
+    MAPS_ACTION2("a_selected_data_type_info", &ComponentClass::a_selected_input_type_info, true)
+MAPS_END_ACTIONS_DEFINITION
+
+// Use the macros to declare this component behavior
+MAPS_COMPONENT_DEFINITION(ComponentClass, ComponentName, ComponentVersion, 128, MAPS::Threaded, MAPS::Threaded,
+     0,  // inputs
+     0,  // outputs
+    -1,  // properties
+    -1)  // actions
+
+void ComponentClass::a_selected_input_type_info(MAPSModule* m, int)
+{
+    static_cast<ComponentClass*>(m)->reportSelectedInputTypeInfo();
+}
+
+void ComponentClass::reportSelectedInputTypeInfo()
+{
+    if (m_inputStruct == nullptr)
+    {
+        ReportError("No input type selected");
+    }
+    else
+    {
+        ReportInfo(MAPSStreamedString()
+            << "Selected Input Type Info:\n"
+            << m_inputStruct->toString().c_str()
+        );
+    }
+}
+
+void ComponentClass::Set(MAPSProperty& p, const MAPSEnumStruct& v)
+{
+    if (&p == &Property(P_IDX_INPUT_TYPE))  // @pattern update_enum
+    {
+        MAPSModule::Set(p, v.selectedEnum);
+        return;
+    }
+    MAPSComponent::Set(p, v);
+}
+
+void ComponentClass::Set(MAPSProperty& p, const MAPSString& v)
+{
+    if (&p == &Property(P_IDX_INPUT_TYPE))  // @pattern update_enum
+    {
+        if (MAPSEnumStruct::IsEnumString(v))
+        {
+            MAPSEnumStruct enm;
+            enm.FromString(v);
+            MAPSModule::Set(p, enm.selectedEnum);
+            return;
+        }
+    }
+    MAPSComponent::Set(p, v);
+}
+
+void ComponentClass::Dynamic()
+{
+    DirectSet(Property(P_IDX_INPUT_TYPES), %<LibGetModelName()>_rtmaps_tlc_helper::typeListToMapsString_lite( %<LibGetModelName()>_rtmaps_tlc_types::getStructs() ));
+
+    fillInputTypeEnum();
+    if (GetIntegerProperty(P_IDX_INPUT_TYPE) < 0)
+    {
+        return;
+    }
+
+    m_input_type = toString(GetStringProperty(P_IDX_INPUT_TYPE));
+    if (m_input_type.empty())
+    {
+        return;
+    }
+
+    m_input.newInput(this, std::string{"i_"} + m_input_type, MAPS::Structure, m_input_type, MAPS::FifoReader);
+
+    m_inputStruct = & %<LibGetModelName()>_rtmaps_tlc_types::getStruct(m_input_type);
+
+    DirectSet(Property(P_IDX_INPUT_TYPE_INFO), MAPSString(m_inputStruct->toString_lite().c_str()));
+
+    m_output_selection_regex = toString(GetStringProperty(P_IDX_OUTPUT_SELECTION_REGEX));
+
+    createOutputs();
+}
+
+void ComponentClass::fillInputTypeEnum()
+{
+    using %<LibGetModelName()>_rtmaps_tlc_types::Struct;
+    using %<LibGetModelName()>_rtmaps_tlc_types::getStructs;
+
+    fillEnumPropertyWithContainerValues(
+        this,
+        Property(P_IDX_INPUT_TYPE),
+        getStructs(),
+        [] (const Struct& st) { return MAPSString(st.name.c_str()); },
+        true
+    );
+}
+
+void ComponentClass::createOutputs()
+{
+    using std::string;
+    using %<LibGetModelName()>_rtmaps_tlc_types::getStructs;
+    using %<LibGetModelName()>_rtmaps_tlc_types::Struct;
+
+    m_outputList.clear();
+
+    const auto is_enabled = [this] (const string& outputName) {
+        MAPSRegExp selRx(m_output_selection_regex.empty()
+            ? "" : m_output_selection_regex.c_str(),
+            MAPSRegExp::OptCaseless
+        );
+        return selRx.Match(outputName.c_str());
+    };
+
+    const auto& structVec = getStructs();
+    auto structIt = std::find_if(structVec.begin(), structVec.end(), [this] (const Struct& st) {
+        return st.name == m_input_type;
+    });
+    if (structIt == structVec.end())
+    {
+        Error(MAPSString("Input type [") + structIt->name.c_str() + "] not found");
+    }
+
+    for (auto& field : structIt->fields)
+    {
+        if (is_enabled(field.name))
+        {
+            m_outputList.emplace_back(
+                createOutput(field)
+            );
+        }
+    }
+}
+
+template <typename TDataType>
+ComponentClass::OutputWrapper ComponentClass::makePrimitiveOutputWrapper(MAPSOutput* output, const %<LibGetModelName()>_rtmaps_tlc_types::Field& field)
+{
+    return {
+        output,
+        field,
+        [output, field] (const size_t bufferSize) {
+            output->AllocOutputBuffer(static_cast<int>(bufferSize * field.capacity));
+        },
+        [this, output, field] (const uint8_t* rawStructArray, const size_t structCount, const MAPSTimestamp ts) {
+            MAPSIOElt* const ioEltOut = StartWriting(*output);
+
+            using RTMapsType =
+                typename to_rtmaps_type<
+                    typename to_fixed_width_type<TDataType>::type
+                >::type;
+
+            auto*          out       = static_cast<RTMapsType*>(ioEltOut->Data());
+            const uint8_t* rawStruct = rawStructArray;
+
+            for (size_t structIdx = 0; structIdx < structCount; ++structIdx, out += field.capacity, rawStruct += m_inputStruct->size)
+            {
+                const uint8_t* const rawField  = rawStruct + field.offset;
+
+                for (size_t outIdx = 0; outIdx < field.capacity; ++outIdx)
+                {
+                    out[outIdx] = static_cast<RTMapsType>(
+                        reinterpret_cast<const TDataType*>(rawField)[outIdx]
+                    );
+                }
+            }
+
+            ioEltOut->Timestamp()  = ts;
+            ioEltOut->VectorSize() = static_cast<int>(structCount * field.capacity);
+            StopWriting(ioEltOut);
+        }
+    };
+}
+
+ComponentClass::OutputWrapper ComponentClass::makeStructOutputWrapper(MAPSOutput* output, const %<LibGetModelName()>_rtmaps_tlc_types::Field& field)
+{
+    return {
+        output,
+        field,
+        [output, field] (const size_t bufferSize) {
+            output->AllocOutputBuffer(static_cast<int>(bufferSize * field.size * field.capacity));
+        },
+        [this, output, field] (const uint8_t* rawStructArray, const size_t structCount, const MAPSTimestamp ts) {
+            MAPSIOElt* const ioEltOut = StartWriting(*output);
+
+            const size_t   fieldSize = field.size;
+            uint8_t*       out       = static_cast<uint8_t*>(ioEltOut->Data());
+            const uint8_t* rawStruct = rawStructArray;
+
+            for (size_t idx = 0; idx < structCount; ++idx, out += (fieldSize * field.capacity), rawStruct += m_inputStruct->size)
+            {
+                const uint8_t* const rawField = rawStruct + field.offset;
+
+                std::memcpy(out, rawField, fieldSize * field.capacity);
+            }
+
+            ioEltOut->Timestamp()  = ts;
+            ioEltOut->VectorSize() = static_cast<int>(structCount * fieldSize * field.capacity);
+            StopWriting(ioEltOut);
+        }
+    };
+}
+
+ComponentClass::OutputWrapper ComponentClass::createOutput(const %<LibGetModelName()>_rtmaps_tlc_types::Field& field)
+{
+    const auto newOutput = [this] (const std::string& modelNameBase, const std::string& outputNameBase) {
+        const std::string modelName  = std::string("o_") + modelNameBase;
+        const std::string outputName = std::string("o_") + outputNameBase;
+        MAPSOutput* output = &NewOutput(modelName.c_str(), outputName.c_str());
+
+        return output;
+    };
+
+    #define _return_if(type_name)                                      \
+        if (field.type == #type_name)                                  \
+        {                                                              \
+            return makePrimitiveOutputWrapper<type_name>(              \
+                newOutput(mapPrimitiveType<type_name>(), field.name),  \
+                field                                                  \
+            );                                                         \
+        }
+
+    // primitive types
+         _return_if(bool)
+
+    else _return_if(int8_t )
+    else _return_if(int16_t)
+    else _return_if(int32_t)
+    else _return_if(int64_t)
+
+    else _return_if(uint8_t )
+    else _return_if(uint16_t)
+    else _return_if(uint32_t)
+    else _return_if(uint64_t)
+
+    else _return_if(float )
+    else _return_if(double)
+
+    else _return_if(char )
+    else _return_if(short)
+    else _return_if(int  )
+    else _return_if(long )
+
+    else _return_if(unsigned char )
+    else _return_if(unsigned short)
+    else _return_if(unsigned int  )
+    else _return_if(unsigned long )
+
+    else _return_if(signed char )
+    else _return_if(signed short)
+    else _return_if(signed int  )
+    else _return_if(signed long )
+
+    // struct
+    else
+    {
+        MAPSOutput* output = &NewOutput("o_struct", MAPSString("o_") + field.name.c_str());
+        output->SetTypeName(field.type.c_str());
+
+        return makeStructOutputWrapper(
+            output,
+            field
+        );
+    }
+
+    #undef _return_if
+}
+
+
+void ComponentClass::Birth()
+{
+    m_firstTime = true;
+}
+
+void ComponentClass::Core()
+{
+    MAPSIOElt* const ioEltIn = StartReading(Input(I_IDX_DATA));
+    if (ioEltIn == nullptr)
+    {
+        return;
+    }
+
+    checkInputType(ioEltIn->Type());
+
+    allocOutputBuffers(static_cast<size_t>(ioEltIn->BufferSize()));
+
+    writeOutputs(
+        static_cast<uint8_t*>(ioEltIn->Data()),
+        static_cast<size_t>(ioEltIn->VectorSize()) / m_inputStruct->size,
+        ioEltIn->Timestamp()
+    );
+}
+
+void ComponentClass::Death()
+{
+}
+
+void ComponentClass::checkInputType(const MAPSTypeInfo& inputTypeInfo)
+{
+    const MAPSString* inputTypeName = inputTypeInfo.name;
+
+    if (inputTypeName == nullptr)
+    {
+        Error("Input type name not set");
+    }
+    else if (*inputTypeName != m_input_type.c_str())
+    {
+        Error(MAPSStreamedString() << "Input type mismatch [expected:" << m_input_type.c_str() << "] [received:" << (*inputTypeName) << "]");
+    }
+}
+
+void ComponentClass::allocOutputBuffers(const size_t inputBufferSize)
+{
+    if (m_firstTime)
+    {
+        const size_t maxStructCount = inputBufferSize / m_inputStruct->size;
+
+        for (auto& outputWrapper : m_outputList)
+        {
+            outputWrapper.allocOutput(maxStructCount);
+        }
+
+        m_firstTime = false;
+    }
+}
+
+void ComponentClass::writeOutputs(const uint8_t* inputStructs, const size_t inputStructCount, const MAPSTimestamp ts)
+{
+    for (auto& outputWrapper : m_outputList)
+    {
+        outputWrapper.writeOutput(inputStructs, inputStructCount, ts);
+    }
+}
+
+%closefile tmpBuf
+%<LibSetSourceFileSection(cFile, "Functions", tmpBuf)>

@@ -1,0 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RTMaps TLC Target for Simulink v2.7.1
+%% Copyright 2013-2023 Intempora S.A.S.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+
+%assign fileName = LibGetModelName() + ".pckinfo"
+
+%openfile tmpBuf = fileName
+# Package information
+VERSION=%<CompiledModel.ModelVersion>
+DESCRIPTION=This is an RTMaps package generated from the %<LibGetModelName()> Simulink model using the RTMaps TLC Target for Simulink v%<RTMapsTLCTargetVersion>
+
+# LOG
+# %<CompiledModel.ModelVersion>:
+
+%closefile tmpBuf

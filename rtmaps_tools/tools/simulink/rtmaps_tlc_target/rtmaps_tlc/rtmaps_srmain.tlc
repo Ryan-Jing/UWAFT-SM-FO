@@ -1,0 +1,59 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RTMaps TLC Target for Simulink v2.7.1
+%% Copyright 2013-2023 Intempora S.A.S.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+
+%selectfile NULL_FILE
+
+%function MAPSNbBusStructs() Output
+    %assign nbBusStruct = 0
+    %foreach idx = DataTypes.NumDataTypes
+        %assign dataType = CompiledModel.DataTypes.DataType[idx]
+        %if ((dataType.Id > 8) && (dataType.IsBus == 1) && (dataType.Skip == 0))
+            %assign nbBusStruct = nbBusStruct + 1
+        %endif
+    %endforeach
+    %return nbBusStruct
+%endfunction
+
+%function FcnSingleTaskingMain() void
+
+%%Enables access to IO (copied from LibWriteModelInput)
+  %if MultiInstanceERTCode && !RootIOStructures
+    %assign localUQualifier = "_"
+  %else
+    %assign localUQualifier = "."
+  %endif
+
+%%Generate standard RTMaps Component header
+%include "rtmaps_template_header.tlc"
+
+%%Generate RTMaps Component source code
+%include "rtmaps_template_source.tlc"
+
+%%Generate Splitter and Merger Components if some model I/Os use bus objects (structs)
+%if MAPSNbBusStructs() > 0
+    %addincludepath "./sam"
+    %include "maps_merger_cpp.tlc"
+    %include "maps_merger_h.tlc"
+    %include "maps_splitter_cpp.tlc"
+    %include "maps_splitter_h.tlc"
+    %include "rtmaps_tlc_helper_h.tlc"
+    %include "rtmaps_tlc_types_cpp.tlc"
+    %include "rtmaps_tlc_types_h.tlc"
+%endif
+
+%% Copy helper code
+%% %assign tlc_target_path = FEVAL("rtmaps_target_info", "path")
+%% %assign tlc_target_filesep = FEVAL("filesep")
+%% %assign tlc_target_extra_sources_src = FEVAL("strcat", tlc_target_path, tlc_target_filesep, "include")
+%% %assign tlc_target_destination_dst = FEVAL("strcat", LibGetModelName(), "_rtmaps_build", tlc_target_filesep, "include")
+%% %warning Copying extra sources from [ %<tlc_target_extra_sources_src> ] to [ %<tlc_target_destination_dst> ] (this is just a debug message that is printed using the %warning directive)
+%% %assign tlc_target_copymsg = FEVAL("copyfile", tlc_target_extra_sources_src, tlc_target_destination_dst)
+%% %warning Return code of the extra sources copy operation [ %<tlc_target_copymsg> ] (this is just a debug message that is printed using the %warning directive)
+
+%%Generate RTMaps Package Info File
+%include "rtmaps_template_pckinfo.tlc"
+
+%endfunction
